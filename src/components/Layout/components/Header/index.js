@@ -26,6 +26,8 @@ import Menu from '~/components/Popper/Menu';
 import { InboxIcon, MessageIcon, SearchIcon, UploadIcon } from '~/components/Icons';
 import Image from '~/components/Image';
 
+import Login from '~/pages/Login';
+
 const cx = classNames.bind(styles);
 
 const MENU_ITEMS = [
@@ -61,13 +63,18 @@ const MENU_ITEMS = [
 
 function Header() {
     const [searchResult, setSearchResult] = useState([]);
-    const currentUser = true;
+    const [showLogin, setshowLogin] = useState(false);
+    const currentUser = false;
 
     useEffect(() => {
         setTimeout(() => {
             setSearchResult([]);
         }, 0);
     }, []);
+
+    function toggleLoginPop() {
+        setshowLogin(!showLogin);
+    }
 
     // Handle logic
     const handleMenuChange = (menuItem) => {
@@ -107,7 +114,7 @@ function Header() {
     return (
         <header className={cx('wrapper')}>
             <div className={cx('inner')}>
-                <img src={images.logo} alt="Tiktok" />
+                <img src={images.logo} alt="English" />
 
                 <HeadlessTippy
                     interactive
@@ -160,7 +167,10 @@ function Header() {
                     ) : (
                         <>
                             <Button text>Upload</Button>
-                            <Button primary>Log in</Button>
+                            <Button primary onClick={toggleLoginPop}>
+                                Log in
+                            </Button>
+                            {showLogin ? <Login toggle={toggleLoginPop} /> : null}
                         </>
                     )}
 

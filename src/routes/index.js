@@ -1,6 +1,3 @@
-// Layouts
-import { HeaderOnly } from '~/components/Layout';
-
 // Pages
 import Home from '~/pages/Home';
 import Profile from '~/pages/Profile';
