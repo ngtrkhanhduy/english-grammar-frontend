@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './Login.module.scss';
+import Button from '~/components/Button';
 
 const cx = classNames.bind(styles);
 
@@ -37,13 +38,9 @@ function Login(props) {
                             className={cx('input')}
                         />
                     </label>
-                    <button type="submit" className={cx('button', 'submit')}>
-                        Login
-                    </button>
+                    <Button primary>Log in</Button>
                 </form>
-                <button onClick={props.toggle} className={cx('button', 'close')}>
-                    Close
-                </button>
+                <Button onClick={props.toggle}>Close</Button>
             </div>
         </div>
     );

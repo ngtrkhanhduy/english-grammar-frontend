@@ -6,14 +6,12 @@ import {
     faCircleXmark,
     faCoins,
     faEarthAsia,
-    faEllipsisVertical,
     faGear,
     faKeyboard,
     faSignOut,
     faSpinner,
     faUser,
 } from '@fortawesome/free-solid-svg-icons';
-import Tippy from '@tippyjs/react';
 import HeadlessTippy from '@tippyjs/react/headless';
 import 'tippy.js/dist/tippy.css';
 
@@ -23,7 +21,7 @@ import styles from './Header.module.scss';
 import images from '~/assets/images';
 import AccountItem from '~/components/AccountItem';
 import Menu from '~/components/Popper/Menu';
-import { InboxIcon, MessageIcon, SearchIcon, UploadIcon } from '~/components/Icons';
+import { SearchIcon } from '~/components/Icons';
 import Image from '~/components/Image';
 
 import Login from '~/pages/Login';
@@ -64,7 +62,7 @@ const MENU_ITEMS = [
 function Header() {
     const [searchResult, setSearchResult] = useState([]);
     const [showLogin, setshowLogin] = useState(false);
-    const currentUser = false;
+    const currentUser = true;
 
     useEffect(() => {
         setTimeout(() => {
@@ -111,6 +109,19 @@ function Header() {
         },
     ];
 
+    const tabMenu_01 = [
+        {
+            icon: <FontAwesomeIcon icon={faCoins} />,
+            title: 'Tài liệu',
+            to: '/coin',
+        },
+        {
+            icon: <FontAwesomeIcon icon={faGear} />,
+            title: 'Videos',
+            to: '/coins',
+        },
+    ];
+
     return (
         <header className={cx('wrapper')}>
             <div className={cx('inner')}>
@@ -147,46 +158,27 @@ function Header() {
                 <div className={cx('actions')}>
                     {currentUser ? (
                         <>
-                            <Tippy delay={[0, 50]} content="Upload video" placement="bottom">
-                                <button className={cx('action-btn')}>
-                                    <UploadIcon />
+                            <Menu items={tabMenu_01} className={cx('more-btn')}>
+                                <button className={cx('more-btn')}>
+                                    <div className={cx('menu-tab')}>TỰ HỌC TIẾNG ANH</div>
                                 </button>
-                            </Tippy>
-                            <Tippy delay={[0, 50]} content="Message" placement="bottom">
-                                <button className={cx('action-btn')}>
-                                    <MessageIcon />
-                                </button>
-                            </Tippy>
-                            <Tippy delay={[0, 50]} content="Inbox" placement="bottom">
-                                <button className={cx('action-btn')}>
-                                    <InboxIcon />
-                                    <span className={cx('badge')}>12</span>
-                                </button>
-                            </Tippy>
+                            </Menu>
+                            <Menu items={userMenu} onChange={handleMenuChange}>
+                                <Image
+                                    className={cx('user-avatar')}
+                                    src="https://files.fullstack.edu.vn/f8-prod/user_avatars/1/623d4b2d95cec.png"
+                                    alt="Nguyen Van A"
+                                />
+                            </Menu>
                         </>
                     ) : (
                         <>
-                            <Button text>Upload</Button>
                             <Button primary onClick={toggleLoginPop}>
-                                Log in
+                                Đăng nhập
                             </Button>
                             {showLogin ? <Login toggle={toggleLoginPop} /> : null}
                         </>
                     )}
-
-                    <Menu items={currentUser ? userMenu : MENU_ITEMS} onChange={handleMenuChange}>
-                        {currentUser ? (
-                            <Image
-                                className={cx('user-avatar')}
-                                src="https://files.fullstack.edu.vn/f8-prod/user_avatars/1/623d4b2d95cec.png"
-                                alt="Nguyen Van A"
-                            />
-                        ) : (
-                            <button className={cx('more-btn')}>
-                                <FontAwesomeIcon icon={faEllipsisVertical} />
-                            </button>
-                        )}
-                    </Menu>
                 </div>
             </div>
         </header>
