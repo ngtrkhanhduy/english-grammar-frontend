@@ -28,7 +28,7 @@
         "sass": "^1.51.0"
     },
     "scripts": {
-        "start": "react-app-rewired start",
+        "start": "react-app-rewired start -watch",
         "build": "react-app-rewired build",
         "test": "react-app-rewired test",
         "eject": "react-app-rewired eject"
