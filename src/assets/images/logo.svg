@@ -3,7 +3,7 @@
   <rect x="0" y="0" width="150" height="42" fill="#FFFFFF" />
 
   <!-- Text: English Grammar -->
-  <text x="50%" y="50%" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#FF0000" text-anchor="middle" dominant-baseline="middle">
+  <text x="50%" y="50%" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#fE2C55" text-anchor="middle" dominant-baseline="middle">
     English Grammar
   </text>
 </svg>

@@ -8,7 +8,7 @@
 
     // Default layout
     --default-layout-header-height: 60px;
-    --default-layout-width: 1700px;
+    --default-layout-width: 90%;
     --default-layout-horizontal-spacer: 24px;
 }
 
@@ -23,7 +23,7 @@ html {
 }
 
 body {
-    font-family: 'ProximaNova', sans-serif;
+    font-family: 'Arial', sans-serif;
     font-size: 1.6rem;
     line-height: 1.5;
     text-rendering: optimizespeed;
