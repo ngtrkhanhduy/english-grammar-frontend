@@ -13,7 +13,14 @@ import AccountItem from '~/components/AccountItem';
 import Menu from '~/components/Popper/Menu';
 import { SearchIcon } from '~/components/Icons';
 import Image from '~/components/Image';
-import { userMenu, MENU_TAB_THUVIEN, MENU_TAB_GIOITHIEU, MENU_TAB_TAILIEU } from './HeaderConfig';
+import {
+    userMenu,
+    MENU_TAB_GIOITHIEU,
+    MENU_TAB_LOTRINHHOC,
+    MENU_TAB_KIEMTRA,
+    MENU_TAB_NGUPHAP,
+    MENU_TAB_TAILIEU,
+} from './HeaderConfig';
 import Login from '~/pages/Login';
 
 const cx = classNames.bind(styles);
@@ -84,10 +91,16 @@ function Header() {
                                     {MENU_TAB_GIOITHIEU.title}
                                 </a>
                             </button>
-                            <Menu items={MENU_TAB_THUVIEN.menu} className={cx('more-btn')}>
+                            <button className={cx('more-btn')}>
+                                <a className={cx('menu-tab')} href={MENU_TAB_LOTRINHHOC.url}>
+                                    {MENU_TAB_LOTRINHHOC.title}
+                                </a>
+                            </button>
+
+                            <Menu items={MENU_TAB_NGUPHAP.menu} className={cx('more-btn')}>
                                 <button className={cx('more-btn')}>
-                                    <a className={cx('menu-tab')} href={MENU_TAB_THUVIEN.url}>
-                                        {MENU_TAB_THUVIEN.title}
+                                    <a className={cx('menu-tab')} href={MENU_TAB_NGUPHAP.url}>
+                                        {MENU_TAB_NGUPHAP.title}
                                     </a>
                                 </button>
                             </Menu>
@@ -98,6 +111,11 @@ function Header() {
                                     </a>
                                 </button>
                             </Menu>
+                            <button className={cx('more-btn')}>
+                                <a className={cx('menu-tab')} href={MENU_TAB_KIEMTRA.url}>
+                                    {MENU_TAB_KIEMTRA.title}
+                                </a>
+                            </button>
                             <Menu items={userMenu} onChange={handleMenuChange}>
                                 <Image
                                     className={cx('user-avatar')}

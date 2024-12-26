@@ -67,27 +67,42 @@ export const userMenu = [
 
 export const MENU_TAB_GIOITHIEU = {
     title: 'GIỚI THIỆU',
-    url: '/gioithieu',
+    url: '/introduce',
 };
 
-export const MENU_TAB_THUVIEN = {
-    title: 'THƯ VIỆN',
+export const MENU_TAB_LOTRINHHOC = {
+    title: 'LỘ TRÌNH HỌC TIẾNG ANH',
+    url: '/road-map',
+};
+
+export const MENU_TAB_KIEMTRA = {
+    title: 'ÔN TẬP',
+    url: '/exercises',
+};
+
+export const MENU_TAB_NGUPHAP = {
+    title: 'NGỮ PHÁP',
     menu: [
         {
-            title: 'Lộ trình học Tiếng Anh',
-            to: '/road-map',
+            title: '12 Thì cơ bản',
+            to: '/tenses',
         },
         {
-            title: 'Từ vựng tiếng Anh',
-            to: '/vocabulary',
+            title: 'Từ loại',
+            to: '/paths-of-speech',
         },
         {
-            title: 'Ngữ Pháp Tiếng Anh',
-            to: '/grammar',
+            title: 'Các dạng câu hỏi',
+            to: '/questions',
         },
         {
-            title: 'Blog',
-            to: '/blog',
+            title: 'Cấu trúc câu',
+            to: '/sentence-structure',
+        },
+
+        {
+            title: 'Cấu trúc ngữ pháp',
+            to: '/grammatical-structure',
         },
     ],
 };

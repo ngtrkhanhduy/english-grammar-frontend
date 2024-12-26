@@ -16,7 +16,7 @@ function Home() {
             </p>
 
             <section className={cx('content-section')}>
-                <div className={cx('content-left')}>
+                <div className={cx('content-large')}>
                     <h2>Why Choose English Grammar Pro?</h2>
                     <ul>
                         <li>
@@ -41,7 +41,7 @@ function Home() {
                         </li>
                     </ul>
                 </div>
-                <div className={cx('content-right')}>
+                <div className={cx('content-small')}>
                     <div className={cx('image-container')}>
                         <img src={images.home_index_0} alt="home-index-0" />
                     </div>
