@@ -9,7 +9,14 @@ function Sidebar({ children }) {
         <aside className={cx('wrapper')}>
             <Menu>
                 {Array.isArray(children) &&
-                    children.map((item, index) => <MenuItem key={index} title={item.title} to={item.to} />)}
+                    children.map((item, index) => (
+                        <MenuItem
+                            key={index}
+                            title={item.title}
+                            to={item.to}
+                            subItems={item.subItems} // Ensure correct prop name
+                        />
+                    ))}
             </Menu>
         </aside>
     );

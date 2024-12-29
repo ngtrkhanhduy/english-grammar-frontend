@@ -2,30 +2,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { privateRoutes, publicRoutes } from '~/routes';
 import DefaultLayout from '~/components/Layout/DefaultLayout';
 import { HeaderOnlyLayout } from './components/Layout';
+import config from '~/config';
 
 function App() {
-    const MenuItem_Learning = [
-        {
-            title: 'Learning 1',
-            to: '/',
-        },
-        {
-            title: 'Learning 2',
-            to: '/',
-        },
-    ];
-
-    const MenuItem_document = [
-        {
-            title: 'Document 1',
-            to: '/',
-        },
-        {
-            title: 'Document 2',
-            to: '/',
-        },
-    ];
-
     return (
         <Router>
             <div className="App">
@@ -56,7 +35,7 @@ function App() {
                                 key={index}
                                 path={route.path}
                                 element={
-                                    <Layout MenuItemList={MenuItem_Learning}>
+                                    <Layout MenuItemList={config.MenuItem_Learning}>
                                         <Page />
                                     </Layout>
                                 }
@@ -73,7 +52,7 @@ function App() {
                                 key={index}
                                 path={route.path}
                                 element={
-                                    <Layout MenuItemList={MenuItem_document}>
+                                    <Layout MenuItemList={config.MenuItem_Document}>
                                         <Page />
                                     </Layout>
                                 }

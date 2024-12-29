@@ -65,11 +65,6 @@ export const userMenu = [
     },
 ];
 
-export const MENU_TAB_GIOITHIEU = {
-    title: 'GIỚI THIỆU',
-    url: '/introduce',
-};
-
 export const MENU_TAB_LOTRINHHOC = {
     title: 'LỘ TRÌNH HỌC TIẾNG ANH',
     url: '/road-map',
