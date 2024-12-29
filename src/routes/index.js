@@ -14,20 +14,26 @@ import Introduce from '~/pages/Introduce';
 import Questions from '~/pages/Questions';
 
 // Public routes
-const privateRoutes = [
-    { path: '/', component: Home },
-    { path: '/profile', component: Profile },
-    { path: '/introduce', component: Introduce },
-    { path: '/tenses', component: Tenses },
-    { path: '/exercises', component: Exercises },
-    { path: '/grammatical-structure', component: GrammaticalStructure },
-    { path: '/paths-of-speech', component: PathsOfSpeech },
-    { path: '/questions', component: Questions },
-    { path: '/road-map', component: RoadMap },
-    { path: '/sentence-structure', component: SentenceStructure },
-    { path: '/download-document', component: Document },
-    { path: '/download-videos', component: Videos },
-];
+const privateRoutes = {
+    default: [
+        { path: '/', component: Home },
+        { path: '/profile', component: Profile },
+        { path: '/introduce', component: Introduce },
+        { path: '/road-map', component: RoadMap },
+    ],
+    learning: [
+        { path: '/tenses', component: Tenses },
+        { path: '/exercises', component: Exercises },
+        { path: '/grammatical-structure', component: GrammaticalStructure },
+        { path: '/paths-of-speech', component: PathsOfSpeech },
+        { path: '/questions', component: Questions },
+        { path: '/sentence-structure', component: SentenceStructure },
+    ],
+    document: [
+        { path: '/download-document', component: Document },
+        { path: '/download-videos', component: Videos },
+    ],
+};
 
 const publicRoutes = [{ path: '/Login', component: Login }];
 
