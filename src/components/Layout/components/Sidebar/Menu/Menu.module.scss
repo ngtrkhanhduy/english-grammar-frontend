@@ -13,18 +13,6 @@
     color: var(--text-color);
     transition: background-color ease-in-out 200ms;
 
-    &.active {
-        color: var(--primary);
-
-        .icon {
-            display: none;
-        }
-
-        .active-icon {
-            display: flex;
-        }
-    }
-
     &:hover {
         background-color: rgba(22, 24, 35, 0.03);
     }

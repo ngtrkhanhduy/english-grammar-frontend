@@ -24,7 +24,7 @@ function MenuItem({ title, to, subItems }) {
     return (
         <div className={cx('menu-item-container')}>
             <div className={cx('menu-item', { active: activeSubItem })} onClick={subItems ? toggleSubMenu : undefined}>
-                <NavLink className={(nav) => cx('link', { active: nav.isActive })} to={to}>
+                <NavLink className={(nav) => cx('link')} to={to}>
                     <span className={cx('title')}>{title}</span>
                 </NavLink>
                 {subItems && <span className={cx('arrow', { open: isOpen })}>▼</span>}

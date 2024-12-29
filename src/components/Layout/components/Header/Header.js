@@ -46,7 +46,9 @@ function Header() {
     return (
         <header className={cx('wrapper')}>
             <div className={cx('inner')}>
-                <img src={images.logo} alt="English" />
+                <a href="/">
+                    <img src={images.logo} alt="English" />
+                </a>
 
                 <HeadlessTippy
                     interactive

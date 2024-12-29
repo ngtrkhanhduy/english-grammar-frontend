@@ -1,12 +1,11 @@
 import images from '~/assets/images';
 import classNames from 'classnames/bind';
-import styles from './Home.module.scss';
 
-const cx = classNames.bind(styles);
+const cx = classNames.bind({});
 
 function Home() {
     return (
-        <div className={cx('english-grammar-intro')}>
+        <div className={cx('english-grammar')}>
             <h1>Welcome to English Grammar Pro!</h1>
             <p>
                 English Grammar Pro is your ultimate online resource for mastering English grammar. Whether you’re a
