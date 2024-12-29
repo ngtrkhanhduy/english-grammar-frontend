@@ -12,6 +12,18 @@ import SentenceStructure from '~/pages/SentenceStructure';
 import Videos from '~/pages/Videos';
 import Introduce from '~/pages/Introduce';
 import Questions from '~/pages/Questions';
+import PresentSimple from '~/pages/Tenses/PresentSimple';
+import PresentContinuous from '~/pages/Tenses/PresentContinuous';
+import PresentPerfect from '~/pages/Tenses/PresentPerfect';
+import PresentPerfectContinuous from '~/pages/Tenses/PresentPerfectContinuous';
+import PastSimple from '~/pages/Tenses/PastSimple';
+import PastContinuous from '~/pages/Tenses/PastContinuous';
+import PastPerfect from '~/pages/Tenses/PastPerfect';
+import PastPerfectContinuous from '~/pages/Tenses/PastPerfectContinuous';
+import FutureSimple from '~/pages/Tenses/FutureSimple';
+import FutureContinuous from '~/pages/Tenses/FutureContinuous';
+import FuturePerfect from '~/pages/Tenses/FuturePerfect';
+import FuturePerfectContinuous from '~/pages/Tenses/FuturePerfectContinuous';
 
 // Public routes
 const privateRoutes = {
@@ -23,6 +35,18 @@ const privateRoutes = {
     ],
     learning: [
         { path: '/tenses', component: Tenses },
+        { path: '/present-simple', component: PresentSimple },
+        { path: '/present-continuous', component: PresentContinuous },
+        { path: '/present-perfect', component: PresentPerfect },
+        { path: '/present-perfect-continuous', component: PresentPerfectContinuous },
+        { path: '/past-simple', component: PastSimple },
+        { path: '/past-continuous', component: PastContinuous },
+        { path: '/past-perfect', component: PastPerfect },
+        { path: '/past-perfect-continuous', component: PastPerfectContinuous },
+        { path: '/future-simple', component: FutureSimple },
+        { path: '/future-continuous', component: FutureContinuous },
+        { path: '/future-perfect', component: FuturePerfect },
+        { path: '/future-perfect-continuous', component: FuturePerfectContinuous },
         { path: '/exercises', component: Exercises },
         { path: '/grammatical-structure', component: GrammaticalStructure },
         { path: '/paths-of-speech', component: PathsOfSpeech },
