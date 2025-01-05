@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import HeadlessTippy from '@tippyjs/react/headless';
 import 'tippy.js/dist/tippy.css';
+import Cookies from 'js-cookie';
 
 import Button from '~/components/Button';
 import { Wrapper as PopperWrapper } from '~/components/Popper';
@@ -20,20 +21,35 @@ const cx = classNames.bind(styles);
 
 function Header() {
     const [searchResult, setSearchResult] = useState([]);
-    const [showLogin, setshowLogin] = useState(false);
-    const currentUser = true;
+    const [showLogin, setShowLogin] = useState(false);
+    const [currentUser, setCurrentUser] = useState(null);
 
     useEffect(() => {
-        setTimeout(() => {
+        // Initialize currentUser from Cookies
+        const username = Cookies.get('username');
+        setCurrentUser(username ? { username } : null);
+    }, []);
+
+    useEffect(() => {
+        // Clear search results when component renders
+        const timer = setTimeout(() => {
             setSearchResult([]);
         }, 0);
+        return () => clearTimeout(timer);
     }, []);
 
     function toggleLoginPop() {
-        setshowLogin(!showLogin);
+        setShowLogin(!showLogin);
     }
 
-    // Handle logic
+    const handleLoginSuccess = () => {
+        // Update currentUser after successful login
+        const username = Cookies.get('username');
+        setCurrentUser(username ? { username } : null);
+        setShowLogin(false); // Close login popup
+    };
+
+    // Handle menu logic
     const handleMenuChange = (menuItem) => {
         switch (menuItem.type) {
             case 'language':
@@ -81,6 +97,7 @@ function Header() {
                 <div className={cx('actions')}>
                     {currentUser ? (
                         <>
+                            <span>Welcome, {currentUser.username}</span>
                             <button className={cx('more-btn')}>
                                 <a className={cx('menu-tab')} href={MENU_TAB_LOTRINHHOC.url}>
                                     {MENU_TAB_LOTRINHHOC.title}
@@ -119,7 +136,7 @@ function Header() {
                             <Button primary onClick={toggleLoginPop}>
                                 Đăng nhập
                             </Button>
-                            {showLogin ? <Login toggle={toggleLoginPop} /> : null}
+                            {showLogin && <Login toggle={toggleLoginPop} onLoginSuccess={handleLoginSuccess} />}
                         </>
                     )}
                 </div>

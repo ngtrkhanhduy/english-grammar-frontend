@@ -1,6 +1,6 @@
-const { override, useBabelRc } = require("customize-cra");
+const { override, useBabelRc } = require('customize-cra');
 
-module.exports = override(
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    useBabelRc()
-);
+// Set the environment variable outside the override function
+process.env.PORT = 8082;
+
+module.exports = override(useBabelRc());

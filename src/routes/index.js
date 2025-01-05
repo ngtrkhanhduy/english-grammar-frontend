@@ -24,6 +24,7 @@ import FutureSimple from '~/pages/Tenses/FutureSimple';
 import FutureContinuous from '~/pages/Tenses/FutureContinuous';
 import FuturePerfect from '~/pages/Tenses/FuturePerfect';
 import FuturePerfectContinuous from '~/pages/Tenses/FuturePerfectContinuous';
+import Logout from '~/pages/Logout';
 
 // Public routes
 const privateRoutes = {
@@ -32,6 +33,7 @@ const privateRoutes = {
         { path: '/profile', component: Profile },
         { path: '/introduce', component: Introduce },
         { path: '/road-map', component: RoadMap },
+        { path: '/logout', component: Logout },
     ],
     learning: [
         { path: '/tenses', component: Tenses },
