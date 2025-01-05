@@ -25,6 +25,7 @@ import FutureContinuous from '~/pages/Tenses/FutureContinuous';
 import FuturePerfect from '~/pages/Tenses/FuturePerfect';
 import FuturePerfectContinuous from '~/pages/Tenses/FuturePerfectContinuous';
 import Logout from '~/pages/Logout';
+import ToiecExercises from '~/pages/Exercises/ToeicExercises';
 
 // Public routes
 const privateRoutes = {
@@ -34,6 +35,9 @@ const privateRoutes = {
         { path: '/introduce', component: Introduce },
         { path: '/road-map', component: RoadMap },
         { path: '/logout', component: Logout },
+        { path: '/exercises', component: Exercises },
+
+        { path: '/toiec-exercises', component: ToiecExercises },
     ],
     learning: [
         { path: '/tenses', component: Tenses },
@@ -49,7 +53,6 @@ const privateRoutes = {
         { path: '/future-continuous', component: FutureContinuous },
         { path: '/future-perfect', component: FuturePerfect },
         { path: '/future-perfect-continuous', component: FuturePerfectContinuous },
-        { path: '/exercises', component: Exercises },
         { path: '/grammatical-structure', component: GrammaticalStructure },
         { path: '/paths-of-speech', component: PathsOfSpeech },
         { path: '/questions', component: Questions },

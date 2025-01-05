@@ -1,0 +1,54 @@
+// ExercisesPart1.scss
+
+$primary-color: #4f46e5;
+$secondary-color: #e0e7ff;
+$background-color: #f3f4f6;
+
+.exercises {
+    padding: 20px;
+
+    .tabs {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+
+        button {
+            background-color: $background-color;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            padding: 8px 16px;
+            cursor: pointer;
+
+            &.active {
+                background-color: $secondary-color;
+                font-weight: bold;
+            }
+        }
+    }
+
+    .question {
+        margin-bottom: 20px;
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+        padding: 16px;
+
+        h3 {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .option {
+            margin-bottom: 8px;
+
+            label {
+                display: flex;
+                align-items: center;
+
+                input {
+                    margin-right: 8px;
+                }
+            }
+        }
+    }
+}
