@@ -20,7 +20,7 @@ function ExercisesPart1({ answers, setAnswers }) {
                 {questions.map((q) => (
                     <div key={q.id} className={cx('question')}>
                         <h3>
-                            {q.id}. {q.question}
+                            {q.questionNumber}. {q.question}
                         </h3>
                         {q.options.map((option) => (
                             <div key={option.value} className={cx('option')}>

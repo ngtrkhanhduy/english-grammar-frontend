@@ -5,7 +5,7 @@ $secondary-color: #e0e7ff;
 $background-color: #f3f4f6;
 
 .exercises {
-    padding: 20px;
+    padding: 10px;
 
     .tabs {
         display: flex;
@@ -24,6 +24,27 @@ $background-color: #f3f4f6;
                 font-weight: bold;
             }
         }
+    }
+
+    .content-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 20px;
+        border: 1px solid #ddd; /* Border around the content section */
+        border-radius: 10px;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+
+    .content-large {
+        flex: 0 0 50%;
+        padding: 10px;
+    }
+
+    .content-small {
+        flex: 0 0 45%;
+        padding: 10px;
     }
 
     .question {
