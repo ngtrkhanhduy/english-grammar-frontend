@@ -18,6 +18,39 @@ export const filterQuestionsByNumber = (questions, numbers) => {
     return questions.filter((question) => numbers.includes(Number(question.questionNumber)));
 };
 
+const ExerciseQuestions = ({ questions_01, answers, handleAnswerChange, formatEmailContent, cx }) => {
+    return (
+        <div className={cx('exercises')}>
+            <section className={cx('content-section')}>
+                <div className={cx('content-large')}>{formatEmailContent(questions_01.description)}</div>
+                <div className={cx('content-small')}>
+                    {questions_01.question.map((q) => (
+                        <div key={q.id} className={cx('question')}>
+                            <h3>
+                                {q.questionNumber}. {q.question}
+                            </h3>
+                            {q.options.map((option) => (
+                                <div key={option.value} className={cx('option')}>
+                                    <label>
+                                        <input
+                                            type="radio"
+                                            name={`question-${q.id}`}
+                                            value={option.value}
+                                            checked={answers[q.id] === option.value}
+                                            onChange={() => handleAnswerChange(q.id, option.value)}
+                                        />
+                                        {option.label}
+                                    </label>
+                                </div>
+                            ))}
+                        </div>
+                    ))}
+                </div>
+            </section>
+        </div>
+    );
+};
+
 // Ví dụ sử dụng
 const questionNumbersToFilter_01 = [31, 32, 33, 34];
 const questionNumbersToFilter_02 = [35, 36, 37, 38];
@@ -50,33 +83,35 @@ function ExercisesPart2({ answers, setAnswers }) {
     };
 
     return (
-        <div className={cx('exercises')}>
-            <section className={cx('content-section')}>
-                <div className={cx('content-large')}>{formatEmailContent(questions_01.description)}</div>
-                <div className={cx('content-small')}>
-                    {questions_01.question.map((q) => (
-                        <div key={q.id} className={cx('question')}>
-                            <h3>
-                                {q.questionNumber}. {q.question}
-                            </h3>
-                            {q.options.map((option) => (
-                                <div key={option.value} className={cx('option')}>
-                                    <label>
-                                        <input
-                                            type="radio"
-                                            name={`question-${q.id}`}
-                                            value={option.value}
-                                            checked={answers[q.id] === option.value}
-                                            onChange={() => handleAnswerChange(q.id, option.value)}
-                                        />
-                                        {option.label}
-                                    </label>
-                                </div>
-                            ))}
-                        </div>
-                    ))}
-                </div>
-            </section>
+        <div>
+            <ExerciseQuestions
+                questions_01={questions_01}
+                answers={answers}
+                handleAnswerChange={handleAnswerChange}
+                formatEmailContent={formatEmailContent}
+                cx={cx}
+            />
+            <ExerciseQuestions
+                questions_01={questions_02}
+                answers={answers}
+                handleAnswerChange={handleAnswerChange}
+                formatEmailContent={formatEmailContent}
+                cx={cx}
+            />
+            <ExerciseQuestions
+                questions_01={questions_03}
+                answers={answers}
+                handleAnswerChange={handleAnswerChange}
+                formatEmailContent={formatEmailContent}
+                cx={cx}
+            />
+            <ExerciseQuestions
+                questions_01={questions_04}
+                answers={answers}
+                handleAnswerChange={handleAnswerChange}
+                formatEmailContent={formatEmailContent}
+                cx={cx}
+            />
         </div>
     );
 }

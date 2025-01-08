@@ -9,11 +9,42 @@ export const question_description_01_02 = [
             Subject: Business Contract Dear Mr. Smith, I am Sharron Biggs, CEO and founder of BiggsGraphics. I recently came across your advertisement _____(131) the partnership of a graphic design company for a number of your projects. BiggsGraphics has _____(132) experience working with various small businesses and companies in designing advertising campaigns, logos, and websites. _____(133). Our website www.biggs-graphics.com also has some information about our company. I'm interested in working with your company on your projects and hope we can build a beneficial partnership. I look forward _____(134) your reply. Sincerely, Sharron Biggs CEO, BiggsGraphics
         `,
     },
+    {
+        id: '2',
+        descriptionNumber: '02-02',
+        description: `
+        Thank you for shopping at Larson's China. Our products are known for their modern and unique patterns and color combinations, as well as _____(135) and strength. _____(136). Please note, however, that repeated drops and rough handling will _____(137) eventual breakage. We suggest you store them carefully and that you don't use harsh chemicals, steel sponges, or _____(138) scrubbing when cleaning them. Please visit our website at www.larsonchina.com for information about handling and care or call us at 555-1234 if you have any questions or concerns.
+        `,
+    },
+    {
+        id: '3',
+        descriptionNumber: '02-02',
+        description: `
+        Position: Gold & Slide Accounting Firm
+
+
+        We are looking for enthusiastic candidates with an educational background in finance or _____(139). All candidates should have some computer experience. Job experience is not _____(140) but preferred. Candidates with a bilingual language ability _____(141) favored. Positions include jobs in accounting, statistics, and general office assistant. If you are interested, please visit our website at www.G&Saccountingfirm.com/employment for more information. You can send your cover letters and resumes to Karen Hill at khill@G&S.com. We will begin interviewing candidates on Monday, November 5. _____(142).
+        `,
+    },
+    {
+        id: '4',
+        descriptionNumber: '02-02',
+        description: `
+        To: Kitchen staff, office employees
+        From: Manager, Larry Park
+        Date: March 23
+        Subject: Renovations
+
+        To all kitchen staff and Harmon employees,
+
+        From Sunday, March 23 to Thursday, March 27, the employee cafeteria kitchens will undergo renovations as new appliances and equipment _____(143) to replace the old ones. _____(144). Instead, the convenience shops will carry more sandwiches, prepared lunch boxes, and snacks for the employees during this time. The renovations will increase the number of sinks, ovens, and stove tops so that a larger volume of meals can be provided _____(145) the lunch and dinner rushes. We apologize for the inconvenience but we hope that the changes will _____(146) the services in the cafeteria.
+                `,
+    },
 ];
 
 export const questions_01_02 = [
     {
-        id: '131',
+        id: '31',
         questionNumber: '31',
         question: '(31)',
         options: [
@@ -24,7 +55,7 @@ export const questions_01_02 = [
         ],
     },
     {
-        id: '132',
+        id: '32',
         questionNumber: '32',
         question: '(32)',
         options: [
@@ -35,7 +66,7 @@ export const questions_01_02 = [
         ],
     },
     {
-        id: '133',
+        id: '33',
         questionNumber: '33',
         question: '(33)',
         options: [
@@ -49,7 +80,7 @@ export const questions_01_02 = [
         ],
     },
     {
-        id: '134',
+        id: '34',
         questionNumber: '34',
         question: '(34)',
         options: [
@@ -60,7 +91,7 @@ export const questions_01_02 = [
         ],
     },
     {
-        id: '135',
+        id: '35',
         questionNumber: '35',
         question: '(35)',
         options: [
@@ -85,7 +116,7 @@ export const questions_01_02 = [
         ],
     },
     {
-        id: '137',
+        id: '37',
         questionNumber: '37',
         question: '(37)',
         options: [
@@ -96,7 +127,7 @@ export const questions_01_02 = [
         ],
     },
     {
-        id: '138',
+        id: '38',
         questionNumber: '38',
         question: '(38)',
         options: [
@@ -107,7 +138,7 @@ export const questions_01_02 = [
         ],
     },
     {
-        id: '139',
+        id: '39',
         questionNumber: '39',
         question: '(39)',
         options: [
@@ -118,7 +149,7 @@ export const questions_01_02 = [
         ],
     },
     {
-        id: '140',
+        id: '40',
         questionNumber: '40',
         question: '(40)',
         options: [
@@ -129,7 +160,7 @@ export const questions_01_02 = [
         ],
     },
     {
-        id: '141',
+        id: '41',
         questionNumber: '41',
         question: '(41)',
         options: [
@@ -140,7 +171,7 @@ export const questions_01_02 = [
         ],
     },
     {
-        id: '142',
+        id: '42',
         questionNumber: '42',
         question: '(42)',
         options: [
@@ -151,7 +182,7 @@ export const questions_01_02 = [
         ],
     },
     {
-        id: '143',
+        id: '43',
         questionNumber: '43',
         question: '(43)',
         options: [
@@ -162,7 +193,7 @@ export const questions_01_02 = [
         ],
     },
     {
-        id: '144',
+        id: '44',
         questionNumber: '44',
         question: '(44)',
         options: [
@@ -173,7 +204,7 @@ export const questions_01_02 = [
         ],
     },
     {
-        id: '145',
+        id: '45',
         questionNumber: '45',
         question: '(45)',
         options: [
@@ -184,7 +215,7 @@ export const questions_01_02 = [
         ],
     },
     {
-        id: '146',
+        id: '46',
         questionNumber: '46',
         question: '(46)',
         options: [
