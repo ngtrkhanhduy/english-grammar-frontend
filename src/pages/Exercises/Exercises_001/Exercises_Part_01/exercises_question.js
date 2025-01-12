@@ -110,8 +110,8 @@ export const questions_01_01 = [
         correct_answer: 'C', // Correct answer is 'C. openly'
     },
     {
-        id: '',
-        questionNumber: '',
+        id: '10',
+        questionNumber: '10',
         question:
             "The store's manager plans to put the new merchandise on display _____ to promote the line of fall fashions.",
         options: [

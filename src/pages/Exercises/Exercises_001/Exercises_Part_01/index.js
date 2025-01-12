@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../Exercises.module.scss';
+import styles from '../../Exercises.module.scss';
 import classNames from 'classnames/bind';
 import { questions_01_01 } from './exercises_question';
 
