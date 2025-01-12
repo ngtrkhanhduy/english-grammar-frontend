@@ -1,10 +1,10 @@
 import React from 'react';
 import styles from '../../Exercises.module.scss';
 import classNames from 'classnames/bind';
-import { questions_01_01 } from './exercises_question';
+import { part1Question } from '../ToeicExercises';
 
 const cx = classNames.bind(styles);
-const questions = questions_01_01;
+const questions = part1Question;
 
 function ExercisesPart1({ answers, setAnswers }) {
     const handleAnswerChange = (questionId, selectedOption) => {

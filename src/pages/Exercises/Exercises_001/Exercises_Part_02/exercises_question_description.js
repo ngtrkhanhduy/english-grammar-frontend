@@ -1,6 +1,6 @@
-import { questions_01_02 } from './exercises_question';
+import { part2Question } from '../ToeicExercises';
 
-const questions = questions_01_02;
+const questions = part2Question;
 
 export const filterQuestionsByNumber = (questions, numbers) => {
     return questions.filter((question) => numbers.includes(Number(question.questionNumber)));

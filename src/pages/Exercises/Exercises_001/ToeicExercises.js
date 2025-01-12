@@ -5,6 +5,11 @@ import ExercisesPart2 from './Exercises_Part_02';
 import ExercisesPart3 from './Exercises_Part_03';
 import Tab from './Tab';
 import Button from '~/components/Button';
+import { questions_api } from './questions_api';
+
+export const part1Question = questions_api.slice(0, 30);
+export const part2Question = questions_api.slice(30, 46);
+export const part3Question = questions_api.slice(46);
 
 function ToiecExercises() {
     const [answers, setAnswers] = useState({});
