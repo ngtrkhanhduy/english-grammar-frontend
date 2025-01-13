@@ -65,9 +65,9 @@ export const userMenu = [
     },
 ];
 
-export const MENU_TAB_LOTRINHHOC = {
-    title: 'LỘ TRÌNH HỌC TIẾNG ANH',
-    url: '/road-map',
+export const MENU_TAB_HOME = {
+    title: 'TRANG CHỦ',
+    url: '/',
 };
 
 export const MENU_TAB_KIEMTRA = {

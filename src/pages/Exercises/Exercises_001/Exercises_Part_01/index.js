@@ -1,12 +1,12 @@
 import React from 'react';
 import styles from '../../Exercises.module.scss';
 import classNames from 'classnames/bind';
-import { part1Question } from '../ToeicExercises';
+import { part1Question } from '../Tab';
 
 const cx = classNames.bind(styles);
-const questions = part1Question;
 
 function ExercisesPart1({ answers, setAnswers }) {
+    const questions = part1Question;
     const handleAnswerChange = (questionId, selectedOption) => {
         setAnswers((prevAnswers) => ({
             ...prevAnswers,

@@ -18,7 +18,7 @@ function MenuItem({ title, to, subItems }) {
 
     // Handle subitem click
     const handleSubItemClick = (subItem) => {
-        setActiveSubItem(subItem.title); // Set active subItem title
+        setActiveSubItem(subItem.title);
     };
 
     return (
@@ -27,6 +27,7 @@ function MenuItem({ title, to, subItems }) {
                 <NavLink className={(nav) => cx('link')} to={to}>
                     <span className={cx('title')}>{title}</span>
                 </NavLink>
+
                 {subItems && <span className={cx('arrow', { open: isOpen })}>▼</span>}
             </div>
             {subItems && isOpen && (
@@ -35,10 +36,11 @@ function MenuItem({ title, to, subItems }) {
                         <div
                             key={index}
                             className={cx('submenu-item', {
-                                active: location.pathname === subItem.to, // Compare with current URL
+                                active: location.pathname === subItem.to,
                             })}
                             onClick={() => handleSubItemClick(subItem)}
                         >
+                            <span className={cx('status-icon')}>{subItem.completed ? '🟢' : '⭕'}</span>
                             <NavLink className={cx('submenu-item-link')} to={subItem.to}>
                                 {subItem.title}
                             </NavLink>
@@ -57,6 +59,7 @@ MenuItem.propTypes = {
         PropTypes.shape({
             title: PropTypes.string.isRequired,
             to: PropTypes.string.isRequired,
+            completed: PropTypes.bool,
         }),
     ),
 };

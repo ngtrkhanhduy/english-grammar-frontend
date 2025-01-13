@@ -14,7 +14,7 @@ import AccountItem from '~/components/AccountItem';
 import Menu from '~/components/Popper/Menu';
 import { SearchIcon } from '~/components/Icons';
 import Image from '~/components/Image';
-import { userMenu, MENU_TAB_LOTRINHHOC, MENU_TAB_KIEMTRA, MENU_TAB_NGUPHAP, MENU_TAB_TAILIEU } from './HeaderConfig';
+import { userMenu, MENU_TAB_HOME, MENU_TAB_KIEMTRA, MENU_TAB_NGUPHAP, MENU_TAB_TAILIEU } from './HeaderConfig';
 import Login from '~/pages/Login';
 
 const cx = classNames.bind(styles);
@@ -97,10 +97,13 @@ function Header() {
                 <div className={cx('actions')}>
                     {currentUser ? (
                         <>
-                            <span>Welcome, {currentUser.username}</span>
+                            <span>
+                                {' '}
+                                <strong> Welcome, {currentUser.username} </strong>
+                            </span>
                             <button className={cx('more-btn')}>
-                                <a className={cx('menu-tab')} href={MENU_TAB_LOTRINHHOC.url}>
-                                    {MENU_TAB_LOTRINHHOC.title}
+                                <a className={cx('menu-tab')} href={MENU_TAB_HOME.url}>
+                                    {MENU_TAB_HOME.title}
                                 </a>
                             </button>
 

@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from '../Exercises.module.scss';
+import { questions_api } from './questions_api';
+
+export const part1Question = questions_api.slice(0, 30);
+export const part2Question = questions_api.slice(30, 46);
+export const part3Question = questions_api.slice(46);
 
 const cx = classNames.bind(styles);
 

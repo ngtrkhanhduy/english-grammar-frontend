@@ -47,7 +47,7 @@ const ExerciseQuestions = ({ questions, answers, handleAnswerChange, cx, childre
     );
 };
 
-function ExercisesPart2({ answers, setAnswers, questions }) {
+function ExercisesPart2({ answers, setAnswers }) {
     const handleAnswerChange = (questionId, selectedOption) => {
         setAnswers((prevAnswers) => ({
             ...prevAnswers,

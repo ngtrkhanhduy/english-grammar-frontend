@@ -1,4 +1,4 @@
-import { part3Question } from '../ToeicExercises';
+import { part3Question } from '../Tab';
 
 const questions = part3Question;
 
