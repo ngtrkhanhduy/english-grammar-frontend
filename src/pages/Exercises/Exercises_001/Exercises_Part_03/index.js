@@ -43,21 +43,21 @@ const ExerciseQuestions = ({ questions, answers, handleAnswerChange, cx, childre
                 <div className={cx('content-large')}>{children}</div>
                 <div className={cx('content-small')}>
                     {questions.map((q) => (
-                        <div key={q.id} className={cx('question')}>
+                        <div key={q.questionNumber} className={cx('question')}>
                             <h3>
                                 {q.questionNumber}. {q.question}
                             </h3>
                             {q.options.map((option) => (
-                                <div key={option.value} className={cx('option')}>
+                                <div key={option} className={cx('option')}>
                                     <label>
                                         <input
                                             type="radio"
-                                            name={`question-${q.id}`}
-                                            value={option.value}
-                                            checked={answers[q.id] === option.value}
-                                            onChange={() => handleAnswerChange(q.id, option.value)}
+                                            name={`question-${q.questionNumber}`}
+                                            value={option}
+                                            checked={answers[q.questionNumber] === option}
+                                            onChange={() => handleAnswerChange(q.questionNumber, option)}
                                         />
-                                        {option.label}
+                                        {option}
                                     </label>
                                 </div>
                             ))}

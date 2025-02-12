@@ -1,0 +1,80 @@
+// Footer.scss
+.footer {
+    background-color: #f8f9fa;
+    padding: 20px;
+    font-size: 14px;
+    color: #333;
+    width: 100%;
+
+    .footer-content {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .footer-column {
+        flex: 1;
+        min-width: 250px;
+        margin: 10px;
+        text-align: center;
+
+        h4 {
+            margin-bottom: 10px;
+            font-size: 16px;
+            color: #007bff;
+        }
+
+        p,
+        ul {
+            margin: 5px 0;
+            color: #555;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+
+            li {
+                margin: 5px 0;
+
+                a {
+                    text-decoration: none;
+                    color: #007bff;
+
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+            }
+        }
+    }
+
+    .logo-section {
+        img.logo {
+            max-width: 100px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 12px;
+            color: #777;
+        }
+    }
+
+    .contact-section,
+    .support-section {
+        text-align: left;
+
+        p {
+            margin: 5px 0;
+        }
+    }
+
+    .support-links {
+        li {
+            margin: 5px 0;
+        }
+    }
+}

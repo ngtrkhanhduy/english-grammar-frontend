@@ -44,7 +44,7 @@ export const userMenu = [
     {
         icon: <FontAwesomeIcon icon={faUser} />,
         title: 'View profile',
-        to: '/@hoaa',
+        to: '/profile',
     },
     {
         icon: <FontAwesomeIcon icon={faCoins} />,

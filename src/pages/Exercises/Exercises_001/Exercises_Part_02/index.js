@@ -14,28 +14,29 @@ import {
 
 const cx = classNames.bind(styles);
 
-const ExerciseQuestions = ({ questions, answers, handleAnswerChange, cx, children }) => {
+// Component hiển thị câu hỏi
+const ExerciseQuestions = ({ questions, answers, handleAnswerChange, children }) => {
     return (
         <div className={cx('exercises')}>
             <section className={cx('content-section')}>
                 <div className={cx('content-large')}>{children}</div>
                 <div className={cx('content-small')}>
                     {questions.map((q) => (
-                        <div key={q.id} className={cx('question')}>
+                        <div key={q.questionNumber} className={cx('question')}>
                             <h3>
                                 {q.questionNumber}. {q.question}
                             </h3>
                             {q.options.map((option) => (
-                                <div key={option.value} className={cx('option')}>
+                                <div key={option} className={cx('option')}>
                                     <label>
                                         <input
                                             type="radio"
-                                            name={`question-${q.id}`}
-                                            value={option.value}
-                                            checked={answers[q.id] === option.value}
-                                            onChange={() => handleAnswerChange(q.id, option.value)}
+                                            name={`question-${q.questionNumber}`}
+                                            value={option}
+                                            checked={answers[q.questionNumber] === option}
+                                            onChange={() => handleAnswerChange(q.questionNumber, option)}
                                         />
-                                        {option.label}
+                                        {option}
                                     </label>
                                 </div>
                             ))}
@@ -48,45 +49,25 @@ const ExerciseQuestions = ({ questions, answers, handleAnswerChange, cx, childre
 };
 
 function ExercisesPart2({ answers, setAnswers }) {
-    const handleAnswerChange = (questionId, selectedOption) => {
+    const handleAnswerChange = (questionNumber, selectedOption) => {
         setAnswers((prevAnswers) => ({
             ...prevAnswers,
-            [questionId]: selectedOption,
+            [questionNumber]: selectedOption,
         }));
     };
 
     return (
         <div>
-            <ExerciseQuestions
-                questions={Questions01}
-                answers={answers}
-                handleAnswerChange={handleAnswerChange}
-                cx={cx}
-            >
+            <ExerciseQuestions questions={Questions01} answers={answers} handleAnswerChange={handleAnswerChange}>
                 <QuestDescription01 />
             </ExerciseQuestions>
-            <ExerciseQuestions
-                questions={Questions02}
-                answers={answers}
-                handleAnswerChange={handleAnswerChange}
-                cx={cx}
-            >
+            <ExerciseQuestions questions={Questions02} answers={answers} handleAnswerChange={handleAnswerChange}>
                 <QuestDescription02 />
             </ExerciseQuestions>
-            <ExerciseQuestions
-                questions={Questions03}
-                answers={answers}
-                handleAnswerChange={handleAnswerChange}
-                cx={cx}
-            >
+            <ExerciseQuestions questions={Questions03} answers={answers} handleAnswerChange={handleAnswerChange}>
                 <QuestDescription03 />
             </ExerciseQuestions>
-            <ExerciseQuestions
-                questions={Questions04}
-                answers={answers}
-                handleAnswerChange={handleAnswerChange}
-                cx={cx}
-            >
+            <ExerciseQuestions questions={Questions04} answers={answers} handleAnswerChange={handleAnswerChange}>
                 <QuestDescription04 />
             </ExerciseQuestions>
         </div>

@@ -1,7 +1,7 @@
 const MenuItem_Learning = [
     {
-        title: 'Ngữ pháp',
-        to: '/tenses',
+        title: '12 Thì cơ bản',
+        to: '/present-simple',
         subItems: [
             {
                 title: 'Thì hiện tại đơn',

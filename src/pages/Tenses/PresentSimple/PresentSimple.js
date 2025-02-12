@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames/bind';
+import PresentSimpleExercise from './PresentSimpleExercise';
 
 const cx = classNames.bind({});
 
@@ -111,6 +112,7 @@ const SimplePresent = () => {
                 <li>Thêm "es" vào sau động từ có tận cùng là s, ss, sh, ch, z và x.</li>
                 <li>Động từ “have” khi đi với chủ ngữ là ngôi thứ 3 số ít sẽ biến thành “has”.</li>
             </ul>
+            <PresentSimpleExercise />
         </div>
     );
 };

@@ -1,0 +1,51 @@
+$popup-bg-color: rgba(0, 0, 0, 0.4);
+$white-color: white;
+$border-color: #ccc;
+$primary-hover: #fe2c55;
+$disabled-bg: #bfbfbf;
+$disabled-color: #ffffff;
+$active-tab-color: var(--primary);
+$inactive-tab-color: #999;
+$tab-bg-color: #f5f5f5;
+$tab-border-radius: 8px 8px 0 0;
+.edit-profile-container {
+    max-width: 400px;
+    margin: 0 auto;
+    border: 1px solid #ddd; /* Border around the content section */
+    border-radius: 10px;
+    padding: 10px;
+    box-sizing: border-box;
+
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ddd; /* Border around the content section */
+            border-radius: 10px;
+        }
+    }
+
+    .submit-button {
+        padding: 10px 20px;
+        cursor: pointer;
+        display: block;
+        margin: 0 auto;
+        &:hover {
+            color: $primary-hover;
+        }
+    }
+}
