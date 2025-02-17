@@ -25,7 +25,7 @@ import FutureContinuous from '~/pages/Tenses/FutureContinuous';
 import FuturePerfect from '~/pages/Tenses/FuturePerfect';
 import FuturePerfectContinuous from '~/pages/Tenses/FuturePerfectContinuous';
 import Logout from '~/pages/Logout';
-import { ToeicExercises_001 } from '~/pages/Exercises/Exercises_001';
+import { Practice_ToeicExercises_001, ToeicExercises_001 } from '~/pages/Exercises/Exercises_001';
 // Public routes
 const privateRoutes = {
     default: [
@@ -37,6 +37,7 @@ const privateRoutes = {
         { path: '/exercises', component: Exercises },
 
         { path: '/toiec-exercises-001', component: ToeicExercises_001 },
+        { path: '/toiec-exercises-001/practice', component: Practice_ToeicExercises_001 },
     ],
     learning: [
         { path: '/tenses', component: Tenses },
