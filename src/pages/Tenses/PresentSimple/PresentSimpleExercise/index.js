@@ -98,7 +98,7 @@ const PresentSimpleExercise = () => {
     return (
         <div className={cx('exercise-container')}>
             <div className={cx('header')}>
-                <h2>Present Simple Exercise</h2>
+                <h3>Present Simple Exercise</h3>
                 <a
                     href="#"
                     onClick={(e) => {

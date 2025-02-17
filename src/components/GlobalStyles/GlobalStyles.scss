@@ -33,7 +33,7 @@ body {
 .english-grammar {
     line-height: 1.6;
     padding: 20px;
-    box-sizing: border-box; /* Ensure padding and borders are included in width/height calculations */
+    box-sizing: border-box;
     border: 1px solid #ccc; /* Border around the entire content */
 
     h1,
@@ -45,13 +45,25 @@ body {
     ul {
         margin: 10px 0;
         padding-left: 20px;
-        border: 1px solid #ddd; /* Border around the unordered list */
+        border: 1px solid #ddd;
         padding: 10px;
         box-sizing: border-box;
     }
 
     li {
         list-style-type: none;
+    }
+
+    .content-tenses {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        border: 1px solid #ddd;
+        padding: 10px;
+        box-sizing: border-box;
+        font-weight: bold;
+        text-align: center;
     }
 
     .content-section {
