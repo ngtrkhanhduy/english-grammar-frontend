@@ -137,7 +137,7 @@ function Header() {
                     ) : (
                         <>
                             <Button primary onClick={toggleLoginPop}>
-                                Đăng nhập
+                                Đăng nhập/ Đăng ký
                             </Button>
                             {showLogin && <Login toggle={toggleLoginPop} onLoginSuccess={handleLoginSuccess} />}
                         </>

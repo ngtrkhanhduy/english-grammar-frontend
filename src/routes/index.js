@@ -30,6 +30,7 @@ import { Practice_ToeicExercises_001, ToeicExercises_001 } from '~/pages/Exercis
 const privateRoutes = {
     default: [
         { path: '/', component: Home },
+        { path: '/home', component: Home },
         { path: '/profile', component: Profile },
         { path: '/introduce', component: Introduce },
         { path: '/road-map', component: RoadMap },
