@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 import styles from './Profile.module.scss';
 import Button from '~/components/Button';
+import Cookies from 'js-cookie'; // Assuming you have js-cookie for cookie handling
 
 const cx = classNames.bind(styles);
 
@@ -13,6 +14,37 @@ const EditProfile = () => {
         dateOfBirth: '',
         gender: '',
     });
+
+    const [loading, setLoading] = useState(true); // To show loading state
+
+    useEffect(() => {
+        // Initialize currentUser from Cookies
+        const username = Cookies.get('username');
+        if (username) {
+            // Fetch user info using the username from cookie
+            fetch(`http://localhost:8081/user-information/${username}`)
+                .then((response) => response.json())
+                .then((data) => {
+                    // Pre-fill form data with fetched data
+                    setFormData({
+                        fullName: data.fullname || '',
+                        email: username, // Assuming the email is the username in this case
+                        phone: data.phone || '',
+                        dateOfBirth: data.birthday || '',
+                        gender: data.gender || '',
+                    });
+                    setLoading(false);
+                })
+                .catch((error) => {
+                    console.error('Error fetching user information:', error);
+                    setLoading(false);
+                });
+        } else {
+            // Handle case when username is not found in cookies
+            setLoading(false);
+            alert('User not logged in');
+        }
+    }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -29,10 +61,38 @@ const EditProfile = () => {
             alert('Full Name and Email are required!');
             return;
         }
-        // Xử lý khi submit form
-        console.log('Updated Profile:', formData);
-        alert('Profile updated successfully!');
+
+        // Prepare the data to send to the API
+        const updatedData = {
+            username: formData.email, // Assuming email is the username
+            fullname: formData.fullName,
+            birthday: formData.dateOfBirth,
+            gender: formData.gender,
+            phone: formData.phone,
+        };
+
+        // Submit updated data via POST request
+        fetch('http://localhost:8081/user-information', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updatedData),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log('Updated Profile:', data);
+                alert('Profile updated successfully!');
+            })
+            .catch((error) => {
+                console.error('Error updating profile:', error);
+                alert('Failed to update profile!');
+            });
     };
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <div className={cx('edit-profile-container')}>
@@ -59,6 +119,7 @@ const EditProfile = () => {
                         value={formData.email}
                         onChange={handleChange}
                         required
+                        disabled
                     />
                 </div>
 

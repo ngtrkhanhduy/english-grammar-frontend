@@ -191,22 +191,6 @@ function Auth({ toggle }) {
 
                         <h2 className={cx('title')}>{isLogin ? 'Login' : 'Register'}</h2>
                         <form onSubmit={handleSubmit} className={cx('form')}>
-                            {!isLogin && (
-                                <div className={cx('form-group')}>
-                                    <label htmlFor="name" className={cx('label')}>
-                                        Your Name:
-                                    </label>
-                                    <input
-                                        id="name"
-                                        type="text"
-                                        value={name}
-                                        onChange={(e) => setName(e.target.value)}
-                                        className={cx('input')}
-                                        placeholder="Enter your name"
-                                    />
-                                </div>
-                            )}
-
                             <div className={cx('form-group')}>
                                 <label htmlFor="username" className={cx('label')}>
                                     Email:
