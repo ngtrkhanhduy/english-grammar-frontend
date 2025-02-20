@@ -8,6 +8,7 @@ $active-tab-color: var(--primary);
 $inactive-tab-color: #999;
 $tab-bg-color: #f5f5f5;
 $tab-border-radius: 8px 8px 0 0;
+
 .edit-profile-container {
     max-width: 400px;
     margin: 0 auto;
@@ -47,5 +48,48 @@ $tab-border-radius: 8px 8px 0 0;
         &:hover {
             color: $primary-hover;
         }
+    }
+
+    /* Popup Styling */
+    .popup {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: $popup-bg-color;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+
+    .popup-content {
+        background-color: $white-color;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        width: 300px;
+    }
+
+    .popup button {
+        margin: 10px;
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+
+    .confirm-button {
+        background-color: green;
+        color: $white-color;
+    }
+
+    .cancel-button {
+        background-color: red;
+        color: $white-color;
+    }
+
+    .success-button {
+        background-color: blue;
+        color: $white-color;
     }
 }

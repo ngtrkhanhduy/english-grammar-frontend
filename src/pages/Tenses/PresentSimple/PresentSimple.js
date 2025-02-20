@@ -14,11 +14,11 @@ const SimplePresent = () => {
             <p>
                 <strong>Động từ to be:</strong>
                 <div className={cx('content-tenses')}>
-                    <p>S + am/is/are + N/Adj</p>
+                    <p>S + AM/IS/ARE + N/ADJ</p>
                 </div>
             </p>
             <p>
-                <p>Ví dụ:</p>
+                <strong>Ví dụ:</strong>
             </p>
             <ul>
                 <li>She is beautiful. (Cô ấy rất đẹp.)</li>
@@ -26,7 +26,10 @@ const SimplePresent = () => {
             </ul>
 
             <p>
-                <strong>Động từ thường: S + V(s,es) + O</strong>
+                <strong>Động từ thường:</strong>
+                <div className={cx('content-tenses')}>
+                    <p>S + V(s,es) + O</p>
+                </div>
             </p>
             <p>
                 <strong>Ví dụ:</strong>
@@ -38,7 +41,10 @@ const SimplePresent = () => {
 
             <h3>2. Câu Phủ Định:</h3>
             <p>
-                <strong>Động từ to be: S + am/is/are + not + N/Adj</strong>
+                <strong>Động từ to be:</strong>
+                <div className={cx('content-tenses')}>
+                    <p>S + AM/IS/ARE + NOT + N/ADJ</p>
+                </div>
             </p>
             <p>
                 <strong>Ví dụ:</strong>
@@ -49,7 +55,10 @@ const SimplePresent = () => {
             </ul>
 
             <p>
-                <strong>Động từ thường: S + do/does + not + V (nguyên thể) + O</strong>
+                <strong>Động từ thường:</strong>
+                <div className={cx('content-tenses')}>
+                    <p>S + DO/DOES + NOT + V (nguyên thể) + O</p>
+                </div>
             </p>
             <p>
                 <strong>Ví dụ:</strong>
@@ -61,7 +70,10 @@ const SimplePresent = () => {
 
             <h3>3. Câu Nghi Vấn:</h3>
             <p>
-                <strong>Động từ to be: Am/is/are (not) + S + N/Adj?</strong>
+                <strong>Động từ to be:</strong>
+                <div className={cx('content-tenses')}>
+                    <p>AM/IS/ARE (NOT) + S + N/ADJ?</p>
+                </div>
             </p>
             <p>
                 <strong>Ví dụ:</strong>
@@ -71,7 +83,10 @@ const SimplePresent = () => {
             </ul>
 
             <p>
-                <strong>Động từ thường: Do/does + S + V(nguyên thể) + O?</strong>
+                <strong>Động từ thường:</strong>
+                <div className={cx('content-tenses')}>
+                    <p>DO/DOES + S + V + O?</p>
+                </div>
             </p>
             <p>
                 <strong>Ví dụ:</strong>
@@ -79,6 +94,7 @@ const SimplePresent = () => {
             <ul>
                 <li>Do you like to watch movies? (Bạn có thích xem phim không?)</li>
             </ul>
+
             <PresentSimpleExercise />
         </div>
     );

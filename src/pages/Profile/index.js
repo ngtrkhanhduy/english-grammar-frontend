@@ -16,14 +16,26 @@ const EditProfile = () => {
     });
 
     const [loading, setLoading] = useState(true); // To show loading state
+    const [showConfirmPopup, setShowConfirmPopup] = useState(false); // To handle confirmation popup
+    const [showSuccessPopup, setShowSuccessPopup] = useState(false); // To handle success popup
 
     useEffect(() => {
         // Initialize currentUser from Cookies
         const username = Cookies.get('username');
         if (username) {
-            // Fetch user info using the username from cookie
-            fetch(`http://localhost:8081/user-information/${username}`)
-                .then((response) => response.json())
+            // Perform the GET request similar to the curl command
+            fetch(`http://localhost:8081/user-information/${username}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error('Error fetching user information');
+                    }
+                    return response.json();
+                })
                 .then((data) => {
                     // Pre-fill form data with fetched data
                     setFormData({
@@ -62,6 +74,11 @@ const EditProfile = () => {
             return;
         }
 
+        // Show the confirmation popup before submitting
+        setShowConfirmPopup(true);
+    };
+
+    const confirmUpdate = () => {
         // Prepare the data to send to the API
         const updatedData = {
             username: formData.email, // Assuming email is the username
@@ -82,12 +99,18 @@ const EditProfile = () => {
             .then((response) => response.json())
             .then((data) => {
                 console.log('Updated Profile:', data);
-                alert('Profile updated successfully!');
+                setShowConfirmPopup(false); // Close the confirmation popup
+                setShowSuccessPopup(true); // Show the success popup
             })
             .catch((error) => {
                 console.error('Error updating profile:', error);
+                setShowConfirmPopup(false); // Close the confirmation popup
                 alert('Failed to update profile!');
             });
+    };
+
+    const closeSuccessPopup = () => {
+        setShowSuccessPopup(false);
     };
 
     if (loading) {
@@ -153,6 +176,35 @@ const EditProfile = () => {
                     Save
                 </Button>
             </form>
+
+            {/* Confirmation Popup */}
+            {showConfirmPopup && (
+                <div className={cx('popup')}>
+                    <div className={cx('popup-content')}>
+                        <h3>Confirm Update</h3>
+                        <p>Are you sure you want to update your profile?</p>
+                        <Button onClick={confirmUpdate} className={cx('confirm-button')}>
+                            Yes
+                        </Button>
+                        <Button onClick={() => setShowConfirmPopup(false)} className={cx('cancel-button')}>
+                            No
+                        </Button>
+                    </div>
+                </div>
+            )}
+
+            {/* Success Popup */}
+            {showSuccessPopup && (
+                <div className={cx('popup')}>
+                    <div className={cx('popup-content')}>
+                        <h3>Success!</h3>
+                        <p>Your profile has been updated successfully.</p>
+                        <Button onClick={closeSuccessPopup} className={cx('success-button')}>
+                            OK
+                        </Button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
