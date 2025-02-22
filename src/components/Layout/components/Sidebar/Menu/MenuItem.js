@@ -26,7 +26,7 @@ function MenuItem({ title, to, items, isCompleted }) {
                 <NavLink className={cx('link')} to={to}>
                     <span className={cx('title')}>{title}</span>
                 </NavLink>
-                <span className={cx('status-icon')}>{isCompleted ? '🟢' : '⭕'}</span>
+                <span className={cx('status-icon')}>{isCompleted ? '✔️' : '⭕'}</span>
                 {items.length > 0 && <span className={cx('arrow', { open: isOpen })}>▼</span>}
             </div>
             {items.length > 0 && isOpen && (

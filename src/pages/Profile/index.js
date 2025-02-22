@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 import styles from './Profile.module.scss';
 import Button from '~/components/Button';
-import Cookies from 'js-cookie'; // Assuming you have js-cookie for cookie handling
+import Cookies from 'js-cookie';
+import { get, post } from '~/utils/httpRequest';
 
 const cx = classNames.bind(styles);
 
@@ -15,32 +16,19 @@ const EditProfile = () => {
         gender: '',
     });
 
-    const [loading, setLoading] = useState(true); // To show loading state
-    const [showConfirmPopup, setShowConfirmPopup] = useState(false); // To handle confirmation popup
-    const [showSuccessPopup, setShowSuccessPopup] = useState(false); // To handle success popup
+    const [loading, setLoading] = useState(true);
+    const [showConfirmPopup, setShowConfirmPopup] = useState(false);
+    const [showSuccessPopup, setShowSuccessPopup] = useState(false);
 
     useEffect(() => {
-        // Initialize currentUser from Cookies
         const username = Cookies.get('username');
         if (username) {
-            // Perform the GET request similar to the curl command
-            fetch(`http://localhost:8081/user-information/${username}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-                .then((response) => {
-                    if (!response.ok) {
-                        throw new Error('Error fetching user information');
-                    }
-                    return response.json();
-                })
+            // Sử dụng phương thức get từ api.js để gọi API
+            get(`/user-information/${username}`)
                 .then((data) => {
-                    // Pre-fill form data with fetched data
                     setFormData({
                         fullName: data.fullname || '',
-                        email: username, // Assuming the email is the username in this case
+                        email: username,
                         phone: data.phone || '',
                         dateOfBirth: data.birthday || '',
                         gender: data.gender || '',
@@ -52,7 +40,6 @@ const EditProfile = () => {
                     setLoading(false);
                 });
         } else {
-            // Handle case when username is not found in cookies
             setLoading(false);
             alert('User not logged in');
         }
@@ -68,43 +55,32 @@ const EditProfile = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Validate required fields
         if (!formData.fullName || !formData.email) {
             alert('Full Name and Email are required!');
             return;
         }
-
-        // Show the confirmation popup before submitting
         setShowConfirmPopup(true);
     };
 
     const confirmUpdate = () => {
-        // Prepare the data to send to the API
         const updatedData = {
-            username: formData.email, // Assuming email is the username
+            username: formData.email,
             fullname: formData.fullName,
             birthday: formData.dateOfBirth,
             gender: formData.gender,
             phone: formData.phone,
         };
 
-        // Submit updated data via POST request
-        fetch('http://localhost:8081/user-information', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(updatedData),
-        })
-            .then((response) => response.json())
+        // Sử dụng phương thức post từ api.js để gọi API
+        post('/user-information', updatedData)
             .then((data) => {
                 console.log('Updated Profile:', data);
-                setShowConfirmPopup(false); // Close the confirmation popup
-                setShowSuccessPopup(true); // Show the success popup
+                setShowConfirmPopup(false);
+                setShowSuccessPopup(true);
             })
             .catch((error) => {
                 console.error('Error updating profile:', error);
-                setShowConfirmPopup(false); // Close the confirmation popup
+                setShowConfirmPopup(false);
                 alert('Failed to update profile!');
             });
     };
