@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames/bind';
 import styles from './Footer.module.scss';
+import images from '~/assets/images';
 
 const cx = classNames.bind(styles);
 
@@ -12,18 +13,17 @@ const Footer = () => {
             <div className={cx('footer-content')}>
                 <div className={cx('footer-column')}>
                     <div className={cx('logo-section')}>
-                        <img src="/path-to-logo.png" alt="Company Logo" className={cx('logo')} />
-                        <h4>Company Name</h4>
-                        <p>&copy; {currentYear} Company Name. All rights reserved.</p>
+                        <img src={images.english_grammar_logo} alt="Company Logo" className={cx('logo')} />
+                        <p>&copy; {currentYear} EngLish Grammar. All rights reserved.</p>
                     </div>
                 </div>
 
                 <div className={cx('footer-column')}>
                     <div className={cx('contact-section')}>
                         <h4>Contact Information</h4>
-                        <p>Address: 123 Main Street, City, Country</p>
-                        <p>Email: contact@company.com</p>
-                        <p>Phone: +123 456 7890</p>
+                        <p>Address: 123 Main Street, HoChiMinh City, Vietnam</p>
+                        <p>Email: ngtrkhanhduy1308@email.com</p>
+                        <p>Phone: +84 373 476 687</p>
                     </div>
                 </div>
 

@@ -12,4 +12,8 @@
 
 .content {
     flex: 1;
+    margin-left: 5%;
+    min-height: 75vh;
+    display: flex;
+    flex-direction: column;
 }
