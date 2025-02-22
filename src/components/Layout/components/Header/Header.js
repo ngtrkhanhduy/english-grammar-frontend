@@ -113,13 +113,6 @@ function Header() {
                                 </a>
                             </button>
 
-                            <Menu items={MENU_TAB_NGUPHAP.menu} className={cx('more-btn')}>
-                                <button className={cx('more-btn')}>
-                                    <a className={cx('menu-tab')} href={MENU_TAB_NGUPHAP.url}>
-                                        {MENU_TAB_NGUPHAP.title}
-                                    </a>
-                                </button>
-                            </Menu>
                             <Menu items={MENU_TAB_TAILIEU.menu} className={cx('more-btn')}>
                                 <button className={cx('more-btn')}>
                                     <a className={cx('menu-tab')} href={MENU_TAB_TAILIEU.url}>

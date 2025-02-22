@@ -6,9 +6,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px;
-    font-size: 1.8rem;
-    font-weight: 700;
+    padding: 6px;
+    font-size: 1.4rem;
+    font-weight: 600;
     border-radius: 4px;
     color: var(--text-color);
     transition: background-color ease-in-out 200ms;
@@ -18,7 +18,7 @@
     }
 
     .title {
-        margin-left: 10px;
+        margin-left: 8px;
     }
 
     .icon,
@@ -32,7 +32,7 @@
 }
 
 .arrow {
-    font-size: 1.2rem;
+    font-size: 1rem;
     margin-left: auto;
     transform: rotate(0deg);
     transition: transform 0.2s;
@@ -43,15 +43,15 @@
 }
 
 .submenu {
-    margin-top: 0.5rem;
-    padding-left: 1.5rem;
+    margin-top: 0.3rem;
+    padding-left: 1.2rem;
     border-left: 2px solid #ddd;
 
     .submenu-item {
         display: flex;
         align-items: center;
-        padding: 8px;
-        font-size: 1.6rem;
+        padding: 6px;
+        font-size: 1.2rem;
         font-weight: 500;
         border-radius: 4px;
         color: var(--text-color-secondary);

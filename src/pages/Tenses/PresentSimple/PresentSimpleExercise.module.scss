@@ -1,0 +1,140 @@
+h1 {
+    color: var(--primary);
+    font-size: 40px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.exercise-container {
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    width: 60%;
+    min-height: 50vh;
+}
+
+.rule {
+    text-align: center;
+    margin: 10px;
+}
+
+.tabs {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+
+    .tab {
+        padding: 10px 15px;
+        font-size: 16px;
+        cursor: pointer;
+        background: #e0e0e0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        transition: background 0.3s ease;
+
+        &.active {
+            background: #007bff;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        &:hover {
+            background: #0056b3;
+            color: #fff;
+        }
+    }
+}
+
+.content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    min-height: 30vh;
+
+    h3 {
+        color: #333;
+        font-size: 30px;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+
+    p {
+        font-size: 16px;
+        color: #444;
+    }
+}
+
+.question {
+    margin: 15px 0;
+
+    p {
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    select,
+    input {
+        padding: 8px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        margin-top: 5px;
+        width: 100%;
+    }
+}
+
+.correct {
+    color: green !important;
+    font-weight: bold;
+}
+
+.incorrect {
+    color: red !important;
+    font-weight: bold;
+}
+
+.nav-space {
+    margin-top: 20px;
+    margin-right: 20px;
+    border: 1px solid #ccc;
+}
+
+button {
+    padding: 10px 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    width: 150px;
+
+    &.check-button {
+        background-color: #28a745;
+        color: white;
+    }
+
+    &.check-button:hover {
+        background-color: #218838;
+    }
+
+    &.navigation {
+        background-color: #007bff;
+        color: rgb(53, 48, 48);
+        margin: 10px;
+        border: 2px solid #0056b3;
+        margin-top: 20px;
+
+        &:disabled {
+            background-color: #221d1d;
+            cursor: not-allowed;
+        }
+
+        &:hover:not(:disabled) {
+            background-color: #0056b3;
+        }
+    }
+}

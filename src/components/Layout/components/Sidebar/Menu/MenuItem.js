@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 import PropTypes from 'prop-types';
 import { NavLink, useLocation } from 'react-router-dom';
@@ -6,45 +6,41 @@ import styles from './Menu.module.scss';
 
 const cx = classNames.bind(styles);
 
-function MenuItem({ title, to, subItems }) {
+function MenuItem({ title, to, items, isCompleted }) {
+    const location = useLocation();
     const [isOpen, setIsOpen] = useState(false);
-    const location = useLocation(); // Hook to get the current URL
-    const [activeSubItem, setActiveSubItem] = useState(null);
 
-    // Toggle submenu open/close
-    const toggleSubMenu = () => {
-        setIsOpen(!isOpen);
-    };
-
-    // Handle subitem click
-    const handleSubItemClick = (subItem) => {
-        setActiveSubItem(subItem.title);
-    };
+    // Auto open menu if an item is active
+    useEffect(() => {
+        if (items?.some((item) => location.pathname === item.to)) {
+            setIsOpen(true);
+        }
+    }, [location.pathname, items]);
 
     return (
         <div className={cx('menu-item-container')}>
-            <div className={cx('menu-item', { active: activeSubItem })} onClick={subItems ? toggleSubMenu : undefined}>
-                <NavLink className={(nav) => cx('link')} to={to}>
+            <div
+                className={cx('menu-item', { active: location.pathname === to })}
+                onClick={items.length ? () => setIsOpen(!isOpen) : undefined}
+            >
+                <NavLink className={cx('link')} to={to}>
                     <span className={cx('title')}>{title}</span>
                 </NavLink>
-
-                {subItems && <span className={cx('arrow', { open: isOpen })}>▼</span>}
+                <span className={cx('status-icon')}>{isCompleted ? '🟢' : '⭕'}</span>
+                {items.length > 0 && <span className={cx('arrow', { open: isOpen })}>▼</span>}
             </div>
-            {subItems && isOpen && (
+            {items.length > 0 && isOpen && (
                 <div className={cx('submenu')}>
-                    {subItems.map((subItem, index) => (
-                        <div
+                    {items.map((item, index) => (
+                        <NavLink
                             key={index}
                             className={cx('submenu-item', {
-                                active: location.pathname === subItem.to,
+                                active: location.pathname === item.to,
                             })}
-                            onClick={() => handleSubItemClick(subItem)}
+                            to={item.to}
                         >
-                            <span className={cx('status-icon')}>{subItem.completed ? '🟢' : '⭕'}</span>
-                            <NavLink className={cx('submenu-item-link')} to={subItem.to}>
-                                {subItem.title}
-                            </NavLink>
-                        </div>
+                            {item.title}
+                        </NavLink>
                     ))}
                 </div>
             )}
@@ -55,17 +51,18 @@ function MenuItem({ title, to, subItems }) {
 MenuItem.propTypes = {
     title: PropTypes.string.isRequired,
     to: PropTypes.string.isRequired,
-    subItems: PropTypes.arrayOf(
+    items: PropTypes.arrayOf(
         PropTypes.shape({
             title: PropTypes.string.isRequired,
             to: PropTypes.string.isRequired,
-            completed: PropTypes.bool,
         }),
     ),
+    isCompleted: PropTypes.bool,
 };
 
 MenuItem.defaultProps = {
-    subItems: [],
+    items: [],
+    isCompleted: false,
 };
 
 export default MenuItem;

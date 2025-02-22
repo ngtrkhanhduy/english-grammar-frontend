@@ -77,29 +77,7 @@ export const MENU_TAB_KIEMTRA = {
 
 export const MENU_TAB_NGUPHAP = {
     title: 'NGỮ PHÁP',
-    menu: [
-        {
-            title: '12 Thì cơ bản',
-            to: '/tenses',
-        },
-        {
-            title: 'Từ loại',
-            to: '/paths-of-speech',
-        },
-        {
-            title: 'Các dạng câu hỏi',
-            to: '/questions',
-        },
-        {
-            title: 'Cấu trúc câu',
-            to: '/sentence-structure',
-        },
-
-        {
-            title: 'Cấu trúc ngữ pháp',
-            to: '/grammatical-structure',
-        },
-    ],
+    url: '/grammatical-structure',
 };
 
 export const MENU_TAB_TAILIEU = {

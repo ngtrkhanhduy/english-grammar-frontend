@@ -14,7 +14,7 @@ function Sidebar({ children }) {
                             key={index}
                             title={item.title}
                             to={item.to}
-                            subItems={item.subItems} // Ensure correct prop name
+                            isCompleted={item.completed} // Ensure correct prop name
                         />
                     ))}
             </Menu>
