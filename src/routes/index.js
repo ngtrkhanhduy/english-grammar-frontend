@@ -36,6 +36,8 @@ const privateRoutes = {
         { path: '/road-map', component: RoadMap },
         { path: '/logout', component: Logout },
         { path: '/exercises', component: Exercises },
+        { path: '/download-document', component: Document },
+        { path: '/download-videos', component: Videos },
 
         { path: '/toiec-exercises-001', component: ToeicExercises_001 },
         { path: '/toiec-exercises-001/practice', component: Practice_ToeicExercises_001 },
@@ -58,8 +60,6 @@ const privateRoutes = {
         { path: '/paths-of-speech', component: PathsOfSpeech },
         { path: '/questions', component: Questions },
         { path: '/sentence-structure', component: SentenceStructure },
-    ],
-    document: [
         { path: '/download-document', component: Document },
         { path: '/download-videos', component: Videos },
     ],

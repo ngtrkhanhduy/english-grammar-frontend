@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { privateRoutes, publicRoutes } from '~/routes';
 import DefaultLayout from '~/components/Layout/DefaultLayout';
 import { HeaderOnlyLayout } from './components/Layout';
-import config from '~/config';
 
 function App() {
     return (
@@ -35,24 +34,7 @@ function App() {
                                 key={index}
                                 path={route.path}
                                 element={
-                                    <Layout MenuItemList={config.MenuItem_Learning}>
-                                        <Page />
-                                    </Layout>
-                                }
-                            />
-                        );
-                    })}
-
-                    {privateRoutes.document.map((route, index) => {
-                        const Page = route.component;
-                        let Layout = DefaultLayout;
-
-                        return (
-                            <Route
-                                key={index}
-                                path={route.path}
-                                element={
-                                    <Layout MenuItemList={config.MenuItem_Document}>
+                                    <Layout>
                                         <Page />
                                     </Layout>
                                 }
