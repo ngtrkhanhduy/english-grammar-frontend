@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './PresentSimpleExercise.module.scss';
+import { put } from '~/utils/httpRequest';
+import Cookies from 'js-cookie';
 
 const cx = classNames.bind(styles);
 
@@ -8,8 +10,9 @@ const PresentSimpleExercise = () => {
     const [answers, setAnswers] = useState({});
     const [results, setResults] = useState(null);
     const [tabIndex, setTabIndex] = useState(0);
+    const [showPopup, setShowPopup] = useState(false); // New state for showing the popup
 
-    const tabs = ['Khẳng định', 'Phủ định', 'Nghi vấn', 'Bài tập'];
+    const tabs = ['Tổng quan', 'Khẳng định', 'Phủ định', 'Nghi vấn', 'Bài tập'];
 
     const nextTab = () => setTabIndex((prev) => (prev < tabs.length - 1 ? prev + 1 : prev));
     const prevTab = () => setTabIndex((prev) => (prev > 0 ? prev - 1 : prev));
@@ -79,14 +82,37 @@ const PresentSimpleExercise = () => {
         setResults(null);
     };
 
-    const handleCheckAnswers = () => {
-        const evaluatedResults = questions.map((q) => answers[q.id] === q.correctAnswer);
+    const handleCheckAnswers = async () => {
+        const evaluatedResults = questions.map((q) => answers[q.id]?.toLowerCase() === q.correctAnswer.toLowerCase());
+        const username = Cookies.get('username');
+        const path = 'present-simple';
         setResults(evaluatedResults);
+
+        // Check if all answers are correct
+        if (evaluatedResults.every((result) => result === true)) {
+            // If all answers are correct, update the user's learning process using PUT request
+            try {
+                const response = await put(`/user-learning-process/${username}/${path}`, {
+                    completed: true,
+                });
+                console.log('User progress updated successfully:', response);
+
+                // Show the success popup
+                setShowPopup(true);
+            } catch (error) {
+                console.error('Error updating user progress:', error);
+            }
+        }
     };
 
     const handleResetAll = () => {
         setAnswers({});
         setResults(null);
+    };
+
+    const handleReloadPage = () => {
+        // Reload the current page after clicking "OK"
+        window.location.reload();
     };
 
     return (
@@ -106,7 +132,31 @@ const PresentSimpleExercise = () => {
                 </div>
 
                 <div className={cx('content')}>
-                    {tabIndex < 3 ? (
+                    {tabIndex === 0 ? (
+                        // "Tổng quan" tab content
+                        <div>
+                            <h3>Tổng quan về thì hiện tại đơn</h3>
+                            <p>
+                                Thì hiện tại đơn (Present Simple) dùng để diễn tả các hành động thường xuyên, thói quen,
+                                sự thật hiển nhiên hoặc sự việc diễn ra ở hiện tại. Đây là một trong những thì cơ bản
+                                nhất trong tiếng Anh.
+                            </p>
+                            <p>
+                                <strong>Công thức:</strong>
+                            </p>
+                            <p>S + V(s/es) + O (Khẳng định)</p>
+                            <p>S + DO/DOES + NOT + V (bare) + O (Phủ định)</p>
+                            <p>DO/DOES + S + V (bare) + O? (Câu hỏi)</p>
+                            <p>
+                                Ví dụ:
+                                <br />
+                                - I work every day. (Tôi làm việc mỗi ngày.)
+                                <br />
+                                - She doesn't like coffee. (Cô ấy không thích cà phê.)
+                                <br />- Does he study at the library? (Anh ấy có học ở thư viện không?)
+                            </p>
+                        </div>
+                    ) : tabIndex < 4 ? (
                         <div>
                             <h3>{tabs[tabIndex]}</h3>
                             {exercises[tabs[tabIndex]].map((item, i) => (
@@ -182,6 +232,16 @@ const PresentSimpleExercise = () => {
                     </button>
                 </div>
             </div>
+
+            {/* Popup for success */}
+            {showPopup && (
+                <div className={cx('popup-overlay')}>
+                    <div className={cx('popup-content')}>
+                        <h2>Chúc mừng! Bạn đã hoàn thành bài tập!</h2>
+                        <button onClick={handleReloadPage}>OK</button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
