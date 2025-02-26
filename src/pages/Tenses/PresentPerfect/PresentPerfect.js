@@ -1,89 +1,258 @@
-import React from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames/bind';
+import styles from '../Tenses.module.scss';
+import { put } from '~/utils/httpRequest';
+import Cookies from 'js-cookie';
 
-const cx = classNames.bind({});
+const cx = classNames.bind(styles);
 
-// Present Perfect Tense Component
 const PresentPerfect = () => {
+    const [answers, setAnswers] = useState({});
+    const [results, setResults] = useState(null);
+    const [tabIndex, setTabIndex] = useState(0);
+    const [showPopup, setShowPopup] = useState(false);
+
+    const tabs = ['Tổng quan', 'Khẳng định', 'Phủ định', 'Nghi vấn', 'Bài tập'];
+
+    const nextTab = () => setTabIndex((prev) => (prev < tabs.length - 1 ? prev + 1 : prev));
+    const prevTab = () => setTabIndex((prev) => (prev > 0 ? prev - 1 : prev));
+
+    const exercises = {
+        'Khẳng định': [
+            {
+                rule: 'S + HAVE/HAS + PAST PARTICIPLE (V3)',
+                examples: [
+                    'She has visited Paris.',
+                    'They have finished their homework.',
+                    'I have lived in Hanoi for 10 years.',
+                ],
+            },
+        ],
+        'Phủ định': [
+            {
+                rule: 'S + HAVE/HAS + NOT + PAST PARTICIPLE (V3)',
+                examples: [
+                    'He has not seen that movie.',
+                    'We have not started the meeting.',
+                    'I have not read that book.',
+                ],
+            },
+        ],
+        'Nghi vấn': [
+            {
+                rule: 'HAVE/HAS + S + PAST PARTICIPLE (V3)?',
+                examples: ['Has she visited Paris?', 'Have they finished their homework?'],
+            },
+        ],
+    };
+
+    const questions = [
+        {
+            id: 1,
+            type: 'single',
+            question: 'I _____ (finish) my homework already.',
+            options: ['have finished', 'has finished'],
+            correctAnswer: 'have finished',
+        },
+        {
+            id: 2,
+            type: 'single',
+            question: 'She _____ (not see) that movie yet.',
+            options: ["haven't seen", "hasn't seen"],
+            correctAnswer: "hasn't seen",
+        },
+        {
+            id: 3,
+            type: 'single',
+            question: '_____ you _____ (read) that book?',
+            options: ['Do / read', 'Have / read'],
+            correctAnswer: 'Have / read',
+        },
+        {
+            id: 4,
+            type: 'fill',
+            question: 'They _____ (live) in this city for 5 years.',
+            correctAnswer: 'have lived',
+        },
+        {
+            id: 5,
+            type: 'fill',
+            question: 'I _____ (not be) to that restaurant before.',
+            correctAnswer: "haven't been",
+        },
+        {
+            id: 6,
+            type: 'fill',
+            question: '_____ she _____ (work) here for 3 years?',
+            correctAnswer: 'Has she worked',
+        },
+    ];
+
+    const handleInputChange = (questionId, value) => {
+        setAnswers({ ...answers, [questionId]: value });
+        setResults(null);
+    };
+
+    const handleCheckAnswers = async () => {
+        const evaluatedResults = questions.map((q) => answers[q.id]?.toLowerCase() === q.correctAnswer.toLowerCase());
+        const username = Cookies.get('username');
+        const path = 'present-perfect';
+        setResults(evaluatedResults);
+
+        // Check if all answers are correct
+        if (evaluatedResults.every((result) => result === true)) {
+            // If all answers are correct, update the user's learning process using PUT request
+            try {
+                const response = await put(`/user-learning-process/${username}/${path}`, {
+                    completed: true,
+                });
+                console.log('User progress updated successfully:', response);
+
+                // Show the success popup
+                setShowPopup(true);
+            } catch (error) {
+                console.error('Error updating user progress:', error);
+            }
+        }
+    };
+
+    const handleResetAll = () => {
+        setAnswers({});
+        setResults(null);
+    };
+
+    const handleReloadPage = () => {
+        // Reload the current page after clicking "OK"
+        window.location.reload();
+    };
+
     return (
-        <div className={cx('english-grammar')}>
-            <h1>Thì Hiện Tại Hoàn Thành (Present Perfect)</h1>
-            <p>
-                Thì hiện tại hoàn thành (Present Perfect) được sử dụng để diễn tả hành động đã xảy ra trong quá khứ,
-                nhưng có mối liên hệ với hiện tại, hoặc một hành động bắt đầu trong quá khứ và kéo dài đến hiện tại.
-            </p>
+        <div>
+            <h1>Hiện tại hoàn thành</h1>
+            <div className={cx('exercise-container')}>
+                <div className={cx('tabs')}>
+                    {tabs.map((tab, index) => (
+                        <button
+                            key={index}
+                            className={cx('tab', { active: tabIndex === index })}
+                            onClick={() => setTabIndex(index)}
+                        >
+                            {tab}
+                        </button>
+                    ))}
+                </div>
 
-            <h3>Ví Dụ:</h3>
-            <ul>
-                <li>I have lived here for five years. (Tôi đã sống ở đây 5 năm.)</li>
-                <li>She has finished her homework. (Cô ấy đã hoàn thành bài tập về nhà.)</li>
-                <li>They have visited France several times. (Họ đã đến Pháp vài lần.)</li>
-            </ul>
+                <div className={cx('content')}>
+                    {tabIndex === 0 ? (
+                        // "Tổng quan" tab content
+                        <div>
+                            <h3>Tổng quan về thì hiện tại hoàn thành</h3>
+                            <p>
+                                Thì hiện tại hoàn thành (Present Perfect) được sử dụng để diễn tả hành động đã xảy ra
+                                nhưng có kết quả ảnh hưởng đến hiện tại, hoặc hành động xảy ra trong quá khứ nhưng không
+                                xác định thời gian cụ thể.
+                            </p>
+                            <p>
+                                <strong>Công thức:</strong>
+                            </p>
+                            <p>S + HAVE/HAS + PAST PARTICIPLE (V3) (Khẳng định)</p>
+                            <p>S + HAVE/HAS + NOT + PAST PARTICIPLE (V3) (Phủ định)</p>
+                            <p>HAVE/HAS + S + PAST PARTICIPLE (V3)? (Câu hỏi)</p>
+                            <p>
+                                Ví dụ:
+                                <br />
+                                - I have lived in this city for 5 years. (Tôi đã sống ở thành phố này 5 năm.)
+                                <br />
+                                - She hasn't seen that movie. (Cô ấy chưa xem bộ phim đó.)
+                                <br />- Have they finished their homework? (Họ đã hoàn thành bài tập chưa?)
+                            </p>
+                        </div>
+                    ) : tabIndex < 4 ? (
+                        <div>
+                            <h3>{tabs[tabIndex]}</h3>
+                            {exercises[tabs[tabIndex]].map((item, i) => (
+                                <div key={i} className={cx('rule-container')}>
+                                    <p>
+                                        <strong>Công thức:</strong>
+                                    </p>
+                                    <p className={cx('rule')}>
+                                        <strong>{item.rule}</strong>
+                                    </p>
+                                    <p>
+                                        <strong>Ví dụ:</strong>
+                                    </p>
+                                    {item.examples.map((ex, idx) => (
+                                        <p key={idx}>{ex}</p>
+                                    ))}
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div>
+                            {questions.map((q, index) => (
+                                <div key={q.id} className={cx('question')}>
+                                    <p>{q.question}</p>
+                                    {q.type === 'single' ? (
+                                        <select
+                                            onChange={(e) => handleInputChange(q.id, e.target.value)}
+                                            value={answers[q.id] || ''}
+                                            disabled={results !== null}
+                                        >
+                                            <option value="">--Chọn đáp án--</option>
+                                            {q.options.map((option) => (
+                                                <option key={option} value={option}>
+                                                    {option}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    ) : (
+                                        <input
+                                            type="text"
+                                            value={answers[q.id] || ''}
+                                            onChange={(e) => handleInputChange(q.id, e.target.value)}
+                                            disabled={results !== null}
+                                        />
+                                    )}
+                                    {results && (
+                                        <p className={cx(results[index] ? 'correct' : 'incorrect')}>
+                                            {results[index] ? 'Correct!' : `Incorrect! Đáp án đúng: ${q.correctAnswer}`}
+                                        </p>
+                                    )}
+                                </div>
+                            ))}
+                            <button
+                                className={cx('check-button')}
+                                onClick={handleCheckAnswers}
+                                disabled={results !== null}
+                            >
+                                Check Answers
+                            </button>
+                            <button className={cx('reset-button')} onClick={handleResetAll}>
+                                Làm lại tất cả
+                            </button>
+                        </div>
+                    )}
+                </div>
 
-            <h2>Công thức thì hiện tại hoàn thành</h2>
+                <div className={cx('navigation')}>
+                    <button className={cx('nav-space')} onClick={prevTab} disabled={tabIndex === 0}>
+                        Previous
+                    </button>
+                    <button className={cx('nav-space')} onClick={nextTab} disabled={tabIndex === tabs.length - 1}>
+                        Next
+                    </button>
+                </div>
+            </div>
 
-            <h3>1. Câu Khẳng Định:</h3>
-            <p>
-                <strong>S + have/has + V(3) + O</strong>
-            </p>
-            <p>
-                <strong>Ví dụ:</strong>
-            </p>
-            <ul>
-                <li>I have read that book. (Tôi đã đọc cuốn sách đó.)</li>
-                <li>She has completed the project. (Cô ấy đã hoàn thành dự án.)</li>
-            </ul>
-
-            <h3>2. Câu Phủ Định:</h3>
-            <p>
-                <strong>S + have/has + not + V(3) + O</strong>
-            </p>
-            <p>
-                <strong>Ví dụ:</strong>
-            </p>
-            <ul>
-                <li>They have not seen the movie. (Họ chưa xem bộ phim.)</li>
-                <li>He hasn't finished his work yet. (Anh ấy chưa hoàn thành công việc của mình.)</li>
-            </ul>
-
-            <h3>3. Câu Nghi Vấn:</h3>
-            <p>
-                <strong>Have/has + S + V(3) + O?</strong>
-            </p>
-            <p>
-                <strong>Ví dụ:</strong>
-            </p>
-            <ul>
-                <li>Have you eaten breakfast? (Bạn đã ăn sáng chưa?)</li>
-                <li>Has she visited this museum? (Cô ấy đã thăm bảo tàng này chưa?)</li>
-            </ul>
-
-            <h2>Cách Dùng Thì Hiện Tại Hoàn Thành:</h2>
-            <ul>
-                <li>
-                    Diễn tả hành động đã xảy ra trong quá khứ, nhưng không xác định thời gian cụ thể và có mối liên hệ
-                    với hiện tại.
-                </li>
-                <li>Diễn tả hành động đã hoàn thành và kết quả của nó vẫn có ảnh hưởng đến hiện tại.</li>
-                <li>Diễn tả hành động bắt đầu từ quá khứ và vẫn tiếp tục đến hiện tại.</li>
-            </ul>
-
-            <h2>Dấu Hiệu Nhận Biết Thì Hiện Tại Hoàn Thành:</h2>
-            <ul>
-                <li>
-                    Already (đã), yet (chưa), just (vừa mới), ever (bao giờ), never (không bao giờ), since (kể từ), for
-                    (trong khoảng thời gian).
-                </li>
-            </ul>
-
-            <h2>Quy Tắc Chia Động Từ:</h2>
-            <ul>
-                <li>
-                    Động từ chính chia ở dạng quá khứ phân từ (V(3)) (ví dụ: go -&gt; gone, do -&gt; done, see -&gt;
-                    seen).
-                </li>
-                <li>Đối với chủ ngữ ngôi thứ 3 số ít, sử dụng "has", còn lại dùng "have".</li>
-            </ul>
+            {/* Popup for success */}
+            {showPopup && (
+                <div className={cx('popup-overlay')}>
+                    <div className={cx('popup-content')}>
+                        <h2>Chúc mừng! Bạn đã hoàn thành bài tập!</h2>
+                        <button onClick={handleReloadPage}>OK</button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

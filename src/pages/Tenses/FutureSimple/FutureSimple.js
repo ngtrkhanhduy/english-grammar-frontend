@@ -1,84 +1,252 @@
-import React from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames/bind';
+import styles from '../Tenses.module.scss';
+import { put } from '~/utils/httpRequest';
+import Cookies from 'js-cookie';
 
-const cx = classNames.bind({});
+const cx = classNames.bind(styles);
 
-// Future Simple Tense Component
 const FutureSimple = () => {
+    const [answers, setAnswers] = useState({});
+    const [results, setResults] = useState(null);
+    const [tabIndex, setTabIndex] = useState(0);
+    const [showPopup, setShowPopup] = useState(false);
+
+    const tabs = ['Tổng quan', 'Khẳng định', 'Phủ định', 'Nghi vấn', 'Bài tập'];
+
+    const nextTab = () => setTabIndex((prev) => (prev < tabs.length - 1 ? prev + 1 : prev));
+    const prevTab = () => setTabIndex((prev) => (prev > 0 ? prev - 1 : prev));
+
+    const exercises = {
+        'Khẳng định': [
+            {
+                rule: 'S + WILL + V (base form) + O',
+                examples: ['I will call you later.', 'They will arrive at 5 PM.', 'We will go to the beach tomorrow.'],
+            },
+        ],
+        'Phủ định': [
+            {
+                rule: "S + WILL NOT (WON'T) + V (base form) + O",
+                examples: [
+                    "I will not (won't) eat pizza tonight.",
+                    "She will not (won't) come to the party.",
+                    "They will not (won't) study for the test.",
+                ],
+            },
+        ],
+        'Nghi vấn': [
+            {
+                rule: 'WILL + S + V (base form) + O?',
+                examples: ['Will you come to the party?', 'Will they play football tomorrow?'],
+            },
+        ],
+    };
+
+    const questions = [
+        {
+            id: 1,
+            type: 'single',
+            question: 'I _____ (call) you later.',
+            options: ['will call', 'call'],
+            correctAnswer: 'will call',
+        },
+        {
+            id: 2,
+            type: 'single',
+            question: 'They _____ (not arrive) until 8 PM.',
+            options: ['will not arrive', "won't arrive"],
+            correctAnswer: 'will not arrive',
+        },
+        {
+            id: 3,
+            type: 'single',
+            question: '_____ he _____ (help) us with the project?',
+            options: ['Will / help', 'Does / help'],
+            correctAnswer: 'Will / help',
+        },
+        {
+            id: 4,
+            type: 'fill',
+            question: 'She _____ (not come) to the meeting.',
+            correctAnswer: 'will not come',
+        },
+        {
+            id: 5,
+            type: 'fill',
+            question: 'We _____ (travel) to Japan next year.',
+            correctAnswer: 'will travel',
+        },
+        {
+            id: 6,
+            type: 'fill',
+            question: '_____ they _____ (join) us for dinner?',
+            correctAnswer: 'Will / join',
+        },
+    ];
+
+    const handleInputChange = (questionId, value) => {
+        setAnswers({ ...answers, [questionId]: value });
+        setResults(null);
+    };
+
+    const handleCheckAnswers = async () => {
+        const evaluatedResults = questions.map((q) => answers[q.id]?.toLowerCase() === q.correctAnswer.toLowerCase());
+        const username = Cookies.get('username');
+        const path = 'future-simple';
+        setResults(evaluatedResults);
+
+        // Check if all answers are correct
+        if (evaluatedResults.every((result) => result === true)) {
+            // If all answers are correct, update the user's learning process using PUT request
+            try {
+                const response = await put(`/user-learning-process/${username}/${path}`, {
+                    completed: true,
+                });
+                console.log('User progress updated successfully:', response);
+
+                // Show the success popup
+                setShowPopup(true);
+            } catch (error) {
+                console.error('Error updating user progress:', error);
+            }
+        }
+    };
+
+    const handleResetAll = () => {
+        setAnswers({});
+        setResults(null);
+    };
+
+    const handleReloadPage = () => {
+        // Reload the current page after clicking "OK"
+        window.location.reload();
+    };
+
     return (
-        <div className={cx('english-grammar')}>
-            <h1>Thì Tương Lai Đơn (Future Simple)</h1>
-            <p>
-                Thì tương lai đơn (Future Simple) dùng để diễn tả một hành động sẽ xảy ra trong tương lai hoặc một sự
-                thật hiển nhiên, một dự đoán về tương lai.
-            </p>
+        <div>
+            <h1>Tương lai đơn</h1>
+            <div className={cx('exercise-container')}>
+                <div className={cx('tabs')}>
+                    {tabs.map((tab, index) => (
+                        <button
+                            key={index}
+                            className={cx('tab', { active: tabIndex === index })}
+                            onClick={() => setTabIndex(index)}
+                        >
+                            {tab}
+                        </button>
+                    ))}
+                </div>
 
-            <h3>Ví Dụ:</h3>
-            <ul>
-                <li>She will travel to Paris next year. (Cô ấy sẽ đi Paris vào năm tới.)</li>
-                <li>I will call you when I arrive. (Tôi sẽ gọi bạn khi tôi đến.)</li>
-                <li>They will graduate in two years. (Họ sẽ tốt nghiệp trong hai năm nữa.)</li>
-            </ul>
+                <div className={cx('content')}>
+                    {tabIndex === 0 ? (
+                        // "Tổng quan" tab content
+                        <div>
+                            <h3>Tổng quan về thì tương lai đơn</h3>
+                            <p>
+                                Thì tương lai đơn (Future Simple) dùng để diễn tả hành động sẽ xảy ra trong tương lai.
+                            </p>
+                            <p>
+                                <strong>Công thức:</strong>
+                            </p>
+                            <p>S + WILL + V (base form) + O (Khẳng định)</p>
+                            <p>S + WILL NOT (WON'T) + V (base form) + O (Phủ định)</p>
+                            <p>WILL + S + V (base form) + O? (Câu hỏi)</p>
+                            <p>
+                                Ví dụ:
+                                <br />
+                                - I will call you later.
+                                <br />
+                                - They will not arrive until 8 PM.
+                                <br />- Will you help us with the project?
+                            </p>
+                        </div>
+                    ) : tabIndex < 4 ? (
+                        <div>
+                            <h3>{tabs[tabIndex]}</h3>
+                            {exercises[tabs[tabIndex]].map((item, i) => (
+                                <div key={i} className={cx('rule-container')}>
+                                    <p>
+                                        <strong>Công thức:</strong>
+                                    </p>
+                                    <p className={cx('rule')}>
+                                        <strong>{item.rule}</strong>
+                                    </p>
+                                    <p>
+                                        <strong>Ví dụ:</strong>
+                                    </p>
+                                    {item.examples.map((ex, idx) => (
+                                        <p key={idx}>{ex}</p>
+                                    ))}
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div>
+                            {questions.map((q, index) => (
+                                <div key={q.id} className={cx('question')}>
+                                    <p>{q.question}</p>
+                                    {q.type === 'single' ? (
+                                        <select
+                                            onChange={(e) => handleInputChange(q.id, e.target.value)}
+                                            value={answers[q.id] || ''}
+                                            disabled={results !== null}
+                                        >
+                                            <option value="">--Chọn đáp án--</option>
+                                            {q.options.map((option) => (
+                                                <option key={option} value={option}>
+                                                    {option}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    ) : (
+                                        <input
+                                            type="text"
+                                            value={answers[q.id] || ''}
+                                            onChange={(e) => handleInputChange(q.id, e.target.value)}
+                                            disabled={results !== null}
+                                        />
+                                    )}
+                                    {results && (
+                                        <p className={cx(results[index] ? 'correct' : 'incorrect')}>
+                                            {results[index] ? 'Correct!' : `Incorrect! Đáp án đúng: ${q.correctAnswer}`}
+                                        </p>
+                                    )}
+                                </div>
+                            ))}
+                            <button
+                                className={cx('check-button')}
+                                onClick={handleCheckAnswers}
+                                disabled={results !== null}
+                            >
+                                Check Answers
+                            </button>
+                            <button className={cx('reset-button')} onClick={handleResetAll}>
+                                Làm lại tất cả
+                            </button>
+                        </div>
+                    )}
+                </div>
 
-            <h2>Công thức thì tương lai đơn</h2>
+                <div className={cx('navigation')}>
+                    <button className={cx('nav-space')} onClick={prevTab} disabled={tabIndex === 0}>
+                        Previous
+                    </button>
+                    <button className={cx('nav-space')} onClick={nextTab} disabled={tabIndex === tabs.length - 1}>
+                        Next
+                    </button>
+                </div>
+            </div>
 
-            <h3>1. Câu Khẳng Định:</h3>
-            <p>
-                <strong>S + will + V (nguyên thể) + O</strong>
-            </p>
-            <p>
-                <strong>Ví dụ:</strong>
-            </p>
-            <ul>
-                <li>I will visit my grandmother tomorrow. (Tôi sẽ thăm bà tôi vào ngày mai.)</li>
-                <li>We will go to the beach next summer. (Chúng tôi sẽ đi biển vào mùa hè tới.)</li>
-            </ul>
-
-            <h3>2. Câu Phủ Định:</h3>
-            <p>
-                <strong>S + will + not + V (nguyên thể) + O</strong>
-            </p>
-            <p>
-                <strong>Ví dụ:</strong>
-            </p>
-            <ul>
-                <li>I will not attend the meeting tomorrow. (Tôi sẽ không tham dự cuộc họp vào ngày mai.)</li>
-                <li>She will not come to the party. (Cô ấy sẽ không đến bữa tiệc.)</li>
-            </ul>
-
-            <h3>3. Câu Nghi Vấn:</h3>
-            <p>
-                <strong>Will + S + V (nguyên thể) + O?</strong>
-            </p>
-            <p>
-                <strong>Ví dụ:</strong>
-            </p>
-            <ul>
-                <li>Will you go to the concert tonight? (Bạn sẽ đi xem buổi hòa nhạc tối nay chứ?)</li>
-                <li>Will they finish the project by next week? (Họ sẽ hoàn thành dự án trước tuần tới chứ?)</li>
-            </ul>
-
-            <h2>Cách Dùng Thì Tương Lai Đơn:</h2>
-            <ul>
-                <li>Diễn tả hành động, sự việc sẽ xảy ra trong tương lai.</li>
-                <li>Diễn tả một dự đoán về tương lai.</li>
-                <li>Diễn tả những quyết định, lời hứa, sự đồng ý hoặc từ chối trong tương lai.</li>
-            </ul>
-
-            <h2>Dấu Hiệu Nhận Biết Thì Tương Lai Đơn:</h2>
-            <ul>
-                <li>Tomorrow, next, soon, in a week/month/year, etc.</li>
-            </ul>
-
-            <h2>Quy Tắc Chia Động Từ:</h2>
-            <ul>
-                <li>Động từ "will" không thay đổi bất kỳ hình thức nào, cho dù chủ ngữ là ai.</li>
-                <li>Động từ chính không cần thay đổi, luôn ở dạng nguyên thể (không có "to").</li>
-                <li>
-                    Trong câu phủ định và câu nghi vấn, sử dụng "not" giữa "will" và động từ chính, hoặc đảo "will"
-                    trong câu nghi vấn.
-                </li>
-            </ul>
+            {/* Popup for success */}
+            {showPopup && (
+                <div className={cx('popup-overlay')}>
+                    <div className={cx('popup-content')}>
+                        <h2>Chúc mừng! Bạn đã hoàn thành bài tập!</h2>
+                        <button onClick={handleReloadPage}>OK</button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

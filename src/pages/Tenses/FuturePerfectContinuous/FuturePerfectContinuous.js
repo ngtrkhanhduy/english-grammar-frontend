@@ -1,119 +1,261 @@
-import React from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames/bind';
+import styles from '../Tenses.module.scss';
+import { put } from '~/utils/httpRequest';
+import Cookies from 'js-cookie';
 
-const cx = classNames.bind({});
+const cx = classNames.bind(styles);
 
-// Future Perfect Continuous Tense Component
 const FuturePerfectContinuous = () => {
+    const [answers, setAnswers] = useState({});
+    const [results, setResults] = useState(null);
+    const [tabIndex, setTabIndex] = useState(0);
+    const [showPopup, setShowPopup] = useState(false);
+
+    const tabs = ['Tổng quan', 'Khẳng định', 'Phủ định', 'Nghi vấn', 'Bài tập'];
+
+    const nextTab = () => setTabIndex((prev) => (prev < tabs.length - 1 ? prev + 1 : prev));
+    const prevTab = () => setTabIndex((prev) => (prev > 0 ? prev - 1 : prev));
+
+    const exercises = {
+        'Khẳng định': [
+            {
+                rule: 'S + WILL HAVE BEEN + V-ing + O',
+                examples: [
+                    'I will have been working for 5 hours by the time you arrive.',
+                    'By next year, she will have been living here for 10 years.',
+                    'They will have been studying for three hours by noon.',
+                ],
+            },
+        ],
+        'Phủ định': [
+            {
+                rule: "S + WILL NOT (WON'T) HAVE BEEN + V-ing + O",
+                examples: [
+                    'I will not have been working for long by the time you arrive.',
+                    'She will not have been living here for 10 years by next year.',
+                    'They won’t have been studying for 3 hours by the time we meet.',
+                ],
+            },
+        ],
+        'Nghi vấn': [
+            {
+                rule: 'WILL + S + HAVE BEEN + V-ing + O?',
+                examples: [
+                    'Will you have been working for 5 hours by the time I arrive?',
+                    'Will they have been studying for 3 hours by noon?',
+                ],
+            },
+        ],
+    };
+
+    const questions = [
+        {
+            id: 1,
+            type: 'single',
+            question: 'By the time you arrive, I _____ (work) for 5 hours.',
+            options: ['will work', 'will have been working'],
+            correctAnswer: 'will have been working',
+        },
+        {
+            id: 2,
+            type: 'single',
+            question: 'By next year, they _____ (not live) in this city for 10 years.',
+            options: ['won’t have lived', 'won’t have been living'],
+            correctAnswer: 'won’t have been living',
+        },
+        {
+            id: 3,
+            type: 'single',
+            question: '_____ you _____ (study) for 5 hours by the time I call?',
+            options: ['Will / study', 'Will / have been studying'],
+            correctAnswer: 'Will / have been studying',
+        },
+        {
+            id: 4,
+            type: 'fill',
+            question: 'By 8 PM, we _____ (wait) for two hours.',
+            correctAnswer: 'will have been waiting',
+        },
+        {
+            id: 5,
+            type: 'fill',
+            question: 'Next month, she _____ (work) at the company for 5 years.',
+            correctAnswer: 'will have been working',
+        },
+        {
+            id: 6,
+            type: 'fill',
+            question: 'By next week, they _____ (study) for 10 hours straight.',
+            correctAnswer: 'will have been studying',
+        },
+    ];
+
+    const handleInputChange = (questionId, value) => {
+        setAnswers({ ...answers, [questionId]: value });
+        setResults(null);
+    };
+
+    const handleCheckAnswers = async () => {
+        const evaluatedResults = questions.map((q) => answers[q.id]?.toLowerCase() === q.correctAnswer.toLowerCase());
+        const username = Cookies.get('username');
+        const path = 'future-perfect-continuous';
+        setResults(evaluatedResults);
+
+        // Check if all answers are correct
+        if (evaluatedResults.every((result) => result === true)) {
+            // If all answers are correct, update the user's learning process using PUT request
+            try {
+                const response = await put(`/user-learning-process/${username}/${path}`, {
+                    completed: true,
+                });
+                console.log('User progress updated successfully:', response);
+
+                // Show the success popup
+                setShowPopup(true);
+            } catch (error) {
+                console.error('Error updating user progress:', error);
+            }
+        }
+    };
+
+    const handleResetAll = () => {
+        setAnswers({});
+        setResults(null);
+    };
+
+    const handleReloadPage = () => {
+        // Reload the current page after clicking "OK"
+        window.location.reload();
+    };
+
     return (
-        <div className={cx('english-grammar')}>
-            <h1>Thì Tương Lai Hoàn Thành Tiếp Diễn (Future Perfect Continuous)</h1>
-            <p>
-                Thì tương lai hoàn thành tiếp diễn (Future Perfect Continuous) diễn tả một hành động sẽ tiếp tục xảy ra
-                cho đến một thời điểm trong tương lai, hoặc đã xảy ra một khoảng thời gian trước một thời điểm trong
-                tương lai.
-            </p>
+        <div>
+            <h1>Tương lai hoàn thành tiếp diễn</h1>
+            <div className={cx('exercise-container')}>
+                <div className={cx('tabs')}>
+                    {tabs.map((tab, index) => (
+                        <button
+                            key={index}
+                            className={cx('tab', { active: tabIndex === index })}
+                            onClick={() => setTabIndex(index)}
+                        >
+                            {tab}
+                        </button>
+                    ))}
+                </div>
 
-            <h3>Ví Dụ:</h3>
-            <ul>
-                <li>
-                    By next year, I will have been working here for 5 years. (Vào năm tới, tôi sẽ đã làm việc ở đây được
-                    5 năm.)
-                </li>
-                <li>
-                    They will have been studying for 2 hours when we arrive. (Họ sẽ đã học được 2 giờ khi chúng ta đến.)
-                </li>
-                <li>
-                    She will have been traveling for 10 days by the time she returns. (Cô ấy sẽ đã đi du lịch được 10
-                    ngày khi cô ấy trở về.)
-                </li>
-            </ul>
+                <div className={cx('content')}>
+                    {tabIndex === 0 ? (
+                        // "Tổng quan" tab content
+                        <div>
+                            <h3>Tổng quan về thì tương lai hoàn thành tiếp diễn</h3>
+                            <p>
+                                Thì tương lai hoàn thành tiếp diễn (Future Perfect Continuous) diễn tả hành động sẽ kéo
+                                dài cho đến một thời điểm trong tương lai. Nó cũng được sử dụng để chỉ sự tiếp diễn của
+                                hành động cho đến khi một mốc thời gian nào đó trong tương lai.
+                            </p>
+                            <p>
+                                <strong>Công thức:</strong>
+                            </p>
+                            <p>S + WILL HAVE BEEN + V-ing + O (Khẳng định)</p>
+                            <p>S + WILL NOT (WON'T) HAVE BEEN + V-ing + O (Phủ định)</p>
+                            <p>WILL + S + HAVE BEEN + V-ing + O? (Câu hỏi)</p>
+                            <p>
+                                Ví dụ:
+                                <br />
+                                - By the time you arrive, I will have been working for 5 hours.
+                                <br />
+                                - They won’t have been living in the city for 10 years by next year.
+                                <br />- Will you have been studying for 5 hours by the time I call?
+                            </p>
+                        </div>
+                    ) : tabIndex < 4 ? (
+                        <div>
+                            <h3>{tabs[tabIndex]}</h3>
+                            {exercises[tabs[tabIndex]].map((item, i) => (
+                                <div key={i} className={cx('rule-container')}>
+                                    <p>
+                                        <strong>Công thức:</strong>
+                                    </p>
+                                    <p className={cx('rule')}>
+                                        <strong>{item.rule}</strong>
+                                    </p>
+                                    <p>
+                                        <strong>Ví dụ:</strong>
+                                    </p>
+                                    {item.examples.map((ex, idx) => (
+                                        <p key={idx}>{ex}</p>
+                                    ))}
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div>
+                            {questions.map((q, index) => (
+                                <div key={q.id} className={cx('question')}>
+                                    <p>{q.question}</p>
+                                    {q.type === 'single' ? (
+                                        <select
+                                            onChange={(e) => handleInputChange(q.id, e.target.value)}
+                                            value={answers[q.id] || ''}
+                                            disabled={results !== null}
+                                        >
+                                            <option value="">--Chọn đáp án--</option>
+                                            {q.options.map((option) => (
+                                                <option key={option} value={option}>
+                                                    {option}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    ) : (
+                                        <input
+                                            type="text"
+                                            value={answers[q.id] || ''}
+                                            onChange={(e) => handleInputChange(q.id, e.target.value)}
+                                            disabled={results !== null}
+                                        />
+                                    )}
+                                    {results && (
+                                        <p className={cx(results[index] ? 'correct' : 'incorrect')}>
+                                            {results[index] ? 'Correct!' : `Incorrect! Đáp án đúng: ${q.correctAnswer}`}
+                                        </p>
+                                    )}
+                                </div>
+                            ))}
+                            <button
+                                className={cx('check-button')}
+                                onClick={handleCheckAnswers}
+                                disabled={results !== null}
+                            >
+                                Check Answers
+                            </button>
+                            <button className={cx('reset-button')} onClick={handleResetAll}>
+                                Làm lại tất cả
+                            </button>
+                        </div>
+                    )}
+                </div>
 
-            <h2>Công thức thì tương lai hoàn thành tiếp diễn</h2>
+                <div className={cx('navigation')}>
+                    <button className={cx('nav-space')} onClick={prevTab} disabled={tabIndex === 0}>
+                        Previous
+                    </button>
+                    <button className={cx('nav-space')} onClick={nextTab} disabled={tabIndex === tabs.length - 1}>
+                        Next
+                    </button>
+                </div>
+            </div>
 
-            <h3>1. Câu Khẳng Định:</h3>
-            <p>
-                <strong>S + will + have + been + V-ing + O</strong>
-            </p>
-            <p>
-                <strong>Ví dụ:</strong>
-            </p>
-            <ul>
-                <li>
-                    He will have been reading for two hours by the time we get home. (Anh ấy sẽ đã đọc sách được hai giờ
-                    khi chúng ta về đến nhà.)
-                </li>
-                <li>
-                    We will have been waiting for a long time by the time the movie starts. (Chúng tôi sẽ đã chờ đợi một
-                    thời gian dài khi bộ phim bắt đầu.)
-                </li>
-            </ul>
-
-            <h3>2. Câu Phủ Định:</h3>
-            <p>
-                <strong>S + will + not + have + been + V-ing + O</strong>
-            </p>
-            <p>
-                <strong>Ví dụ:</strong>
-            </p>
-            <ul>
-                <li>
-                    I will not have been working here for a year by next month. (Tôi sẽ không làm việc ở đây được một
-                    năm vào tháng tới.)
-                </li>
-                <li>
-                    She will not have been studying for long when the teacher arrives. (Cô ấy sẽ không học lâu khi thầy
-                    cô đến.)
-                </li>
-            </ul>
-
-            <h3>3. Câu Nghi Vấn:</h3>
-            <p>
-                <strong>Will + S + have + been + V-ing + O?</strong>
-            </p>
-            <p>
-                <strong>Ví dụ:</strong>
-            </p>
-            <ul>
-                <li>
-                    Will you have been working here for a long time by next year? (Bạn sẽ đã làm việc ở đây được lâu
-                    chưa vào năm tới?)
-                </li>
-                <li>
-                    Will they have been traveling for a month when we meet them? (Họ sẽ đã du lịch được một tháng khi
-                    chúng ta gặp họ?)
-                </li>
-            </ul>
-
-            <h2>Cách Dùng Thì Tương Lai Hoàn Thành Tiếp Diễn:</h2>
-            <ul>
-                <li>
-                    Diễn tả một hành động sẽ tiếp tục xảy ra trong một khoảng thời gian nhất định và kéo dài cho đến một
-                    thời điểm trong tương lai.
-                </li>
-                <li>
-                    Diễn tả một hành động sẽ kéo dài đến một thời điểm trong tương lai và nhấn mạnh vào quá trình hành
-                    động đó.
-                </li>
-                <li>
-                    Diễn tả sự liên tục của một hành động trong tương lai, cho thấy hành động đó sẽ đã xảy ra trong một
-                    khoảng thời gian cụ thể khi một thời điểm trong tương lai đến.
-                </li>
-            </ul>
-
-            <h2>Dấu Hiệu Nhận Biết Thì Tương Lai Hoàn Thành Tiếp Diễn:</h2>
-            <ul>
-                <li>By + thời gian trong tương lai (e.g., by next year, by the time you arrive, etc.)</li>
-                <li>For + khoảng thời gian (e.g., for two hours, for five years, etc.)</li>
-                <li>Since + mốc thời gian (e.g., since 8 AM, since last week, etc.)</li>
-            </ul>
-
-            <h2>Quy Tắc Chia Động Từ:</h2>
-            <ul>
-                <li>Động từ "will" không thay đổi với tất cả các chủ ngữ.</li>
-                <li>Sau "will," dùng "have," tiếp theo là "been," và sau đó là động từ chính ở dạng V-ing.</li>
-                <li>Để tạo câu phủ định, thêm "not" sau "will." Để tạo câu hỏi, đảo "will" và chủ ngữ.</li>
-            </ul>
+            {/* Popup for success */}
+            {showPopup && (
+                <div className={cx('popup-overlay')}>
+                    <div className={cx('popup-content')}>
+                        <h2>Chúc mừng! Bạn đã hoàn thành bài tập!</h2>
+                        <button onClick={handleReloadPage}>OK</button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

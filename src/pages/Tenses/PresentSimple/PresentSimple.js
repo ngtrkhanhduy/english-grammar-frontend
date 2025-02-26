@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import classNames from 'classnames/bind';
-import styles from './PresentSimpleExercise.module.scss';
+import styles from '.././Tenses.module.scss';
 import { put } from '~/utils/httpRequest';
 import Cookies from 'js-cookie';
 

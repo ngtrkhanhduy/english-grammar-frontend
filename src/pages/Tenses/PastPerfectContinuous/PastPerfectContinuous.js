@@ -1,97 +1,260 @@
-import React from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames/bind';
+import styles from '../Tenses.module.scss';
+import { put } from '~/utils/httpRequest';
+import Cookies from 'js-cookie';
 
-const cx = classNames.bind({});
+const cx = classNames.bind(styles);
 
-// Past Perfect Continuous Tense Component
 const PastPerfectContinuous = () => {
+    const [answers, setAnswers] = useState({});
+    const [results, setResults] = useState(null);
+    const [tabIndex, setTabIndex] = useState(0);
+    const [showPopup, setShowPopup] = useState(false);
+
+    const tabs = ['Tổng quan', 'Khẳng định', 'Phủ định', 'Nghi vấn', 'Bài tập'];
+
+    const nextTab = () => setTabIndex((prev) => (prev < tabs.length - 1 ? prev + 1 : prev));
+    const prevTab = () => setTabIndex((prev) => (prev > 0 ? prev - 1 : prev));
+
+    const exercises = {
+        'Khẳng định': [
+            {
+                rule: 'S + HAD BEEN + V-ing + O',
+                examples: [
+                    'She had been working all day when I called her.',
+                    'They had been studying for hours before the exam.',
+                    'I had been waiting for 30 minutes when the bus arrived.',
+                ],
+            },
+        ],
+        'Phủ định': [
+            {
+                rule: 'S + HAD NOT BEEN + V-ing + O',
+                examples: [
+                    'He had not been sleeping when I entered the room.',
+                    'We had not been working on the project when the meeting started.',
+                    'I had not been studying before the test.',
+                ],
+            },
+        ],
+        'Nghi vấn': [
+            {
+                rule: 'HAD + S + BEEN + V-ing + O?',
+                examples: [
+                    'Had she been working before you arrived?',
+                    'Had they been playing football when it started raining?',
+                ],
+            },
+        ],
+    };
+
+    const questions = [
+        {
+            id: 1,
+            type: 'single',
+            question: 'I _____ (wait) for two hours when the train finally arrived.',
+            options: ['had been waiting', 'waited'],
+            correctAnswer: 'had been waiting',
+        },
+        {
+            id: 2,
+            type: 'single',
+            question: 'She _____ (study) all night before the exam.',
+            options: ['had been studying', 'studied'],
+            correctAnswer: 'had been studying',
+        },
+        {
+            id: 3,
+            type: 'single',
+            question: '_____ they _____ (work) on the project before the deadline?',
+            options: ['Had / been working', 'Did / work'],
+            correctAnswer: 'Had / been working',
+        },
+        {
+            id: 4,
+            type: 'fill',
+            question: 'I _____ (wait) for her when she called me.',
+            correctAnswer: 'had been waiting',
+        },
+        {
+            id: 5,
+            type: 'fill',
+            question: 'We _____ (not study) for the test when the teacher entered.',
+            correctAnswer: 'had not been studying',
+        },
+        {
+            id: 6,
+            type: 'fill',
+            question: '_____ he _____ (work) for long before the meeting started?',
+            correctAnswer: 'Had he been working',
+        },
+    ];
+
+    const handleInputChange = (questionId, value) => {
+        setAnswers({ ...answers, [questionId]: value });
+        setResults(null);
+    };
+
+    const handleCheckAnswers = async () => {
+        const evaluatedResults = questions.map((q) => answers[q.id]?.toLowerCase() === q.correctAnswer.toLowerCase());
+        const username = Cookies.get('username');
+        const path = 'past-perfect-continuous';
+        setResults(evaluatedResults);
+
+        // Check if all answers are correct
+        if (evaluatedResults.every((result) => result === true)) {
+            // If all answers are correct, update the user's learning process using PUT request
+            try {
+                const response = await put(`/user-learning-process/${username}/${path}`, {
+                    completed: true,
+                });
+                console.log('User progress updated successfully:', response);
+
+                // Show the success popup
+                setShowPopup(true);
+            } catch (error) {
+                console.error('Error updating user progress:', error);
+            }
+        }
+    };
+
+    const handleResetAll = () => {
+        setAnswers({});
+        setResults(null);
+    };
+
+    const handleReloadPage = () => {
+        // Reload the current page after clicking "OK"
+        window.location.reload();
+    };
+
     return (
-        <div className={cx('english-grammar')}>
-            <h1>Thì Quá Khứ Hoàn Thành Tiếp Diễn (Past Perfect Continuous)</h1>
-            <p>
-                Thì quá khứ hoàn thành tiếp diễn (Past Perfect Continuous) dùng để diễn tả một hành động đã bắt đầu và
-                tiếp tục trong quá khứ, trước một thời điểm hoặc sự kiện khác trong quá khứ.
-            </p>
+        <div>
+            <h1>Quá khứ hoàn thành tiếp diễn</h1>
+            <div className={cx('exercise-container')}>
+                <div className={cx('tabs')}>
+                    {tabs.map((tab, index) => (
+                        <button
+                            key={index}
+                            className={cx('tab', { active: tabIndex === index })}
+                            onClick={() => setTabIndex(index)}
+                        >
+                            {tab}
+                        </button>
+                    ))}
+                </div>
 
-            <h3>Ví Dụ:</h3>
-            <ul>
-                <li>She had been studying for two hours when I arrived. (Cô ấy đã học được hai giờ khi tôi đến.)</li>
-                <li>
-                    They had been waiting for the bus for 30 minutes when it finally arrived. (Họ đã chờ xe buýt được 30
-                    phút khi nó cuối cùng đến.)
-                </li>
-                <li>
-                    He had been working all day and was very tired. (Anh ấy đã làm việc cả ngày và cảm thấy rất mệt
-                    mỏi.)
-                </li>
-            </ul>
+                <div className={cx('content')}>
+                    {tabIndex === 0 ? (
+                        // "Tổng quan" tab content
+                        <div>
+                            <h3>Tổng quan về thì quá khứ hoàn thành tiếp diễn</h3>
+                            <p>
+                                Thì quá khứ hoàn thành tiếp diễn (Past Perfect Continuous) diễn tả hành động đang xảy ra
+                                liên tục trong quá khứ trước một hành động hoặc thời điểm khác.
+                            </p>
+                            <p>
+                                <strong>Công thức:</strong>
+                            </p>
+                            <p>S + HAD BEEN + V-ing + O (Khẳng định)</p>
+                            <p>S + HAD NOT BEEN + V-ing + O (Phủ định)</p>
+                            <p>HAD + S + BEEN + V-ing + O? (Câu hỏi)</p>
+                            <p>
+                                Ví dụ:
+                                <br />
+                                - I had been waiting for two hours when the train finally arrived.
+                                <br />
+                                - She had been studying all night before the exam.
+                                <br />- Had they been working on the project when the deadline passed?
+                            </p>
+                        </div>
+                    ) : tabIndex < 4 ? (
+                        <div>
+                            <h3>{tabs[tabIndex]}</h3>
+                            {exercises[tabs[tabIndex]].map((item, i) => (
+                                <div key={i} className={cx('rule-container')}>
+                                    <p>
+                                        <strong>Công thức:</strong>
+                                    </p>
+                                    <p className={cx('rule')}>
+                                        <strong>{item.rule}</strong>
+                                    </p>
+                                    <p>
+                                        <strong>Ví dụ:</strong>
+                                    </p>
+                                    {item.examples.map((ex, idx) => (
+                                        <p key={idx}>{ex}</p>
+                                    ))}
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div>
+                            {questions.map((q, index) => (
+                                <div key={q.id} className={cx('question')}>
+                                    <p>{q.question}</p>
+                                    {q.type === 'single' ? (
+                                        <select
+                                            onChange={(e) => handleInputChange(q.id, e.target.value)}
+                                            value={answers[q.id] || ''}
+                                            disabled={results !== null}
+                                        >
+                                            <option value="">--Chọn đáp án--</option>
+                                            {q.options.map((option) => (
+                                                <option key={option} value={option}>
+                                                    {option}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    ) : (
+                                        <input
+                                            type="text"
+                                            value={answers[q.id] || ''}
+                                            onChange={(e) => handleInputChange(q.id, e.target.value)}
+                                            disabled={results !== null}
+                                        />
+                                    )}
+                                    {results && (
+                                        <p className={cx(results[index] ? 'correct' : 'incorrect')}>
+                                            {results[index] ? 'Correct!' : `Incorrect! Đáp án đúng: ${q.correctAnswer}`}
+                                        </p>
+                                    )}
+                                </div>
+                            ))}
+                            <button
+                                className={cx('check-button')}
+                                onClick={handleCheckAnswers}
+                                disabled={results !== null}
+                            >
+                                Check Answers
+                            </button>
+                            <button className={cx('reset-button')} onClick={handleResetAll}>
+                                Làm lại tất cả
+                            </button>
+                        </div>
+                    )}
+                </div>
 
-            <h2>Công thức thì quá khứ hoàn thành tiếp diễn</h2>
+                <div className={cx('navigation')}>
+                    <button className={cx('nav-space')} onClick={prevTab} disabled={tabIndex === 0}>
+                        Previous
+                    </button>
+                    <button className={cx('nav-space')} onClick={nextTab} disabled={tabIndex === tabs.length - 1}>
+                        Next
+                    </button>
+                </div>
+            </div>
 
-            <h3>1. Câu Khẳng Định:</h3>
-            <p>
-                <strong>S + had + been + V-ing + O</strong>
-            </p>
-            <p>
-                <strong>Ví dụ:</strong>
-            </p>
-            <ul>
-                <li>
-                    They had been traveling for hours before they reached their destination. (Họ đã đi du lịch suốt
-                    nhiều giờ trước khi họ đến đích.)
-                </li>
-                <li>
-                    He had been working on the project for months when he finally finished it. (Anh ấy đã làm việc trên
-                    dự án suốt nhiều tháng khi anh ấy cuối cùng hoàn thành nó.)
-                </li>
-            </ul>
-
-            <h3>2. Câu Phủ Định:</h3>
-            <p>
-                <strong>S + had + not + been + V-ing + O</strong>
-            </p>
-            <p>
-                <strong>Ví dụ:</strong>
-            </p>
-            <ul>
-                <li>I had not been feeling well last week. (Tôi đã không cảm thấy khỏe vào tuần trước.)</li>
-                <li>
-                    She had not been practicing enough before the competition. (Cô ấy đã không luyện tập đủ trước cuộc
-                    thi.)
-                </li>
-            </ul>
-
-            <h3>3. Câu Nghi Vấn:</h3>
-            <p>
-                <strong>Had + S + been + V-ing + O?</strong>
-            </p>
-            <p>
-                <strong>Ví dụ:</strong>
-            </p>
-            <ul>
-                <li>Had you been working all day before the meeting? (Bạn đã làm việc cả ngày trước cuộc họp chưa?)</li>
-                <li>Had they been waiting long when you arrived? (Họ đã đợi lâu khi bạn đến chưa?)</li>
-            </ul>
-
-            <h2>Cách Dùng Thì Quá Khứ Hoàn Thành Tiếp Diễn:</h2>
-            <ul>
-                <li>Diễn tả hành động đang diễn ra liên tục trong quá khứ, trước một thời điểm khác trong quá khứ.</li>
-                <li>Nhấn mạnh thời gian hoặc quá trình của hành động đó, không chỉ là kết quả.</li>
-                <li>Diễn tả sự tiếp diễn của một hành động cho đến khi một sự kiện khác xảy ra trong quá khứ.</li>
-            </ul>
-
-            <h2>Dấu Hiệu Nhận Biết Thì Quá Khứ Hoàn Thành Tiếp Diễn:</h2>
-            <ul>
-                <li>Hành động tiếp diễn lâu dài trước một sự kiện trong quá khứ.</li>
-                <li>Thường đi kèm với các cụm từ chỉ thời gian như: for, since, all day, etc.</li>
-            </ul>
-
-            <h2>Quy Tắc Chia Động Từ:</h2>
-            <ul>
-                <li>Động từ "to be" trong quá khứ hoàn thành là "had been".</li>
-                <li>Động từ chính thêm "ing" để chỉ sự tiếp diễn.</li>
-                <li>Hãy nhớ dùng "had not" trong câu phủ định và đảo "had" trong câu nghi vấn.</li>
-            </ul>
+            {/* Popup for success */}
+            {showPopup && (
+                <div className={cx('popup-overlay')}>
+                    <div className={cx('popup-content')}>
+                        <h2>Chúc mừng! Bạn đã hoàn thành bài tập!</h2>
+                        <button onClick={handleReloadPage}>OK</button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

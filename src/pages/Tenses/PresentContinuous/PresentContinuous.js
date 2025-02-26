@@ -1,94 +1,249 @@
-import React from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames/bind';
+import styles from '.././Tenses.module.scss';
+import { put } from '~/utils/httpRequest';
+import Cookies from 'js-cookie';
 
-const cx = classNames.bind({});
+const cx = classNames.bind(styles);
 
-// Present Continuous Tense Component
-const PresentContinuous = () => {
+const PresentContinuousExercise = () => {
+    const [answers, setAnswers] = useState({});
+    const [results, setResults] = useState(null);
+    const [tabIndex, setTabIndex] = useState(0);
+    const [showPopup, setShowPopup] = useState(false); // New state for showing the popup
+
+    const tabs = ['Tổng quan', 'Khẳng định', 'Phủ định', 'Nghi vấn', 'Bài tập'];
+
+    const nextTab = () => setTabIndex((prev) => (prev < tabs.length - 1 ? prev + 1 : prev));
+    const prevTab = () => setTabIndex((prev) => (prev > 0 ? prev - 1 : prev));
+
+    const exercises = {
+        'Khẳng định': [
+            {
+                rule: 'S + BE (am/are/is) + V-ing + O',
+                examples: ['She is eating.', 'They are playing football.', 'I am studying now.'],
+            },
+        ],
+        'Phủ định': [
+            {
+                rule: 'S + BE (am/are/is) + NOT + V-ing + O',
+                examples: ['He is not sleeping.', 'We are not watching TV.', 'I am not working today.'],
+            },
+        ],
+        'Nghi vấn': [
+            { rule: 'BE (am/are/is) + S + V-ing + O?', examples: ['Is she eating?', 'Are they playing football?'] },
+        ],
+    };
+
+    const questions = [
+        {
+            id: 1,
+            type: 'single',
+            question: 'She _____ (eat) dinner at the moment.',
+            options: ['eats', 'is eating'],
+            correctAnswer: 'is eating',
+        },
+        {
+            id: 2,
+            type: 'single',
+            question: 'They _____ (not play) football right now.',
+            options: ['are not playing', 'is not playing'],
+            correctAnswer: 'are not playing',
+        },
+        {
+            id: 3,
+            type: 'single',
+            question: '_____ you _____ (study) at the moment?',
+            options: ['Do / study', 'Are / studying'],
+            correctAnswer: 'Are / studying',
+        },
+        {
+            id: 4,
+            type: 'fill',
+            question: 'He _____ (read) a book right now.',
+            correctAnswer: 'is reading',
+        },
+        {
+            id: 5,
+            type: 'fill',
+            question: 'I _____ (not watch) TV at the moment.',
+            correctAnswer: 'am not watching',
+        },
+        {
+            id: 6,
+            type: 'fill',
+            question: '_____ she _____ (work) today?',
+            correctAnswer: 'Is she working',
+        },
+    ];
+
+    const handleInputChange = (questionId, value) => {
+        setAnswers({ ...answers, [questionId]: value });
+        setResults(null);
+    };
+
+    const handleCheckAnswers = async () => {
+        const evaluatedResults = questions.map((q) => answers[q.id]?.toLowerCase() === q.correctAnswer.toLowerCase());
+        const username = Cookies.get('username');
+        const path = 'present-continuous';
+        setResults(evaluatedResults);
+
+        // Check if all answers are correct
+        if (evaluatedResults.every((result) => result === true)) {
+            // If all answers are correct, update the user's learning process using PUT request
+            try {
+                const response = await put(`/user-learning-process/${username}/${path}`, {
+                    completed: true,
+                });
+                console.log('User progress updated successfully:', response);
+
+                // Show the success popup
+                setShowPopup(true);
+            } catch (error) {
+                console.error('Error updating user progress:', error);
+            }
+        }
+    };
+
+    const handleResetAll = () => {
+        setAnswers({});
+        setResults(null);
+    };
+
+    const handleReloadPage = () => {
+        // Reload the current page after clicking "OK"
+        window.location.reload();
+    };
+
     return (
-        <div className={cx('english-grammar')}>
-            <h1>Thì Hiện Tại Tiếp Diễn (Present Continuous)</h1>
-            <p>
-                Thì hiện tại tiếp diễn (Present Continuous) dùng để diễn tả một hành động đang xảy ra tại thời điểm nói,
-                hoặc một hành động đang xảy ra xung quanh thời điểm hiện tại.
-            </p>
+        <div>
+            <h1>Hiện tại tiếp diễn</h1>
+            <div className={cx('exercise-container')}>
+                <div className={cx('tabs')}>
+                    {tabs.map((tab, index) => (
+                        <button
+                            key={index}
+                            className={cx('tab', { active: tabIndex === index })}
+                            onClick={() => setTabIndex(index)}
+                        >
+                            {tab}
+                        </button>
+                    ))}
+                </div>
 
-            <h3>Ví Dụ:</h3>
-            <ul>
-                <li>She is reading a book right now. (Cô ấy đang đọc một cuốn sách ngay bây giờ.)</li>
-                <li>They are playing football at the moment. (Họ đang chơi bóng đá vào lúc này.)</li>
-                <li>He is studying for his exam. (Anh ấy đang học cho kỳ thi của mình.)</li>
-            </ul>
+                <div className={cx('content')}>
+                    {tabIndex === 0 ? (
+                        // "Tổng quan" tab content
+                        <div>
+                            <h3>Tổng quan về thì hiện tại tiếp diễn</h3>
+                            <p>
+                                Thì hiện tại tiếp diễn (Present Continuous) dùng để diễn tả hành động đang xảy ra tại
+                                thời điểm nói, thói quen hoặc sự việc tạm thời. Ngoài ra, nó còn diễn tả hành động sắp
+                                xảy ra trong tương lai gần.
+                            </p>
+                            <p>
+                                <strong>Công thức:</strong>
+                            </p>
+                            <p>S + BE (am/are/is) + V-ing + O (Khẳng định)</p>
+                            <p>S + BE (am/are/is) + NOT + V-ing + O (Phủ định)</p>
+                            <p>BE (am/are/is) + S + V-ing + O? (Câu hỏi)</p>
+                            <p>
+                                Ví dụ:
+                                <br />
+                                - I am working right now. (Tôi đang làm việc ngay bây giờ.)
+                                <br />
+                                - She is not studying. (Cô ấy không đang học.)
+                                <br />- Are they playing football? (Họ có đang chơi bóng đá không?)
+                            </p>
+                        </div>
+                    ) : tabIndex < 4 ? (
+                        <div>
+                            <h3>{tabs[tabIndex]}</h3>
+                            {exercises[tabs[tabIndex]].map((item, i) => (
+                                <div key={i} className={cx('rule-container')}>
+                                    <p>
+                                        <strong>Công thức:</strong>
+                                    </p>
+                                    <p className={cx('rule')}>
+                                        <strong>{item.rule}</strong>
+                                    </p>
+                                    <p>
+                                        <strong>Ví dụ:</strong>
+                                    </p>
+                                    {item.examples.map((ex, idx) => (
+                                        <p key={idx}>{ex}</p>
+                                    ))}
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div>
+                            {questions.map((q, index) => (
+                                <div key={q.id} className={cx('question')}>
+                                    <p>{q.question}</p>
+                                    {q.type === 'single' ? (
+                                        <select
+                                            onChange={(e) => handleInputChange(q.id, e.target.value)}
+                                            value={answers[q.id] || ''}
+                                            disabled={results !== null}
+                                        >
+                                            <option value="">--Chọn đáp án--</option>
+                                            {q.options.map((option) => (
+                                                <option key={option} value={option}>
+                                                    {option}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    ) : (
+                                        <input
+                                            type="text"
+                                            value={answers[q.id] || ''}
+                                            onChange={(e) => handleInputChange(q.id, e.target.value)}
+                                            disabled={results !== null}
+                                        />
+                                    )}
+                                    {results && (
+                                        <p className={cx(results[index] ? 'correct' : 'incorrect')}>
+                                            {results[index] ? 'Correct!' : `Incorrect! Đáp án đúng: ${q.correctAnswer}`}
+                                        </p>
+                                    )}
+                                </div>
+                            ))}
+                            <button
+                                className={cx('check-button')}
+                                onClick={handleCheckAnswers}
+                                disabled={results !== null}
+                            >
+                                Check Answers
+                            </button>
+                            <button className={cx('reset-button')} onClick={handleResetAll}>
+                                Làm lại tất cả
+                            </button>
+                        </div>
+                    )}
+                </div>
 
-            <h2>Công thức thì hiện tại tiếp diễn</h2>
+                <div className={cx('navigation')}>
+                    <button className={cx('nav-space')} onClick={prevTab} disabled={tabIndex === 0}>
+                        Previous
+                    </button>
+                    <button className={cx('nav-space')} onClick={nextTab} disabled={tabIndex === tabs.length - 1}>
+                        Next
+                    </button>
+                </div>
+            </div>
 
-            <h3>1. Câu Khẳng Định:</h3>
-            <p>
-                <strong>Động từ to be: S + am/is/are + V-ing</strong>
-            </p>
-            <p>
-                <strong>Ví dụ:</strong>
-            </p>
-            <ul>
-                <li>She is studying right now. (Cô ấy đang học ngay bây giờ.)</li>
-                <li>They are working on a new project. (Họ đang làm việc trên một dự án mới.)</li>
-            </ul>
-
-            <h3>2. Câu Phủ Định:</h3>
-            <p>
-                <strong>Động từ to be: S + am/is/are + not + V-ing</strong>
-            </p>
-            <p>
-                <strong>Ví dụ:</strong>
-            </p>
-            <ul>
-                <li>He is not coming to the party. (Anh ấy không đến bữa tiệc.)</li>
-                <li>They aren't listening to music right now. (Họ không nghe nhạc ngay bây giờ.)</li>
-            </ul>
-
-            <h3>3. Câu Nghi Vấn:</h3>
-            <p>
-                <strong>Động từ to be: Am/is/are + S + V-ing?</strong>
-            </p>
-            <p>
-                <strong>Ví dụ:</strong>
-            </p>
-            <ul>
-                <li>Are you watching TV? (Bạn có đang xem TV không?)</li>
-                <li>Is he coming to the meeting? (Anh ấy có đến cuộc họp không?)</li>
-            </ul>
-
-            <h2>Cách Dùng Thì Hiện Tại Tiếp Diễn:</h2>
-            <ul>
-                <li>Diễn tả một hành động đang diễn ra tại thời điểm nói.</li>
-                <li>
-                    Diễn tả một hành động đang diễn ra xung quanh thời điểm hiện tại (mặc dù không nhất thiết xảy ra
-                    ngay lúc nói).
-                </li>
-                <li>Diễn tả những sự việc tạm thời hoặc có kế hoạch trong tương lai gần.</li>
-            </ul>
-
-            <h2>Dấu Hiệu Nhận Biết Thì Hiện Tại Tiếp Diễn:</h2>
-            <ul>
-                <li>Now (bây giờ), at the moment (vào lúc này), currently (hiện tại).</li>
-                <li>Look! (Nhìn kìa!), Listen! (Nghe này!).</li>
-                <li>Always (thường xuyên, trong những tình huống không mong muốn hoặc phàn nàn).</li>
-            </ul>
-
-            <h2>Quy Tắc Chia Động Từ:</h2>
-            <ul>
-                <li>Thêm "ing" vào động từ (ví dụ: play -&gt; playing, run -&gt; running).</li>
-                <li>
-                    Động từ có kết thúc bằng "e" thì bỏ "e" trước khi thêm "ing" (ví dụ: make -&gt; making, write -&gt;
-                    writing).
-                </li>
-                <li>
-                    Đối với động từ có một âm tiết và kết thúc bằng một phụ âm đơn, ta gấp đôi phụ âm cuối (ví dụ: sit
-                    -&gt; sitting, run -`&gt; running).
-                </li>
-            </ul>
+            {/* Popup for success */}
+            {showPopup && (
+                <div className={cx('popup-overlay')}>
+                    <div className={cx('popup-content')}>
+                        <h2>Chúc mừng! Bạn đã hoàn thành bài tập!</h2>
+                        <button onClick={handleReloadPage}>OK</button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
 
-export default PresentContinuous;
+export default PresentContinuousExercise;

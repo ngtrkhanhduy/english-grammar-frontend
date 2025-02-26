@@ -1,86 +1,253 @@
-import React from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames/bind';
+import styles from '../Tenses.module.scss';
+import { put } from '~/utils/httpRequest';
+import Cookies from 'js-cookie';
 
-const cx = classNames.bind({});
+const cx = classNames.bind(styles);
 
-// Past Simple Tense Component
 const PastSimple = () => {
+    const [answers, setAnswers] = useState({});
+    const [results, setResults] = useState(null);
+    const [tabIndex, setTabIndex] = useState(0);
+    const [showPopup, setShowPopup] = useState(false);
+
+    const tabs = ['Tổng quan', 'Khẳng định', 'Phủ định', 'Nghi vấn', 'Bài tập'];
+
+    const nextTab = () => setTabIndex((prev) => (prev < tabs.length - 1 ? prev + 1 : prev));
+    const prevTab = () => setTabIndex((prev) => (prev > 0 ? prev - 1 : prev));
+
+    const exercises = {
+        'Khẳng định': [
+            {
+                rule: 'S + PAST FORM OF VERB + O',
+                examples: [
+                    'She visited Paris last summer.',
+                    'They played football yesterday.',
+                    'I watched a movie last night.',
+                ],
+            },
+        ],
+        'Phủ định': [
+            {
+                rule: 'S + DID NOT + BASE FORM OF VERB + O',
+                examples: ['He did not go to the party.', 'We did not visit the museum.', 'I did not like the food.'],
+            },
+        ],
+        'Nghi vấn': [
+            {
+                rule: 'DID + S + BASE FORM OF VERB + O?',
+                examples: ['Did she visit Paris?', 'Did they play football?'],
+            },
+        ],
+    };
+
+    const questions = [
+        {
+            id: 1,
+            type: 'single',
+            question: 'I _____ (go) to the cinema yesterday.',
+            options: ['went', 'go'],
+            correctAnswer: 'went',
+        },
+        {
+            id: 2,
+            type: 'single',
+            question: 'She _____ (not like) the movie.',
+            options: ["didn't like", "don't like"],
+            correctAnswer: "didn't like",
+        },
+        {
+            id: 3,
+            type: 'single',
+            question: '_____ you _____ (see) the new movie?',
+            options: ['Do / see', 'Did / see'],
+            correctAnswer: 'Did / see',
+        },
+        {
+            id: 4,
+            type: 'fill',
+            question: 'He _____ (play) football last Sunday.',
+            correctAnswer: 'played',
+        },
+        {
+            id: 5,
+            type: 'fill',
+            question: 'They _____ (not visit) the museum last week.',
+            correctAnswer: 'did not visit',
+        },
+        {
+            id: 6,
+            type: 'fill',
+            question: '_____ she _____ (finish) her homework?',
+            correctAnswer: 'Did she finish',
+        },
+    ];
+
+    const handleInputChange = (questionId, value) => {
+        setAnswers({ ...answers, [questionId]: value });
+        setResults(null);
+    };
+
+    const handleCheckAnswers = async () => {
+        const evaluatedResults = questions.map((q) => answers[q.id]?.toLowerCase() === q.correctAnswer.toLowerCase());
+        const username = Cookies.get('username');
+        const path = 'past-simple';
+        setResults(evaluatedResults);
+
+        // Check if all answers are correct
+        if (evaluatedResults.every((result) => result === true)) {
+            // If all answers are correct, update the user's learning process using PUT request
+            try {
+                const response = await put(`/user-learning-process/${username}/${path}`, {
+                    completed: true,
+                });
+                console.log('User progress updated successfully:', response);
+
+                // Show the success popup
+                setShowPopup(true);
+            } catch (error) {
+                console.error('Error updating user progress:', error);
+            }
+        }
+    };
+
+    const handleResetAll = () => {
+        setAnswers({});
+        setResults(null);
+    };
+
+    const handleReloadPage = () => {
+        // Reload the current page after clicking "OK"
+        window.location.reload();
+    };
+
     return (
-        <div className={cx('english-grammar')}>
-            <h1>Thì Quá Khứ Đơn (Past Simple)</h1>
-            <p>
-                Thì quá khứ đơn (Past Simple) được sử dụng để diễn tả một hành động hoặc sự việc đã xảy ra và hoàn thành
-                tại một thời điểm xác định trong quá khứ.
-            </p>
+        <div>
+            <h1>Quá khứ đơn</h1>
+            <div className={cx('exercise-container')}>
+                <div className={cx('tabs')}>
+                    {tabs.map((tab, index) => (
+                        <button
+                            key={index}
+                            className={cx('tab', { active: tabIndex === index })}
+                            onClick={() => setTabIndex(index)}
+                        >
+                            {tab}
+                        </button>
+                    ))}
+                </div>
 
-            <h3>Ví Dụ:</h3>
-            <ul>
-                <li>I visited my grandmother last weekend. (Tôi đã thăm bà vào cuối tuần trước.)</li>
-                <li>They traveled to Paris last summer. (Họ đã du lịch đến Paris vào mùa hè năm ngoái.)</li>
-                <li>She watched a movie yesterday. (Cô ấy đã xem một bộ phim hôm qua.)</li>
-            </ul>
+                <div className={cx('content')}>
+                    {tabIndex === 0 ? (
+                        // "Tổng quan" tab content
+                        <div>
+                            <h3>Tổng quan về thì quá khứ đơn</h3>
+                            <p>
+                                Thì quá khứ đơn (Past Simple) được sử dụng để diễn tả hành động đã xảy ra và kết thúc
+                                trong quá khứ.
+                            </p>
+                            <p>
+                                <strong>Công thức:</strong>
+                            </p>
+                            <p>S + PAST FORM OF VERB + O (Khẳng định)</p>
+                            <p>S + DID NOT + BASE FORM OF VERB + O (Phủ định)</p>
+                            <p>DID + S + BASE FORM OF VERB + O? (Câu hỏi)</p>
+                            <p>
+                                Ví dụ:
+                                <br />
+                                - I watched a movie last night. (Tôi đã xem một bộ phim tối qua.)
+                                <br />
+                                - They didn't go to the party. (Họ đã không đi đến bữa tiệc.)
+                                <br />- Did you play football yesterday? (Bạn có chơi bóng đá hôm qua không?)
+                            </p>
+                        </div>
+                    ) : tabIndex < 4 ? (
+                        <div>
+                            <h3>{tabs[tabIndex]}</h3>
+                            {exercises[tabs[tabIndex]].map((item, i) => (
+                                <div key={i} className={cx('rule-container')}>
+                                    <p>
+                                        <strong>Công thức:</strong>
+                                    </p>
+                                    <p className={cx('rule')}>
+                                        <strong>{item.rule}</strong>
+                                    </p>
+                                    <p>
+                                        <strong>Ví dụ:</strong>
+                                    </p>
+                                    {item.examples.map((ex, idx) => (
+                                        <p key={idx}>{ex}</p>
+                                    ))}
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div>
+                            {questions.map((q, index) => (
+                                <div key={q.id} className={cx('question')}>
+                                    <p>{q.question}</p>
+                                    {q.type === 'single' ? (
+                                        <select
+                                            onChange={(e) => handleInputChange(q.id, e.target.value)}
+                                            value={answers[q.id] || ''}
+                                            disabled={results !== null}
+                                        >
+                                            <option value="">--Chọn đáp án--</option>
+                                            {q.options.map((option) => (
+                                                <option key={option} value={option}>
+                                                    {option}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    ) : (
+                                        <input
+                                            type="text"
+                                            value={answers[q.id] || ''}
+                                            onChange={(e) => handleInputChange(q.id, e.target.value)}
+                                            disabled={results !== null}
+                                        />
+                                    )}
+                                    {results && (
+                                        <p className={cx(results[index] ? 'correct' : 'incorrect')}>
+                                            {results[index] ? 'Correct!' : `Incorrect! Đáp án đúng: ${q.correctAnswer}`}
+                                        </p>
+                                    )}
+                                </div>
+                            ))}
+                            <button
+                                className={cx('check-button')}
+                                onClick={handleCheckAnswers}
+                                disabled={results !== null}
+                            >
+                                Check Answers
+                            </button>
+                            <button className={cx('reset-button')} onClick={handleResetAll}>
+                                Làm lại tất cả
+                            </button>
+                        </div>
+                    )}
+                </div>
 
-            <h2>Công thức thì quá khứ đơn</h2>
+                <div className={cx('navigation')}>
+                    <button className={cx('nav-space')} onClick={prevTab} disabled={tabIndex === 0}>
+                        Previous
+                    </button>
+                    <button className={cx('nav-space')} onClick={nextTab} disabled={tabIndex === tabs.length - 1}>
+                        Next
+                    </button>
+                </div>
+            </div>
 
-            <h3>1. Câu Khẳng Định:</h3>
-            <p>
-                <strong>S + V2 (quá khứ của động từ) + O</strong>
-            </p>
-            <p>
-                <strong>Ví dụ:</strong>
-            </p>
-            <ul>
-                <li>He played football yesterday. (Anh ấy đã chơi bóng đá hôm qua.)</li>
-                <li>We visited the museum last week. (Chúng tôi đã thăm bảo tàng vào tuần trước.)</li>
-            </ul>
-
-            <h3>2. Câu Phủ Định:</h3>
-            <p>
-                <strong>S + did not (didn't) + V (nguyên thể) + O</strong>
-            </p>
-            <p>
-                <strong>Ví dụ:</strong>
-            </p>
-            <ul>
-                <li>She didn't go to school yesterday. (Cô ấy đã không đi học hôm qua.)</li>
-                <li>They didn't like the movie. (Họ không thích bộ phim.)</li>
-            </ul>
-
-            <h3>3. Câu Nghi Vấn:</h3>
-            <p>
-                <strong>Did + S + V (nguyên thể) + O?</strong>
-            </p>
-            <p>
-                <strong>Ví dụ:</strong>
-            </p>
-            <ul>
-                <li>Did you watch the game? (Bạn đã xem trận đấu chưa?)</li>
-                <li>Did she call you yesterday? (Cô ấy đã gọi cho bạn hôm qua chưa?)</li>
-            </ul>
-
-            <h2>Cách Dùng Thì Quá Khứ Đơn:</h2>
-            <ul>
-                <li>Diễn tả hành động, sự việc đã xảy ra và hoàn thành trong quá khứ tại một thời điểm xác định.</li>
-                <li>Diễn tả các sự kiện trong một câu chuyện hoặc quá trình lịch sử.</li>
-                <li>Diễn tả hành động lặp lại trong quá khứ.</li>
-            </ul>
-
-            <h2>Dấu Hiệu Nhận Biết Thì Quá Khứ Đơn:</h2>
-            <ul>
-                <li>
-                    Yesterday (hôm qua), last (cuối tuần trước, năm ngoái, tháng trước, v.v.), in (1990, the 18th
-                    century), ago (trước đây).
-                </li>
-            </ul>
-
-            <h2>Quy Tắc Chia Động Từ:</h2>
-            <ul>
-                <li>Động từ thường: Thêm “ed” vào cuối động từ (ví dụ: work -&gt; worked, play -&gt; played).</li>
-                <li>
-                    Động từ bất quy tắc: Cần học thuộc các động từ bất quy tắc (ví dụ: go -&gt; went, eat -&gt; ate,
-                    have -&gt; had).
-                </li>
-            </ul>
+            {/* Popup for success */}
+            {showPopup && (
+                <div className={cx('popup-overlay')}>
+                    <div className={cx('popup-content')}>
+                        <h2>Chúc mừng! Bạn đã hoàn thành bài tập!</h2>
+                        <button onClick={handleReloadPage}>OK</button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
