@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 import styles from '../../Exercises.module.scss';
 import {
@@ -6,11 +6,8 @@ import {
     QuestDescription02,
     QuestDescription03,
     QuestDescription04,
-    Questions01,
-    Questions02,
-    Questions03,
-    Questions04,
 } from './exercises_question_description';
+import { get } from '~/utils/httpRequest';
 
 const cx = classNames.bind(styles);
 
@@ -49,12 +46,39 @@ const ExerciseQuestions = ({ questions, answers, handleAnswerChange, children })
 };
 
 function ExercisesPart2({ answers, setAnswers }) {
+    const [questions, setQuestions] = useState([]);
+
+    // Fetch questions from the API
+    useEffect(() => {
+        const fetchQuestions = async () => {
+            try {
+                const data = await get('/exercises-question/search?name=questionset001');
+                const selectedQuestions = data[0]?.questions_api.slice(30, 46); // Get questions 31-46 (index 30 to 45)
+                setQuestions(selectedQuestions || []);
+            } catch (error) {
+                console.error('Error fetching questions:', error);
+            }
+        };
+
+        fetchQuestions();
+    }, []);
+
     const handleAnswerChange = (questionNumber, selectedOption) => {
         setAnswers((prevAnswers) => ({
             ...prevAnswers,
             [questionNumber]: selectedOption,
         }));
     };
+
+    // Filter questions for different sets based on their question numbers
+    const filterQuestionsByNumber = (questions, numbers) => {
+        return questions.filter((question) => numbers.includes(Number(question.questionNumber)));
+    };
+
+    const Questions01 = filterQuestionsByNumber(questions, [31, 32, 33, 34]);
+    const Questions02 = filterQuestionsByNumber(questions, [35, 36, 37, 38]);
+    const Questions03 = filterQuestionsByNumber(questions, [39, 40, 41, 42]);
+    const Questions04 = filterQuestionsByNumber(questions, [43, 44, 45, 46]);
 
     return (
         <div>

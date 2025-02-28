@@ -1,12 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from '../../Exercises.module.scss';
 import classNames from 'classnames/bind';
-import { part1Question } from '../Tab';
+import { get } from '~/utils/httpRequest';
 
 const cx = classNames.bind(styles);
 
 function ExercisesPart1({ answers, setAnswers }) {
-    const questions = part1Question;
+    const [questions, setQuestions] = useState([]);
+
+    useEffect(() => {
+        // Fetch questions from the API
+        const fetchQuestions = async () => {
+            try {
+                const data = await get('/exercises-question/search?name=questionset001');
+                const first30Questions = data[0]?.questions_api.slice(0, 30); // Ensure we only take the first 30 questions
+                setQuestions(first30Questions || []);
+            } catch (error) {
+                console.error('Error fetching questions:', error);
+            }
+        };
+
+        fetchQuestions();
+    }, []);
 
     const handleAnswerChange = (questionId, selectedOption) => {
         setAnswers((prevAnswers) => ({

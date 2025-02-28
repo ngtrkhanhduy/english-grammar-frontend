@@ -1,23 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from '../Exercises.module.scss';
+import { get } from '~/utils/httpRequest';
 
 const cx = classNames.bind(styles);
 
-const testResults = [
-    {
-        date: '12/01/2025',
-        result: '5/30',
-        url: '',
-    },
-    {
-        date: '05/01/2025',
-        result: '6/30',
-        url: '',
-    },
-];
-
 const ExercisesPage = () => {
+    const [testResults, setTestResults] = useState([]);
+
+    useEffect(() => {
+        // Use the 'get' method from axios to fetch data
+        get('/user-exercises-process/ngtrkhanhduy1308@gmail.com')
+            .then((data) => {
+                // Format the data as needed
+                const formattedResults = data.map((test) => ({
+                    id: test._id,
+                    date: new Date(test.createdAt).toLocaleDateString('vi-VN'),
+                    result: `${test.result}/${test.count}`,
+                }));
+                setTestResults(formattedResults);
+            })
+            .catch((error) => console.error('Error fetching test results:', error));
+    }, []);
+
     return (
         <div className={cx('english-grammar')}>
             <div className={cx('exercises')}>
@@ -37,11 +42,16 @@ const ExercisesPage = () => {
                                 <tr key={index}>
                                     <td>{test.date}</td>
                                     <td>{test.result}</td>
-                                    <td>Xem chi tiết</td>
+                                    <td>
+                                        <a href={`/toiec-exercises-001/${test.id}`}>Xem chi tiết</a>
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
+                </div>
+                <div>
+                    <button onClick={() => (window.location.href = '/toiec-exercises-001/practice')}>Làm bài</button>
                 </div>
             </div>
         </div>

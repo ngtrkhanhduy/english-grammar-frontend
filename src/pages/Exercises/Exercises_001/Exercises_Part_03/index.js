@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 import styles from '../../Exercises.module.scss';
 import {
@@ -17,22 +17,8 @@ import {
     QuestDescription13,
     QuestDescription14,
     QuestDescription15,
-    Questions01,
-    Questions02,
-    Questions03,
-    Questions04,
-    Questions05,
-    Questions06,
-    Questions07,
-    Questions08,
-    Questions09,
-    Questions10,
-    Questions11,
-    Questions12,
-    Questions13,
-    Questions14,
-    Questions15,
 } from './exercises_question_description';
+import { get } from '~/utils/httpRequest';
 
 const cx = classNames.bind(styles);
 
@@ -69,13 +55,51 @@ const ExerciseQuestions = ({ questions, answers, handleAnswerChange, cx, childre
     );
 };
 
-function ExercisesPart2({ answers, setAnswers }) {
-    const handleAnswerChange = (questionId, selectedOption) => {
+function ExercisesPart3({ answers, setAnswers }) {
+    const [questions, setQuestions] = useState([]);
+
+    // Fetch questions from the API
+    useEffect(() => {
+        const fetchQuestions = async () => {
+            try {
+                const data = await get('/exercises-question/search?name=questionset001');
+                const selectedQuestions = data[0]?.questions_api.slice(46, 100); // Get questions 47-100 (index 46 to 99)
+                setQuestions(selectedQuestions || []);
+            } catch (error) {
+                console.error('Error fetching questions:', error);
+            }
+        };
+
+        fetchQuestions();
+    }, []);
+
+    const handleAnswerChange = (questionNumber, selectedOption) => {
         setAnswers((prevAnswers) => ({
             ...prevAnswers,
-            [questionId]: selectedOption,
+            [questionNumber]: selectedOption,
         }));
     };
+
+    // Filter questions for different sets based on their question numbers
+    const filterQuestionsByNumber = (questions, numbers) => {
+        return questions.filter((question) => numbers.includes(Number(question.questionNumber)));
+    };
+
+    const Questions01 = filterQuestionsByNumber(questions, [47, 48]);
+    const Questions02 = filterQuestionsByNumber(questions, [49, 50]);
+    const Questions03 = filterQuestionsByNumber(questions, [51, 52]);
+    const Questions04 = filterQuestionsByNumber(questions, [53, 54]);
+    const Questions05 = filterQuestionsByNumber(questions, [55, 56, 57]);
+    const Questions06 = filterQuestionsByNumber(questions, [58, 59, 60]);
+    const Questions07 = filterQuestionsByNumber(questions, [61, 62, 63, 64]);
+    const Questions08 = filterQuestionsByNumber(questions, [65, 66, 67]);
+    const Questions09 = filterQuestionsByNumber(questions, [68, 69, 70, 71]);
+    const Questions10 = filterQuestionsByNumber(questions, [72, 73, 74, 75]);
+    const Questions11 = filterQuestionsByNumber(questions, [76, 77, 78, 79, 80]);
+    const Questions12 = filterQuestionsByNumber(questions, [81, 82, 83, 84, 85]);
+    const Questions13 = filterQuestionsByNumber(questions, [86, 87, 88, 89, 90]);
+    const Questions14 = filterQuestionsByNumber(questions, [91, 92, 93, 94, 95]);
+    const Questions15 = filterQuestionsByNumber(questions, [96, 97, 98, 99, 100]);
 
     return (
         <div>
@@ -111,7 +135,6 @@ function ExercisesPart2({ answers, setAnswers }) {
             >
                 <QuestDescription04 />
             </ExerciseQuestions>
-
             <ExerciseQuestions
                 questions={Questions05}
                 answers={answers}
@@ -120,7 +143,6 @@ function ExercisesPart2({ answers, setAnswers }) {
             >
                 <QuestDescription05 />
             </ExerciseQuestions>
-
             <ExerciseQuestions
                 questions={Questions06}
                 answers={answers}
@@ -129,7 +151,6 @@ function ExercisesPart2({ answers, setAnswers }) {
             >
                 <QuestDescription06 />
             </ExerciseQuestions>
-
             <ExerciseQuestions
                 questions={Questions07}
                 answers={answers}
@@ -138,7 +159,6 @@ function ExercisesPart2({ answers, setAnswers }) {
             >
                 <QuestDescription07 />
             </ExerciseQuestions>
-
             <ExerciseQuestions
                 questions={Questions08}
                 answers={answers}
@@ -147,7 +167,6 @@ function ExercisesPart2({ answers, setAnswers }) {
             >
                 <QuestDescription08 />
             </ExerciseQuestions>
-
             <ExerciseQuestions
                 questions={Questions09}
                 answers={answers}
@@ -156,7 +175,6 @@ function ExercisesPart2({ answers, setAnswers }) {
             >
                 <QuestDescription09 />
             </ExerciseQuestions>
-
             <ExerciseQuestions
                 questions={Questions10}
                 answers={answers}
@@ -165,7 +183,6 @@ function ExercisesPart2({ answers, setAnswers }) {
             >
                 <QuestDescription10 />
             </ExerciseQuestions>
-
             <ExerciseQuestions
                 questions={Questions11}
                 answers={answers}
@@ -174,7 +191,6 @@ function ExercisesPart2({ answers, setAnswers }) {
             >
                 <QuestDescription11 />
             </ExerciseQuestions>
-
             <ExerciseQuestions
                 questions={Questions12}
                 answers={answers}
@@ -183,7 +199,6 @@ function ExercisesPart2({ answers, setAnswers }) {
             >
                 <QuestDescription12 />
             </ExerciseQuestions>
-
             <ExerciseQuestions
                 questions={Questions13}
                 answers={answers}
@@ -192,7 +207,6 @@ function ExercisesPart2({ answers, setAnswers }) {
             >
                 <QuestDescription13 />
             </ExerciseQuestions>
-
             <ExerciseQuestions
                 questions={Questions14}
                 answers={answers}
@@ -201,7 +215,6 @@ function ExercisesPart2({ answers, setAnswers }) {
             >
                 <QuestDescription14 />
             </ExerciseQuestions>
-
             <ExerciseQuestions
                 questions={Questions15}
                 answers={answers}
@@ -214,4 +227,4 @@ function ExercisesPart2({ answers, setAnswers }) {
     );
 }
 
-export default ExercisesPart2;
+export default ExercisesPart3;

@@ -1,16 +1,3 @@
-import { part2Question } from '../Tab';
-
-const questions = part2Question;
-
-export const filterQuestionsByNumber = (questions, numbers) => {
-    return questions.filter((question) => numbers.includes(Number(question.questionNumber)));
-};
-
-export const Questions01 = filterQuestionsByNumber(questions, [31, 32, 33, 34]);
-export const Questions02 = filterQuestionsByNumber(questions, [35, 36, 37, 38]);
-export const Questions03 = filterQuestionsByNumber(questions, [39, 40, 41, 42]);
-export const Questions04 = filterQuestionsByNumber(questions, [43, 44, 45, 46]);
-
 export const QuestDescription01 = () => {
     return (
         <div>
