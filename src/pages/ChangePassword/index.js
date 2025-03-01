@@ -107,7 +107,7 @@ const ChangePassword = () => {
                     />
                 </div>
                 <Button type="submit" className={cx('submit-button')}>
-                    Change Password
+                    Update
                 </Button>
             </form>
 

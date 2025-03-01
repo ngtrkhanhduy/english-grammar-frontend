@@ -2,16 +2,8 @@
 import Home from '~/pages/Home';
 import Profile from '~/pages/Profile';
 import Login from '~/pages/Login';
-import Document from '~/pages/Document';
-import Tenses from '~/pages/Tenses';
 import Exercises from '~/pages/Exercises';
-import GrammaticalStructure from '~/pages/GrammaticalStructure';
-import PathsOfSpeech from '~/pages/PathsOfSpeech';
-import RoadMap from '~/pages/RoadMap';
-import SentenceStructure from '~/pages/SentenceStructure';
-import Videos from '~/pages/Videos';
 import Introduce from '~/pages/Introduce';
-import Questions from '~/pages/Questions';
 import PresentSimple from '~/pages/Tenses/PresentSimple';
 import PresentContinuous from '~/pages/Tenses/PresentContinuous';
 import PresentPerfect from '~/pages/Tenses/PresentPerfect';
@@ -24,9 +16,32 @@ import FutureSimple from '~/pages/Tenses/FutureSimple';
 import FutureContinuous from '~/pages/Tenses/FutureContinuous';
 import FuturePerfect from '~/pages/Tenses/FuturePerfect';
 import FuturePerfectContinuous from '~/pages/Tenses/FuturePerfectContinuous';
+import Noun from '~/pages/Tenses/Noun';
+import Verb from '~/pages/Tenses/Verb';
+import Adjective from '~/pages/Tenses/Adjective';
+import Adverb from '~/pages/Tenses/Adverb';
+import Pronoun from '~/pages/Tenses/Pronoun';
 import Logout from '~/pages/Logout';
 import { Practice_ToeicExercises_001, ToeicExercises_001 } from '~/pages/Exercises/Exercises_001';
 import ChangePassword from '~/pages/ChangePassword';
+import Preposition from '~/pages/Tenses/Preposition';
+import Conjunction from '~/pages/Tenses/Conjunction';
+import Interjection from '~/pages/Tenses/Interjection';
+import YesNoQuestion from '~/pages/Tenses/YesNoQuestion';
+import WhQuestion from '~/pages/Tenses/WhQuestion';
+import TagQuestion from '~/pages/Tenses/TagQuestion';
+import ChoiceQuestion from '~/pages/Tenses/ChoiceQuestion';
+import NegativeQuestion from '~/pages/Tenses/NegativeQuestion';
+import SimpleSentence from '~/pages/Tenses/SimpleSentence';
+import CompoundSentence from '~/pages/Tenses/CompoundSentence';
+import ComplexSentence from '~/pages/Tenses/ComplexSentence';
+import CompoundComplexSentence from '~/pages/Tenses/CompoundComplexSentence';
+import ConditionalSentence from '~/pages/Tenses/ConditionalSentence';
+import PassiveSentence from '~/pages/Tenses/PassiveSentence';
+import ReportedSpeech from '~/pages/Tenses/ReportedSpeech';
+import ComparativeSentence from '~/pages/Tenses/ComparativeSentence';
+import PhrasalVerb from '~/pages/Tenses/PhrasalVerb';
+
 // Public routes
 const privateRoutes = {
     default: [
@@ -35,17 +50,12 @@ const privateRoutes = {
         { path: '/profile', component: Profile },
         { path: '/change-password', component: ChangePassword },
         { path: '/introduce', component: Introduce },
-        { path: '/road-map', component: RoadMap },
         { path: '/logout', component: Logout },
         { path: '/exercises', component: Exercises },
-        { path: '/download-document', component: Document },
-        { path: '/download-videos', component: Videos },
-
         { path: '/toiec-exercises-001', component: ToeicExercises_001 },
         { path: '/toiec-exercises-001/practice', component: Practice_ToeicExercises_001 },
     ],
     learning: [
-        { path: '/tenses', component: Tenses },
         { path: '/present-simple', component: PresentSimple },
         { path: '/present-continuous', component: PresentContinuous },
         { path: '/present-perfect', component: PresentPerfect },
@@ -58,12 +68,28 @@ const privateRoutes = {
         { path: '/future-continuous', component: FutureContinuous },
         { path: '/future-perfect', component: FuturePerfect },
         { path: '/future-perfect-continuous', component: FuturePerfectContinuous },
-        { path: '/grammatical-structure', component: GrammaticalStructure },
-        { path: '/paths-of-speech', component: PathsOfSpeech },
-        { path: '/questions', component: Questions },
-        { path: '/sentence-structure', component: SentenceStructure },
-        { path: '/download-document', component: Document },
-        { path: '/download-videos', component: Videos },
+        { path: '/noun', component: Noun },
+        { path: '/verb', component: Verb },
+        { path: '/adjective', component: Adjective },
+        { path: '/adverb', component: Adverb },
+        { path: '/pronoun', component: Pronoun },
+        { path: '/preposition', component: Preposition },
+        { path: '/conjunction', component: Conjunction },
+        { path: '/interjection', component: Interjection },
+        { path: '/yes-no-question', component: YesNoQuestion },
+        { path: '/wh-question', component: WhQuestion },
+        { path: '/tag-question', component: TagQuestion },
+        { path: '/choice-question', component: ChoiceQuestion },
+        { path: '/negative-question', component: NegativeQuestion },
+        { path: '/simple-sentence', component: SimpleSentence },
+        { path: '/compound-sentence', component: CompoundSentence },
+        { path: '/complex-sentence', component: ComplexSentence },
+        { path: '/compound-complex-sentence', component: CompoundComplexSentence },
+        { path: '/conditional-sentence', component: ConditionalSentence },
+        { path: '/passive-sentence', component: PassiveSentence },
+        { path: '/reported-speech', component: ReportedSpeech },
+        { path: '/comparative-sentence', component: ComparativeSentence },
+        { path: '/phrasal-verb', component: PhrasalVerb },
     ],
 };
 
