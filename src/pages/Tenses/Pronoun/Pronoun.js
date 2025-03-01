@@ -16,18 +16,21 @@ const PronounLesson = () => {
 
     const nextTab = () => setTabIndex((prev) => (prev < tabs.length - 1 ? prev + 1 : prev));
     const prevTab = () => setTabIndex((prev) => (prev > 0 ? prev - 1 : prev));
-
     const exercises = {
         'Đại từ nhân xưng': [
             {
-                rule: 'Đại từ nhân xưng dùng để thay thế cho danh từ chỉ người hoặc vật.',
-                examples: ['I', 'you', 'he', 'she', 'it', 'we', 'they'],
+                rule: `Đại từ nhân xưng (Personal Pronouns) thay thế cho danh từ chỉ người/vật.`,
+                examples: ['I love reading. (I = chủ ngữ)', 'She helps them every day. (them = tân ngữ)'],
             },
         ],
         'Đại từ sở hữu': [
             {
-                rule: 'Đại từ sở hữu chỉ quyền sở hữu và không cần danh từ đi kèm.',
-                examples: ['mine', 'yours', 'his', 'hers', 'ours', 'theirs'],
+                rule: `Đại từ sở hữu (Possessive Pronouns) thay thế cụm danh từ mang nghĩa sở hữu. 
+    Không cần danh từ đi kèm. `,
+                examples: [
+                    'This book is mine. (mine = “my book”)',
+                    'Our house is big, but theirs is bigger. (theirs = “their house”)',
+                ],
             },
         ],
     };
