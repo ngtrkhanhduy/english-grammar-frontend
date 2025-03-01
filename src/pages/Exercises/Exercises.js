@@ -18,32 +18,40 @@ const tests = [
         title: 'New Economy TOEIC Test 2',
         tag: '#TOEIC',
         resultAvailable: false,
-        path: '/toiec-exercises-001',
+        path: '/comming-soon',
     },
     {
-        id: 2,
+        id: 3,
         title: 'New Economy TOEIC Test 3',
         tag: '#TOEIC',
         resultAvailable: false,
-        path: '/toiec-exercises-001',
+        path: '/comming-soon',
     },
     {
-        id: 2,
+        id: 4,
         title: 'New Economy TOEIC Test 4',
         tag: '#TOEIC',
         resultAvailable: false,
-        path: '/toiec-exercises-001',
+        path: '/comming-soon',
     },
     {
-        id: 2,
-        title: 'New Economy TOEIC Test 4',
+        id: 5,
+        title: 'New Economy TOEIC Test 5',
         tag: '#TOEIC',
         resultAvailable: false,
-        path: '/toiec-exercises-001',
+        path: '/comming-soon',
     },
 ];
 
 const Exercises = () => {
+    const handleButtonClick = (path) => {
+        if (path === '/comming-soon') {
+            window.location.href = path;
+        } else {
+            window.location.href = `${path}/practice`;
+        }
+    };
+
     return (
         <div className={cx('test-list-container')}>
             {tests.map((test) => (
@@ -55,17 +63,11 @@ const Exercises = () => {
                     </h3>
                     <span className={cx('test-tag')}>{test.tag}</span>
                     {test.resultAvailable ? (
-                        <button
-                            onClick={() => (window.location.href = '/toiec-exercises-001')}
-                            className={cx('result-button')}
-                        >
+                        <button onClick={() => (window.location.href = `${test.path}`)} className={cx('result-button')}>
                             Xem kết quả
                         </button>
                     ) : (
-                        <button
-                            onClick={() => (window.location.href = '/toiec-exercises-001/practice')}
-                            className={cx('detail-button')}
-                        >
+                        <button onClick={() => handleButtonClick(test.path)} className={cx('detail-button')}>
                             Chi tiết
                         </button>
                     )}

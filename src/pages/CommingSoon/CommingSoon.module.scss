@@ -1,0 +1,43 @@
+/* CommingSoon.module.scss */
+.commit-soon-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #f5f5f5;
+    color: #333;
+    font-family: Arial, sans-serif;
+}
+
+.commit-soon-header {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #ff5733;
+}
+
+.commit-soon-message {
+    font-size: 1.2rem;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.commit-soon-button-container {
+    display: flex;
+    justify-content: center;
+}
+
+.commit-soon-button {
+    background-color: #ff5733;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.commit-soon-button:hover {
+    background-color: #c7402f;
+}

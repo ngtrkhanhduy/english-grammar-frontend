@@ -41,6 +41,7 @@ import PassiveSentence from '~/pages/Tenses/PassiveSentence';
 import ReportedSpeech from '~/pages/Tenses/ReportedSpeech';
 import ComparativeSentence from '~/pages/Tenses/ComparativeSentence';
 import PhrasalVerb from '~/pages/Tenses/PhrasalVerb';
+import CommitSoon from '~/pages/CommingSoon';
 
 // Public routes
 const privateRoutes = {
@@ -52,6 +53,8 @@ const privateRoutes = {
         { path: '/exercises', component: Exercises },
         { path: '/toiec-exercises-001', component: ToeicExercises_001 },
         { path: '/toiec-exercises-001/practice', component: Practice_ToeicExercises_001 },
+        { path: '/comming-soon', component: CommitSoon },
+        { path: '/comming-soon/practice', component: CommitSoon },
     ],
     learning: [
         { path: '/present-simple', component: PresentSimple },
