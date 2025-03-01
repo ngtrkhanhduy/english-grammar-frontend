@@ -9,26 +9,38 @@ const tests = [
     {
         id: 1,
         title: 'New Economy TOEIC Test 1',
-        time: '120 phút',
-        participants: '1285041',
-        comments: 1654,
-        questions: 200,
         tag: '#TOEIC',
         resultAvailable: true,
-        path: '/toiec-exercises-001', // Add path for navigation
+        path: '/toiec-exercises-001',
     },
     {
         id: 2,
-        title: 'New Economy TOEIC Test 10',
-        time: '120 phút',
-        participants: '340011',
-        comments: 206,
-        questions: 200,
+        title: 'New Economy TOEIC Test 2',
         tag: '#TOEIC',
         resultAvailable: false,
-        path: '/toiec-exercises-010', // Add path for navigation
+        path: '/toiec-exercises-001',
     },
-    // Add more test data as needed
+    {
+        id: 2,
+        title: 'New Economy TOEIC Test 3',
+        tag: '#TOEIC',
+        resultAvailable: false,
+        path: '/toiec-exercises-001',
+    },
+    {
+        id: 2,
+        title: 'New Economy TOEIC Test 4',
+        tag: '#TOEIC',
+        resultAvailable: false,
+        path: '/toiec-exercises-001',
+    },
+    {
+        id: 2,
+        title: 'New Economy TOEIC Test 4',
+        tag: '#TOEIC',
+        resultAvailable: false,
+        path: '/toiec-exercises-001',
+    },
 ];
 
 const Exercises = () => {
@@ -41,15 +53,21 @@ const Exercises = () => {
                             {test.title}
                         </Link>
                     </h3>
-                    <p className={cx('test-info')}>
-                        <span>🕒 {test.time}</span> | <span>👤 {test.participants}</span> |{' '}
-                    </p>
-                    <p className={cx('test-questions')}>{test.questions} câu hỏi</p>
                     <span className={cx('test-tag')}>{test.tag}</span>
                     {test.resultAvailable ? (
-                        <button className={cx('result-button')}>Xem kết quả</button>
+                        <button
+                            onClick={() => (window.location.href = '/toiec-exercises-001')}
+                            className={cx('result-button')}
+                        >
+                            Xem kết quả
+                        </button>
                     ) : (
-                        <button className={cx('detail-button')}>Chi tiết</button>
+                        <button
+                            onClick={() => (window.location.href = '/toiec-exercises-001/practice')}
+                            className={cx('detail-button')}
+                        >
+                            Chi tiết
+                        </button>
                     )}
                 </div>
             ))}

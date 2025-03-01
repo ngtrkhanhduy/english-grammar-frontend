@@ -8,6 +8,11 @@ export const userMenu = [
         to: '/profile',
     },
     {
+        icon: <FontAwesomeIcon icon={faUser} />,
+        title: 'Change password',
+        to: '/change-password',
+    },
+    {
         icon: <FontAwesomeIcon icon={faSignOut} />,
         title: 'Log out',
         to: '/logout',
@@ -27,7 +32,7 @@ export const MENU_TAB_KIEMTRA = {
 
 export const MENU_TAB_NGUPHAP = {
     title: 'NGỮ PHÁP',
-    url: '/grammatical-structure',
+    url: '/present-simple',
 };
 
 export const MENU_TAB_TAILIEU = {

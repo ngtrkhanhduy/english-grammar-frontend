@@ -26,12 +26,14 @@ import FuturePerfect from '~/pages/Tenses/FuturePerfect';
 import FuturePerfectContinuous from '~/pages/Tenses/FuturePerfectContinuous';
 import Logout from '~/pages/Logout';
 import { Practice_ToeicExercises_001, ToeicExercises_001 } from '~/pages/Exercises/Exercises_001';
+import ChangePassword from '~/pages/ChangePassword';
 // Public routes
 const privateRoutes = {
     default: [
         { path: '/', component: Home },
         { path: '/home', component: Home },
         { path: '/profile', component: Profile },
+        { path: '/change-password', component: ChangePassword },
         { path: '/introduce', component: Introduce },
         { path: '/road-map', component: RoadMap },
         { path: '/logout', component: Logout },
