@@ -45,8 +45,6 @@ import PhrasalVerb from '~/pages/Tenses/PhrasalVerb';
 // Public routes
 const privateRoutes = {
     default: [
-        { path: '/', component: Home },
-        { path: '/home', component: Home },
         { path: '/profile', component: Profile },
         { path: '/change-password', component: ChangePassword },
         { path: '/introduce', component: Introduce },
@@ -93,6 +91,10 @@ const privateRoutes = {
     ],
 };
 
-const publicRoutes = [{ path: '/Login', component: Login }];
+const publicRoutes = [
+    { path: '/', component: Home },
+    { path: '/Login', component: Login },
+    { path: '/home', component: Home },
+];
 
 export { publicRoutes, privateRoutes };

@@ -1,16 +1,24 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { privateRoutes, publicRoutes } from '~/routes';
 import DefaultLayout from '~/components/Layout/DefaultLayout';
 import { HeaderOnlyLayout } from './components/Layout';
+import Cookies from 'js-cookie';
 
 function App() {
+    const username = Cookies.get('username');
+
     return (
         <Router>
             <div className="App">
                 <Routes>
                     {privateRoutes.default.map((route, index) => {
                         const Page = route.component;
-                        let Layout = HeaderOnlyLayout;
+                        const Layout = HeaderOnlyLayout;
+
+                        // If the user is not logged in, redirect to /login
+                        if (!username) {
+                            return <Route key={index} path={route.path} element={<Navigate to="/login" replace />} />;
+                        }
 
                         return (
                             <Route
@@ -27,7 +35,11 @@ function App() {
 
                     {privateRoutes.learning.map((route, index) => {
                         const Page = route.component;
-                        let Layout = DefaultLayout;
+                        const Layout = DefaultLayout;
+
+                        if (!username) {
+                            return <Route key={index} path={route.path} element={<Navigate to="/login" replace />} />;
+                        }
 
                         return (
                             <Route
@@ -44,7 +56,24 @@ function App() {
 
                     {publicRoutes.map((route, index) => {
                         const Page = route.component;
-                        return <Route key={index} path={route.path} element={<Page />} />;
+
+                        // If path is /Login, render the Page directly (no layout)
+                        if (route.path.toLowerCase() === '/login') {
+                            return <Route key={index} path={route.path} element={<Page />} />;
+                        }
+
+                        // Otherwise, wrap in HeaderOnlyLayout
+                        return (
+                            <Route
+                                key={index}
+                                path={route.path}
+                                element={
+                                    <HeaderOnlyLayout>
+                                        <Page />
+                                    </HeaderOnlyLayout>
+                                }
+                            />
+                        );
                     })}
                 </Routes>
             </div>
