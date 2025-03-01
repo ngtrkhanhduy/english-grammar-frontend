@@ -1,9 +1,11 @@
 import { useState } from 'react';
-import axios from 'axios';
 import Cookies from 'js-cookie';
 import classNames from 'classnames/bind';
 import styles from './Login.module.scss';
 import Button from '~/components/Button';
+
+// Import the custom post function
+import { post } from '~/utils/httpRequest';
 
 const cx = classNames.bind(styles);
 
@@ -16,26 +18,29 @@ function Auth({ toggle }) {
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [activeAccountKey, setActiveAccountKey] = useState('');
-    const [isActivationPopupVisible, setIsActivationPopupVisible] = useState(false); // New state to control the popup
-    const [successMessage, setSuccessMessage] = useState(''); // Success message after activation
+    const [isActivationPopupVisible, setIsActivationPopupVisible] = useState(false);
+    const [successMessage, setSuccessMessage] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        setErrorMessage(''); // Clear any previous error messages
+        setErrorMessage('');
 
+        // Validate email for Register
         if (!isLogin && !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(username)) {
             setErrorMessage('Invalid email format.');
             setLoading(false);
             return;
         }
 
+        // Validate password length
         if (password.length < 8) {
             setErrorMessage('Password must be at least 8 characters long.');
             setLoading(false);
             return;
         }
 
+        // Check confirm password for Register
         if (!isLogin && password !== confirmPassword) {
             setErrorMessage('Passwords do not match!');
             setLoading(false);
@@ -43,32 +48,39 @@ function Auth({ toggle }) {
         }
 
         try {
-            const url = isLogin ? 'http://localhost:8081/auth/signin' : 'http://localhost:8081/auth/signup';
-
+            // Choose endpoint based on login or register
+            const url = isLogin ? '/auth/signin' : '/auth/signup';
             const data = isLogin ? { username, password } : { name, username, password };
 
-            const response = await axios.post(url, data);
+            // Call the custom POST method
+            const result = await post(url, data);
 
-            if (response.data) {
+            if (result) {
+                // If logging in
                 if (isLogin) {
-                    const { username, accessToken, refreshToken } = response.data;
+                    const { username: user, accessToken, refreshToken } = result;
 
-                    Cookies.set('username', username, { expires: 7, secure: true, sameSite: 'strict' });
+                    // Save tokens in cookies
+                    Cookies.set('username', user, { expires: 7, secure: true, sameSite: 'strict' });
                     Cookies.set('accessToken', accessToken, { expires: 1, secure: true, sameSite: 'strict' });
                     Cookies.set('refreshToken', refreshToken, { expires: 7, secure: true, sameSite: 'strict' });
 
+                    // Redirect
                     window.location.href = '/';
                 } else {
+                    // Registration successful, show activation popup
                     setErrorMessage('Registration successful! Please enter your activation key.');
-                    setIsActivationPopupVisible(true); // Show the activation key popup
+                    setIsActivationPopupVisible(true);
                 }
             } else {
-                setErrorMessage(response.data.message || (isLogin ? 'Login failed!' : 'Registration failed!'));
+                // If result is somehow falsy
+                setErrorMessage(isLogin ? 'Login failed!' : 'Registration failed!');
             }
         } catch (err) {
             console.error(err);
+            // Attempt to read error message from server response
             setErrorMessage(
-                err.response?.data?.message || 'An error occurred while activating your account. Please try again.',
+                err.response?.data?.message || 'An error occurred while processing your request. Please try again.',
             );
         } finally {
             setLoading(false);
@@ -78,41 +90,40 @@ function Auth({ toggle }) {
     const handleActivationSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        setErrorMessage(''); // Clear any previous error messages
+        setErrorMessage('');
 
         try {
-            const response = await axios.post('http://localhost:8081/auth/active', {
+            // Activate the account
+            const activationResult = await post('/auth/active', {
                 username,
                 activeAccountKey,
             });
 
-            console.log(response);
-
-            if (response.data.success) {
-                setIsActivationPopupVisible(false); // Close the activation popup
-                setIsLogin(true); // Switch to login form after successful activation
-                setErrorMessage('Account activated successfully! You will be logged in now.'); // Clear any error messages
+            if (activationResult?.success) {
+                setIsActivationPopupVisible(false);
+                setIsLogin(true);
+                setErrorMessage('Account activated successfully! You will be logged in now.');
 
                 // After activation, automatically sign in
-                const loginResponse = await axios.post('http://localhost:8081/auth/signin', {
+                const loginResult = await post('/auth/signin', {
                     username,
-                    password, // Use the same password provided during registration
+                    password,
                 });
 
-                if (loginResponse.data) {
-                    const { username, accessToken, refreshToken } = loginResponse.data;
+                if (loginResult) {
+                    const { username: user, accessToken, refreshToken } = loginResult;
 
-                    Cookies.set('username', username, { expires: 7, secure: true, sameSite: 'strict' });
+                    Cookies.set('username', user, { expires: 7, secure: true, sameSite: 'strict' });
                     Cookies.set('accessToken', accessToken, { expires: 1, secure: true, sameSite: 'strict' });
                     Cookies.set('refreshToken', refreshToken, { expires: 7, secure: true, sameSite: 'strict' });
 
-                    // Redirect to the homepage after login
+                    // Redirect after login
                     window.location.href = '/profile';
                 } else {
-                    setErrorMessage(loginResponse.data.message || 'Login failed after activation.');
+                    setErrorMessage('Login failed after activation.');
                 }
             } else {
-                setErrorMessage(response.data.message || 'Invalid activation key. Please try again.');
+                setErrorMessage(activationResult?.message || 'Invalid activation key. Please try again.');
             }
         } catch (err) {
             console.error(err);
@@ -127,7 +138,7 @@ function Auth({ toggle }) {
     return (
         <div className={cx('popup')}>
             <div className={cx('popup-inner')}>
-                {/* Only show activation popup after registration */}
+                {/* Activation Popup */}
                 {isActivationPopupVisible ? (
                     <>
                         <h2 className={cx('title')}>Activate Your Account</h2>
@@ -156,7 +167,7 @@ function Auth({ toggle }) {
                         </Button>
                     </>
                 ) : (
-                    // Show login/register form if the user is not at the activation step
+                    // Login / Register Form
                     <>
                         <div className={cx('tabs')}>
                             <button
@@ -168,7 +179,7 @@ function Auth({ toggle }) {
                                     setPassword('');
                                     setConfirmPassword('');
                                     setName('');
-                                    setSuccessMessage(''); // Clear success message on switching to login
+                                    setSuccessMessage('');
                                 }}
                             >
                                 Login
@@ -182,7 +193,7 @@ function Auth({ toggle }) {
                                     setPassword('');
                                     setConfirmPassword('');
                                     setName('');
-                                    setSuccessMessage(''); // Clear success message on switching to register
+                                    setSuccessMessage('');
                                 }}
                             >
                                 Register
@@ -236,6 +247,7 @@ function Auth({ toggle }) {
                                     placeholder="Enter your password"
                                 />
                             </div>
+
                             {errorMessage && <p className={cx('error-message')}>{errorMessage}</p>}
                             {successMessage && <p className={cx('success-message')}>{successMessage}</p>}
 

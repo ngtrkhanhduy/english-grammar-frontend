@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 
 // Tạo instance axios với cấu hình mặc định
 const api = axios.create({
-    baseURL: 'http://localhost:8081', // Địa chỉ base URL của API
+    baseURL: 'https://english-grammar-backend.onrender.com', // Địa chỉ base URL của API
     headers: {
         'Content-Type': 'application/json',
     },
