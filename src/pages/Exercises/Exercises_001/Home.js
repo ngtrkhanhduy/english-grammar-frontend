@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from '../Exercises.module.scss';
 import { get } from '~/utils/httpRequest';
+import Cookies from 'js-cookie';
 
 const cx = classNames.bind(styles);
 
@@ -10,7 +11,8 @@ const ExercisesPage = () => {
 
     useEffect(() => {
         // Use the 'get' method from axios to fetch data
-        get('/user-exercises-process/ngtrkhanhduy1308@gmail.com')
+        const username = Cookies.get('username');
+        get(`/user-exercises-process/${username}`)
             .then((data) => {
                 // Format the data as needed
                 const formattedResults = data.map((test) => ({

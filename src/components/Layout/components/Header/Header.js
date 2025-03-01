@@ -14,7 +14,7 @@ import AccountItem from '~/components/AccountItem';
 import Menu from '~/components/Popper/Menu';
 import { SearchIcon } from '~/components/Icons';
 import Image from '~/components/Image';
-import { userMenu, MENU_TAB_HOME, MENU_TAB_KIEMTRA, MENU_TAB_NGUPHAP, MENU_TAB_TAILIEU } from './HeaderConfig';
+import { userMenu, MENU_TAB_HOME, MENU_TAB_KIEMTRA, MENU_TAB_NGUPHAP } from './HeaderConfig';
 import Login from '~/pages/Login';
 
 const cx = classNames.bind(styles);
@@ -113,13 +113,6 @@ function Header() {
                                 </a>
                             </button>
 
-                            <Menu items={MENU_TAB_TAILIEU.menu} className={cx('more-btn')}>
-                                <button className={cx('more-btn')}>
-                                    <a className={cx('menu-tab')} href={MENU_TAB_TAILIEU.url}>
-                                        {MENU_TAB_TAILIEU.title}
-                                    </a>
-                                </button>
-                            </Menu>
                             <button className={cx('more-btn')}>
                                 <a className={cx('menu-tab')} href={MENU_TAB_KIEMTRA.url}>
                                     {MENU_TAB_KIEMTRA.title}
