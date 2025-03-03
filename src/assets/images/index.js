@@ -4,6 +4,7 @@ const images = {
     home_index_0: require('~/assets/images/home_index_0.png'),
     noImage: require('~/assets/images/no-image.png'),
     PresentSimpleTense: require('~/assets/images/tenses/PresentSimpleTense.png'),
+    UserImage: require('~/assets/images/user-img.png'),
 };
 
 export default images;

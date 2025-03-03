@@ -84,11 +84,7 @@ function Header() {
                                 </a>
                             </button>
                             <Menu items={userMenu} onChange={handleMenuChange}>
-                                <Image
-                                    className={cx('user-avatar')}
-                                    src="https://files.fullstack.edu.vn/f8-prod/user_avatars/1/623d4b2d95cec.png"
-                                    alt="Nguyen Van A"
-                                />
+                                <Image className={cx('user-avatar')} src={images.UserImage} alt="User image" />
                             </Menu>
                         </>
                     ) : (

@@ -3,6 +3,7 @@ import classNames from 'classnames/bind';
 import styles from '../Exercises.module.scss';
 import { get } from '~/utils/httpRequest';
 import Cookies from 'js-cookie';
+import Button from '~/components/Button';
 
 const cx = classNames.bind(styles);
 
@@ -53,7 +54,9 @@ const ExercisesPage = () => {
                     </table>
                 </div>
                 <div>
-                    <button onClick={() => (window.location.href = '/toiec-exercises-001/practice')}>Làm bài</button>
+                    <Button primary onClick={() => (window.location.href = '/toiec-exercises-001/practice')}>
+                        Làm bài
+                    </Button>
                 </div>
             </div>
         </div>
