@@ -7,6 +7,8 @@ import { get, post } from '~/utils/httpRequest';
 
 const cx = classNames.bind(styles);
 
+const username = Cookies.get('username');
+
 const EditProfile = () => {
     const [formData, setFormData] = useState({
         fullName: '',
@@ -115,7 +117,7 @@ const EditProfile = () => {
                         type="email"
                         id="email"
                         name="email"
-                        value={formData.email}
+                        value={username}
                         onChange={handleChange}
                         required
                         disabled
