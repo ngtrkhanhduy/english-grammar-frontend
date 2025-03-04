@@ -69,7 +69,7 @@ function Auth({ toggle }) {
                     window.location.href = '/';
                 } else {
                     // Registration successful, show activation popup
-                    setErrorMessage('Registration successful! Please enter your activation key.');
+                    setErrorMessage('Registration successful! Please check your email and enter your activation key.');
                     setIsActivationPopupVisible(true);
                 }
             } else {
