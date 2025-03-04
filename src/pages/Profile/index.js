@@ -66,7 +66,7 @@ const EditProfile = () => {
 
     const confirmUpdate = () => {
         const updatedData = {
-            username: formData.email,
+            username: username,
             fullname: formData.fullName,
             birthday: formData.dateOfBirth,
             gender: formData.gender,
