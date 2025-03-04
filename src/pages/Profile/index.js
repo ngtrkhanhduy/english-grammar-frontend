@@ -57,7 +57,7 @@ const EditProfile = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (!formData.fullName || !formData.email) {
+        if (!formData.fullName || !username) {
             alert('Full Name and Email are required!');
             return;
         }
