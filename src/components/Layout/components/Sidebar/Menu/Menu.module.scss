@@ -7,7 +7,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 6px;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     font-weight: 600;
     border-radius: 4px;
     color: var(--text-color);
@@ -15,6 +15,11 @@
 
     &:hover {
         background-color: rgba(22, 24, 35, 0.03);
+    }
+
+    &.active {
+        background-color: rgba(22, 24, 35, 0.1);
+        color: var(--primary);
     }
 
     .title {

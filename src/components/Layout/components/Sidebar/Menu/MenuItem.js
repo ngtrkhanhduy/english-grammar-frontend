@@ -10,17 +10,20 @@ function MenuItem({ title, to, items, isCompleted }) {
     const location = useLocation();
     const [isOpen, setIsOpen] = useState(false);
 
+    // Kiểm tra nếu bất kỳ mục con nào đang hoạt động
+    const isActive = location.pathname === to || items?.some((item) => location.pathname === item.to);
+
     // Auto open menu if an item is active
     useEffect(() => {
-        if (items?.some((item) => location.pathname === item.to)) {
+        if (isActive) {
             setIsOpen(true);
         }
-    }, [location.pathname, items]);
+    }, [location.pathname, items, isActive]);
 
     return (
         <div className={cx('menu-item-container')}>
             <div
-                className={cx('menu-item', { active: location.pathname === to })}
+                className={cx('menu-item', { active: isActive })}
                 onClick={items.length ? () => setIsOpen(!isOpen) : undefined}
             >
                 <NavLink className={cx('link')} to={to}>

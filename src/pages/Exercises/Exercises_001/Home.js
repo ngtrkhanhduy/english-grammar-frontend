@@ -11,17 +11,19 @@ const ExercisesPage = () => {
     const [testResults, setTestResults] = useState([]);
 
     useEffect(() => {
-        // Use the 'get' method from axios to fetch data
+        // Fetch data using the 'get' method
         const username = Cookies.get('username');
         get(`/user-exercises-process/${username}`)
             .then((data) => {
-                // Format the data as needed
+                // Format the data and reverse the order
                 const formattedResults = data.map((test) => ({
                     id: test._id,
                     date: new Date(test.createdAt).toLocaleDateString('vi-VN'),
                     result: `${test.result}/${test.count}`,
                 }));
-                setTestResults(formattedResults);
+
+                // Reverse the results to show the latest test at the top
+                setTestResults(formattedResults.reverse());
             })
             .catch((error) => console.error('Error fetching test results:', error));
     }, []);
@@ -42,7 +44,10 @@ const ExercisesPage = () => {
                         </thead>
                         <tbody>
                             {testResults.map((test, index) => (
-                                <tr key={index}>
+                                <tr
+                                    key={index}
+                                    className={index === 0 ? cx('highlight') : ''} // Highlight the first row (most recent)
+                                >
                                     <td>{test.date}</td>
                                     <td>{test.result}</td>
                                     <td>
