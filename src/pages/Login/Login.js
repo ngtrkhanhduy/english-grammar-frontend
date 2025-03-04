@@ -216,6 +216,20 @@ function Auth({ toggle }) {
                                 />
                             </div>
 
+                            <div className={cx('form-group')}>
+                                <label htmlFor="password" className={cx('label')}>
+                                    Password:
+                                </label>
+                                <input
+                                    id="password"
+                                    type="password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    className={cx('input')}
+                                    placeholder="Enter your password"
+                                />
+                            </div>
+
                             {!isLogin && (
                                 <>
                                     <div className={cx('form-group')}>
@@ -233,20 +247,6 @@ function Auth({ toggle }) {
                                     </div>
                                 </>
                             )}
-
-                            <div className={cx('form-group')}>
-                                <label htmlFor="password" className={cx('label')}>
-                                    Password:
-                                </label>
-                                <input
-                                    id="password"
-                                    type="password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    className={cx('input')}
-                                    placeholder="Enter your password"
-                                />
-                            </div>
 
                             {errorMessage && <p className={cx('error-message')}>{errorMessage}</p>}
                             {successMessage && <p className={cx('success-message')}>{successMessage}</p>}
