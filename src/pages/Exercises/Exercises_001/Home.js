@@ -51,7 +51,7 @@ const ExercisesPage = () => {
                                     <td>{test.date}</td>
                                     <td>{test.result}</td>
                                     <td>
-                                        <a href={`/toiec-exercises-001/${test.id}`}>Xem chi tiết</a>
+                                        <a href="/comming-soon">Xem chi tiết</a>
                                     </td>
                                 </tr>
                             ))}

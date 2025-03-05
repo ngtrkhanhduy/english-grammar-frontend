@@ -13,51 +13,40 @@ const PhrasalVerb = () => {
     const [showPopup, setShowPopup] = useState(false);
 
     // Define the tabs
-    const tabs = [
-        'Tổng quan',
-        'Transitive & Intransitive',
-        'Separable & Inseparable',
-        'Một số phrasal verb phổ biến',
-        'Bài tập',
-    ];
+    const tabs = ['Tổng quan', 'Bài học', 'Bài tập'];
 
     const nextTab = () => setTabIndex((prev) => (prev < tabs.length - 1 ? prev + 1 : prev));
     const prevTab = () => setTabIndex((prev) => (prev > 0 ? prev - 1 : prev));
 
-    // Content for the 3 "detail" tabs (excluding "Tổng quan" and "Bài tập")
+    // Content for the "Bài học" tab
     const exercises = {
-        'Transitive & Intransitive': [
+        'Bài học': [
             {
-                rule: `• **Transitive phrasal verbs** cần tân ngữ (object) theo sau.
-• **Intransitive phrasal verbs** không cần tân ngữ.`,
+                rule: `• **Transitive phrasal verbs**: Động từ phrasal cần có tân ngữ (object) theo sau để hoàn thành nghĩa.`,
                 examples: [
-                    'Transitive (cần tân ngữ): "Please turn off the TV." → TV là tân ngữ.',
-                    'Intransitive (không cần tân ngữ): "He woke up late." → Không có tân ngữ ở đây.',
+                    '**turn off**: tắt (cái gì đó) - "Please turn off the TV." → TV là tân ngữ.',
+                    '**pick up**: nhặt lên / đón ai đó - "I will pick up my friend." → "my friend" là tân ngữ.',
                 ],
             },
-        ],
-        'Separable & Inseparable': [
             {
-                rule: `• **Separable phrasal verbs**: có thể tách rời động từ và tiểu từ khi có tân ngữ.
-  (e.g., "turn off the TV" hoặc "turn the TV off")
-• **Inseparable phrasal verbs**: không thể tách rời.
-  (e.g., "look after the baby" - KHÔNG thể nói "look the baby after")`,
+                rule: `• **Intransitive phrasal verbs**: Động từ phrasal không cần tân ngữ theo sau.`,
                 examples: [
-                    'Separable: "I will pick up my friend." hoặc "I will pick my friend up."',
-                    'Inseparable: "We ran into an old friend." (Không thể tách "ran" và "into")',
+                    '**wake up**: thức dậy - "I woke up late." → Không có tân ngữ.',
+                    '**run out**: hết (cái gì đó) - "We ran out of time." → Không có tân ngữ.',
                 ],
             },
-        ],
-        'Một số phrasal verb phổ biến': [
             {
-                rule: `Dưới đây là một số phrasal verbs thông dụng:`,
+                rule: `• **Separable phrasal verbs**: Động từ và particle có thể tách rời khi có tân ngữ.`,
                 examples: [
-                    '**get up** – thức dậy',
-                    '**look after** – chăm sóc',
-                    '**find out** – tìm ra, khám phá ra',
-                    '**give up** – từ bỏ',
-                    '**call off** – hủy bỏ',
-                    '**run into** – tình cờ gặp',
+                    '**turn off**: tắt (cái gì đó) - "I will turn off the light." hoặc "I will turn the light off."',
+                    '**pick up**: nhặt lên - "She picked up the book." hoặc "She picked the book up."',
+                ],
+            },
+            {
+                rule: `• **Inseparable phrasal verbs**: Động từ và particle không thể tách rời.`,
+                examples: [
+                    '**look after**: chăm sóc - "She looks after her parents." (Không thể nói "She looks her parents after.")',
+                    '**run into**: tình cờ gặp - "I ran into an old friend yesterday." (Không thể tách "ran" và "into.")',
                 ],
             },
         ],
@@ -192,11 +181,11 @@ const PhrasalVerb = () => {
                                 dưới.
                             </p>
                         </div>
-                    ) : tabIndex < 4 ? (
-                        // "Transitive & Intransitive", "Separable & Inseparable", "Một số phrasal verb phổ biến"
+                    ) : tabIndex === 1 ? (
+                        // "Bài học" tab
                         <div>
-                            <h3>{tabs[tabIndex]}</h3>
-                            {exercises[tabs[tabIndex]]?.map((item, i) => (
+                            <h3>Bài học về Phrasal Verbs</h3>
+                            {exercises['Bài học']?.map((item, i) => (
                                 <div key={i} className={cx('rule-container')}>
                                     <p>
                                         <strong>Khái niệm / Công thức:</strong>

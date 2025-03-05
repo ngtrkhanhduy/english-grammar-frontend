@@ -105,7 +105,7 @@ const ConditionalSentence = () => {
     // Xử lý khi bấm nút "Check Answers"
     const handleCheckAnswers = async () => {
         const evaluatedResults = questions.map(
-            (q) => (answers[q.id] || '').trim().toLowerCase() === q.correctAnswer.toLowerCase(),
+            (q) => answers[q.id]?.toLowerCase().trim() === q.correctAnswer.toLowerCase().trim(),
         );
         const username = Cookies.get('username');
         const path = 'conditional-sentence'; // Để cập nhật tiến trình học của user

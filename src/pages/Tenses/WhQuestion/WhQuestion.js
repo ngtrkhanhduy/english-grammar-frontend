@@ -12,7 +12,7 @@ const WhQuestionLesson = () => {
     const [tabIndex, setTabIndex] = useState(0);
     const [showPopup, setShowPopup] = useState(false);
 
-    const tabs = ['Tổng quan', 'What', 'Where', 'Who', 'Why', 'How', 'Bài tập'];
+    const tabs = ['Tổng quan', 'Bài học', 'Bài tập'];
 
     const nextTab = () => setTabIndex((prev) => (prev < tabs.length - 1 ? prev + 1 : prev));
     const prevTab = () => setTabIndex((prev) => (prev > 0 ? prev - 1 : prev));
@@ -65,6 +65,57 @@ const WhQuestionLesson = () => {
             options: ['Can', 'Where'],
             correctAnswer: 'Where',
         },
+        {
+            id: 3,
+            type: 'fill-in',
+            question: 'Complete the sentence: ____ is your favorite color?',
+            correctAnswer: 'What',
+        },
+        {
+            id: 4,
+            type: 'multiple',
+            question: 'Which of these are Wh- question words?',
+            options: ['What', 'How', 'Maybe', 'When'],
+            correctAnswer: ['What', 'How', 'When'],
+        },
+        {
+            id: 5,
+            type: 'true-false',
+            question: 'True or False: "Why" is used to ask about a place.',
+            correctAnswer: 'false',
+        },
+        {
+            id: 6,
+            type: 'order',
+            question: 'Arrange the words to make a Wh- question: "you / do / how / do / this?"',
+            correctAnswer: 'How do you do this?',
+        },
+        {
+            id: 7,
+            type: 'single',
+            question: 'Which sentence asks for a reason?',
+            options: ['Why are you crying?', 'Where is the book?'],
+            correctAnswer: 'Why are you crying?',
+        },
+        {
+            id: 8,
+            type: 'multiple',
+            question: 'Which of these sentences are questions asking for details?',
+            options: ['Where do you live?', 'Do you like coffee?'],
+            correctAnswer: ['Where do you live?'],
+        },
+        {
+            id: 9,
+            type: 'fill-in',
+            question: 'Complete the sentence: ____ are you feeling today?',
+            correctAnswer: 'How',
+        },
+        {
+            id: 10,
+            type: 'true-false',
+            question: 'True or False: "Who" is used to ask about time.',
+            correctAnswer: 'false',
+        },
     ];
 
     const handleInputChange = (questionId, value) => {
@@ -73,7 +124,11 @@ const WhQuestionLesson = () => {
     };
 
     const handleCheckAnswers = async () => {
-        const evaluatedResults = questions.map((q) => answers[q.id]?.toLowerCase() === q.correctAnswer.toLowerCase());
+        const evaluatedResults = questions.map((q) =>
+            Array.isArray(answers[q.id])
+                ? JSON.stringify(answers[q.id]) === JSON.stringify(q.correctAnswer)
+                : answers[q.id]?.toLowerCase() === q.correctAnswer.toLowerCase(),
+        );
         const username = Cookies.get('username');
         const path = 'wh-question';
         setResults(evaluatedResults);
@@ -120,25 +175,32 @@ const WhQuestionLesson = () => {
                             <h3>Tổng quan về Câu hỏi Wh-</h3>
                             <p>
                                 Câu hỏi Wh- được sử dụng để hỏi thông tin chi tiết thay vì chỉ nhận câu trả lời "Yes"
-                                hoặc "No".
+                                hoặc "No". Những từ hỏi như "What", "Where", "Who", "Why", "How" thường được sử dụng
+                                trong câu hỏi Wh-.
                             </p>
                         </div>
-                    ) : tabIndex < tabs.length - 1 ? (
+                    ) : tabIndex === 1 ? (
                         <div>
-                            <h3>{tabs[tabIndex]}</h3>
-                            {exercises[tabs[tabIndex]].map((item, i) => (
-                                <div key={i} className={cx('rule-container')}>
-                                    <p>
-                                        <strong>Định nghĩa:</strong>
-                                    </p>
-                                    <p className={cx('rule')}>
-                                        <strong>{item.rule}</strong>
-                                    </p>
-                                    <p>
-                                        <strong>Ví dụ:</strong>
-                                    </p>
-                                    {item.examples.map((ex, idx) => (
-                                        <p key={idx}>{ex}</p>
+                            <h3>Bài học về Câu hỏi Wh-</h3>
+                            <p>Chúng ta sẽ học về cách sử dụng các từ hỏi Wh-: What, Where, Who, Why, How.</p>
+                            {Object.keys(exercises).map((key) => (
+                                <div key={key} className={cx('rule-container')}>
+                                    <h4>{key}</h4>
+                                    {exercises[key].map((item, i) => (
+                                        <div key={i}>
+                                            <p>
+                                                <strong>Định nghĩa:</strong>
+                                            </p>
+                                            <p className={cx('rule')}>
+                                                <strong>{item.rule}</strong>
+                                            </p>
+                                            <p>
+                                                <strong>Ví dụ:</strong>
+                                            </p>
+                                            {item.examples.map((ex, idx) => (
+                                                <p key={idx}>{ex}</p>
+                                            ))}
+                                        </div>
                                     ))}
                                 </div>
                             ))}
@@ -147,19 +209,49 @@ const WhQuestionLesson = () => {
                         <div>
                             {questions.map((q, index) => (
                                 <div key={q.id} className={cx('question')}>
-                                    <p>{q.question}</p>
-                                    <select
-                                        onChange={(e) => handleInputChange(q.id, e.target.value)}
-                                        value={answers[q.id] || ''}
-                                        disabled={results !== null}
-                                    >
-                                        <option value="">--Chọn đáp án--</option>
-                                        {q.options.map((option) => (
-                                            <option key={option} value={option}>
-                                                {option}
-                                            </option>
-                                        ))}
-                                    </select>
+                                    <p>
+                                        <strong>{index + 1}. </strong>
+                                        {q.question}
+                                    </p>
+                                    {q.type === 'single' || q.type === 'multiple' ? (
+                                        <select
+                                            onChange={(e) => handleInputChange(q.id, e.target.value)}
+                                            value={answers[q.id] || ''}
+                                            disabled={results !== null}
+                                        >
+                                            <option value="">--Chọn đáp án--</option>
+                                            {q.options.map((option) => (
+                                                <option key={option} value={option}>
+                                                    {option}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    ) : q.type === 'fill-in' ? (
+                                        <input
+                                            type="text"
+                                            onChange={(e) => handleInputChange(q.id, e.target.value)}
+                                            value={answers[q.id] || ''}
+                                            disabled={results !== null}
+                                        />
+                                    ) : q.type === 'order' ? (
+                                        <input
+                                            type="text"
+                                            onChange={(e) => handleInputChange(q.id, e.target.value)}
+                                            value={answers[q.id] || ''}
+                                            disabled={results !== null}
+                                        />
+                                    ) : q.type === 'true-false' ? (
+                                        <select
+                                            onChange={(e) => handleInputChange(q.id, e.target.value)}
+                                            value={answers[q.id] || ''}
+                                            disabled={results !== null}
+                                        >
+                                            <option value="">--Chọn đúng/sai--</option>
+                                            <option value="true">True</option>
+                                            <option value="false">False</option>
+                                        </select>
+                                    ) : null}
+
                                     {results && (
                                         <p className={cx(results[index] ? 'correct' : 'incorrect')}>
                                             {results[index] ? 'Correct!' : `Incorrect! Đáp án đúng: ${q.correctAnswer}`}

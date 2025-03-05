@@ -52,7 +52,9 @@ const CompoundSentenceLesson = () => {
     };
 
     const handleCheckAnswers = async () => {
-        const evaluatedResults = questions.map((q) => answers[q.id]?.toLowerCase() === q.correctAnswer.toLowerCase());
+        const evaluatedResults = questions.map(
+            (q) => answers[q.id]?.toLowerCase().trim() === q.correctAnswer.toLowerCase().trim(),
+        );
         const username = Cookies.get('username');
         const path = 'compound-sentence';
         setResults(evaluatedResults);

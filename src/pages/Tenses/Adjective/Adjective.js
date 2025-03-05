@@ -47,6 +47,67 @@ const AdjectiveLesson = () => {
             options: ['tall', 'taller'],
             correctAnswer: 'taller',
         },
+        {
+            id: 3,
+            type: 'fill-in',
+            question: 'Complete the sentence: She is the ____ person I know.',
+            correctAnswer: 'happiest',
+        },
+        {
+            id: 4,
+            type: 'multiple',
+            question: 'Which of these are comparative adjectives?',
+            options: ['smaller', 'more beautiful', 'biggest', 'more tall'],
+            correctAnswer: ['smaller', 'more beautiful', 'more tall'],
+        },
+        {
+            id: 5,
+            type: 'matching',
+            question: 'Match the adjectives with their comparative forms:',
+            options: [
+                { adjective: 'big', comparative: 'bigger' },
+                { adjective: 'good', comparative: 'better' },
+                { adjective: 'happy', comparative: 'happier' },
+            ],
+            correctAnswer: [
+                { adjective: 'big', comparative: 'bigger' },
+                { adjective: 'good', comparative: 'better' },
+                { adjective: 'happy', comparative: 'happier' },
+            ],
+        },
+        {
+            id: 6,
+            type: 'order',
+            question:
+                'Arrange the following words in the correct order to form a sentence: "happier / she / than / is / I".',
+            correctAnswer: 'She is happier than I.',
+        },
+        {
+            id: 7,
+            type: 'true-false',
+            question: 'True or False: "Tall" is a comparative adjective.',
+            correctAnswer: false,
+        },
+        {
+            id: 8,
+            type: 'single',
+            question: 'Which is a superlative adjective?',
+            options: ['tallest', 'bigger'],
+            correctAnswer: 'tallest',
+        },
+        {
+            id: 9,
+            type: 'fill-in',
+            question: 'Complete the sentence: This is the ____ house in the neighborhood.',
+            correctAnswer: 'largest',
+        },
+        {
+            id: 10,
+            type: 'multiple',
+            question: 'Which of these are descriptive adjectives?',
+            options: ['tall', 'most beautiful', 'happiest', 'blue'],
+            correctAnswer: ['tall', 'blue'],
+        },
     ];
 
     const handleInputChange = (questionId, value) => {
@@ -55,7 +116,11 @@ const AdjectiveLesson = () => {
     };
 
     const handleCheckAnswers = async () => {
-        const evaluatedResults = questions.map((q) => answers[q.id]?.toLowerCase() === q.correctAnswer.toLowerCase());
+        const evaluatedResults = questions.map((q) =>
+            Array.isArray(answers[q.id])
+                ? JSON.stringify(answers[q.id]) === JSON.stringify(q.correctAnswer)
+                : answers[q.id]?.toLowerCase() === q.correctAnswer.toLowerCase(),
+        );
         const username = Cookies.get('username');
         const path = 'adjective';
         setResults(evaluatedResults);
@@ -126,19 +191,70 @@ const AdjectiveLesson = () => {
                         <div>
                             {questions.map((q, index) => (
                                 <div key={q.id} className={cx('question')}>
-                                    <p>{q.question}</p>
-                                    <select
-                                        onChange={(e) => handleInputChange(q.id, e.target.value)}
-                                        value={answers[q.id] || ''}
-                                        disabled={results !== null}
-                                    >
-                                        <option value="">--Chọn đáp án--</option>
-                                        {q.options.map((option) => (
-                                            <option key={option} value={option}>
-                                                {option}
-                                            </option>
-                                        ))}
-                                    </select>
+                                    <p>
+                                        <strong>{index + 1}. </strong>
+                                        {q.question}
+                                    </p>
+                                    {q.type === 'single' || q.type === 'multiple' ? (
+                                        <select
+                                            onChange={(e) => handleInputChange(q.id, e.target.value)}
+                                            value={answers[q.id] || ''}
+                                            disabled={results !== null}
+                                        >
+                                            <option value="">--Chọn đáp án--</option>
+                                            {q.options.map((option) => (
+                                                <option key={option} value={option}>
+                                                    {option}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    ) : q.type === 'fill-in' ? (
+                                        <input
+                                            type="text"
+                                            onChange={(e) => handleInputChange(q.id, e.target.value)}
+                                            value={answers[q.id] || ''}
+                                            disabled={results !== null}
+                                        />
+                                    ) : q.type === 'matching' ? (
+                                        <div>
+                                            {q.options.map((pair, idx) => (
+                                                <div key={idx}>
+                                                    <strong>{pair.adjective}</strong> -{' '}
+                                                    <input
+                                                        type="text"
+                                                        value={answers[q.id]?.[idx]?.comparative || ''}
+                                                        onChange={(e) => {
+                                                            const newAnswers = [...(answers[q.id] || [])];
+                                                            newAnswers[idx] = {
+                                                                ...newAnswers[idx],
+                                                                comparative: e.target.value,
+                                                            };
+                                                            setAnswers({ ...answers, [q.id]: newAnswers });
+                                                        }}
+                                                        disabled={results !== null}
+                                                    />
+                                                </div>
+                                            ))}
+                                        </div>
+                                    ) : q.type === 'order' ? (
+                                        <input
+                                            type="text"
+                                            onChange={(e) => handleInputChange(q.id, e.target.value)}
+                                            value={answers[q.id] || ''}
+                                            disabled={results !== null}
+                                        />
+                                    ) : q.type === 'true-false' ? (
+                                        <select
+                                            onChange={(e) => handleInputChange(q.id, e.target.value)}
+                                            value={answers[q.id] || ''}
+                                            disabled={results !== null}
+                                        >
+                                            <option value="">--Chọn đúng/sai--</option>
+                                            <option value="true">True</option>
+                                            <option value="false">False</option>
+                                        </select>
+                                    ) : null}
+
                                     {results && (
                                         <p className={cx(results[index] ? 'correct' : 'incorrect')}>
                                             {results[index] ? 'Correct!' : `Incorrect! Đáp án đúng: ${q.correctAnswer}`}

@@ -6,37 +6,37 @@ const cx = classNames.bind({});
 function Home() {
     return (
         <div className={cx('english-grammar')}>
-            <h1>Welcome to English Grammar Pro!</h1>
+            <h1>Chào mừng bạn đến với English Grammar Pro!</h1>
             <p>
-                English Grammar Pro is your ultimate online resource for mastering English grammar. Whether you’re a
-                student, a teacher, or someone looking to enhance your English language skills, our platform is designed
-                to meet your needs. With interactive lessons, practice exercises, and expert guidance, learning grammar
-                has never been easier or more engaging.
+                **English Grammar Pro** là nền tảng học ngữ pháp tiếng Anh toàn diện dành cho mọi đối tượng. Dù bạn là
+                học sinh, giáo viên hay người muốn cải thiện kỹ năng tiếng Anh, chúng tôi đều có tài liệu phù hợp cho
+                bạn. Với các bài học trực quan, bài tập thực hành tương tác và hướng dẫn từ chuyên gia, việc học ngữ
+                pháp chưa bao giờ dễ dàng và thú vị đến thế!
             </p>
 
             <section className={cx('content-section')}>
                 <div className={cx('content-large')}>
-                    <h2>Why Choose English Grammar Pro?</h2>
+                    <h2>Tại sao nên chọn English Grammar Pro?</h2>
                     <ul>
                         <li>
-                            <strong>Comprehensive Lessons</strong>: From basic sentence structure to advanced grammar
-                            concepts, we cover it all in a structured and easy-to-understand manner.
+                            <strong>📚 Bài học toàn diện</strong>: Hệ thống từ cơ bản đến nâng cao, giúp bạn hiểu sâu
+                            ngữ pháp một cách có hệ thống.
                         </li>
                         <li>
-                            <strong>Interactive Practice</strong>: Test your knowledge with quizzes, games, and
-                            exercises that reinforce what you’ve learned.
+                            <strong>🎯 Thực hành tương tác</strong>: Ôn tập kiến thức qua bài kiểm tra, trò chơi và bài
+                            tập giúp bạn nắm vững nội dung.
                         </li>
                         <li>
-                            <strong>Expert Guidance</strong>: Get tips and explanations from experienced English
-                            teachers and linguists.
+                            <strong>👩‍🏫 Hướng dẫn từ chuyên gia</strong>: Các giáo viên tiếng Anh giàu kinh nghiệm sẽ
+                            giải thích chi tiết và đưa ra lời khuyên hữu ích.
                         </li>
                         <li>
-                            <strong>User-Friendly Interface</strong>: Our website is intuitive, making it accessible to
-                            learners of all ages.
+                            <strong>💡 Giao diện thân thiện</strong>: Thiết kế trực quan, phù hợp với mọi lứa tuổi và
+                            trình độ học tập.
                         </li>
                         <li>
-                            <strong>Progress Tracking</strong>: Monitor your improvement over time with detailed
-                            reports.
+                            <strong>📊 Theo dõi tiến độ</strong>: Hệ thống báo cáo giúp bạn đánh giá sự tiến bộ của bản
+                            thân theo từng giai đoạn.
                         </li>
                     </ul>
                 </div>
@@ -48,42 +48,42 @@ function Home() {
             </section>
 
             <section>
-                <h2>Features</h2>
+                <h2>🌟 Tính năng nổi bật</h2>
                 <ul>
                     <li>
-                        <strong>Grammar Topics</strong>: Explore topics like tenses, punctuation, parts of speech, and
-                        sentence formation.
+                        <strong>🔍 Chủ đề ngữ pháp đa dạng</strong>: Bao gồm thì động từ, dấu câu, các thành phần câu và
+                        cách hình thành câu.
                     </li>
                     <li>
-                        <strong>Real-World Examples</strong>: Learn how grammar applies to everyday English
-                        communication.
+                        <strong>📖 Ví dụ thực tế</strong>: Giúp bạn hiểu cách áp dụng ngữ pháp vào giao tiếp hàng ngày.
                     </li>
                     <li>
-                        <strong>Community Support</strong>: Join forums and discussion groups to interact with other
-                        learners and instructors.
+                        <strong>💬 Cộng đồng học tập</strong>: Tham gia diễn đàn và nhóm thảo luận để giao lưu với người
+                        học khác.
                     </li>
                     <li>
-                        <strong>Certification</strong>: Complete courses to earn certificates that validate your grammar
-                        skills.
+                        <strong>🏅 Chứng nhận hoàn thành khóa học</strong>: Nhận chứng chỉ để khẳng định kỹ năng ngữ
+                        pháp của bạn.
                     </li>
                 </ul>
             </section>
 
             <section>
-                <h2>Who Can Benefit?</h2>
+                <h2>🎯 Ai có thể hưởng lợi từ English Grammar Pro?</h2>
                 <ul>
-                    <li>Students preparing for exams like IELTS, TOEFL, or SAT.</li>
-                    <li>Professionals improving their business communication skills.</li>
-                    <li>Teachers looking for resources to enhance their teaching methods.</li>
-                    <li>Anyone passionate about mastering the English language.</li>
+                    <li>📌 Học sinh ôn luyện các kỳ thi như IELTS, TOEFL, SAT.</li>
+                    <li>📌 Người đi làm muốn cải thiện kỹ năng giao tiếp trong công việc.</li>
+                    <li>📌 Giáo viên cần tài liệu hỗ trợ giảng dạy.</li>
+                    <li>📌 Bất kỳ ai đam mê học và làm chủ ngôn ngữ tiếng Anh.</li>
                 </ul>
             </section>
 
             <section>
-                <h2>Get Started Today!</h2>
+                <h2>🚀 Bắt đầu hành trình học tập ngay hôm nay!</h2>
                 <p>
-                    Don’t let grammar challenges hold you back. Sign up for free and unlock your potential with English
-                    Grammar Pro. Together, we’ll make grammar your strength!
+                    Đừng để những khó khăn về ngữ pháp cản trở bạn. Hãy **đăng ký miễn phí** ngay hôm nay để nâng cao
+                    trình độ tiếng Anh của bạn với **English Grammar Pro**! Cùng nhau, chúng ta sẽ biến ngữ pháp trở
+                    thành thế mạnh của bạn! 💪
                 </p>
             </section>
         </div>
